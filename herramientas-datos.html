@@ -33,21 +33,14 @@
     #scroll-progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);z-index:9999;transition:width .1s linear}
 
     /* ── HEADER ── */
-    #main-header{position:fixed;top:3px;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s cubic-bezier(.4,0,.2,1)}
-    #main-header.scrolled{background:rgba(253,252,249,.97);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(0,0,0,.08)}
+    #main-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s cubic-bezier(.4,0,.2,1);background:linear-gradient(135deg,#0d2518 0%,#1a3a2a 60%,#14532d 100%);box-shadow:0 2px 16px rgba(0,0,0,.25)}
+    #main-header.scrolled{background:linear-gradient(135deg,#0d2518 0%,#1a3a2a 60%,#14532d 100%);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.3)}
     .logo-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;display:flex;align-items:center;gap:2px;text-decoration:none}
     .logo-r{color:#fff;transition:color .3s}
-    #main-header.scrolled .logo-r{color:#1a3a2a}
-    .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    #main-nav{display:flex;align-items:center;gap:.3rem}
-    #main-nav a{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:#fff;padding:.5rem 1rem;border-radius:20px;transition:all .2s;letter-spacing:.02em;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.28);text-decoration:none}
-    #main-nav a:hover,#main-nav a.active{color:#fff;background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.6)}
-    #main-header.scrolled #main-nav a{color:#374151;background:transparent;border-color:transparent}
-    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#0a0a0a;background:#f0f0ec;border-color:transparent}
-    .nav-cta-btn{background:rgba(255,255,255,.18) !important;border:1.5px solid rgba(255,255,255,.5) !important;color:#fff !important;padding:.45rem 1.1rem !important;backdrop-filter:blur(4px)}
-    .nav-cta-btn:hover{background:rgba(255,255,255,.28) !important;border-color:#fff !important;transform:none !important;box-shadow:none !important}
-    #main-header.scrolled .nav-cta-btn{background:#1a3a2a !important;border-color:#1a3a2a !important;color:#fff !important}
-    #main-header.scrolled .nav-cta-btn:hover{background:#14532d !important;border-color:#14532d !important}
+    .logo-g{background:linear-gradient(135deg,#4ade80,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #main-nav{display:flex;align-items:center;gap:28px}
+    #main-nav a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:color .2s;text-decoration:none}
+    #main-nav a:hover,#main-nav a.active{color:#fff}
     .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:all .3s cubic-bezier(.4,0,.2,1)}
     .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
     .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
