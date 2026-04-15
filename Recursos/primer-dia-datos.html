@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tu primer día en el mundo de los datos — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.75;max-width:780px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:56px 0 48px;background:linear-gradient(135deg,#1a3a2a,#0d2518);border-radius:12px;margin-bottom:48px;color:#fff}
+  .cover-badge{display:inline-block;background:rgba(22,163,74,.3);color:#4ade80;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px;border:1px solid rgba(74,222,128,.3)}
+  .cover h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:800;margin-bottom:12px;line-height:1.2}
+  .cover p{color:rgba(255,255,255,.75);font-size:1.05rem;max-width:480px;margin:0 auto}
+  .cover-meta{margin-top:20px;font-size:.82rem;color:rgba(255,255,255,.4)}
+  h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#1a2e1a;margin:44px 0 16px;padding-bottom:8px;border-bottom:2px solid #dcfce7}
+  h3{font-size:1rem;font-weight:700;color:#16a34a;margin:24px 0 8px;text-transform:uppercase;letter-spacing:.06em;font-size:.8rem}
+  p{margin-bottom:16px;color:#374151}
+  .highlight{background:#f0fdf4;border-left:4px solid #16a34a;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0}
+  .highlight p{margin:0;color:#166534}
+  .steps{counter-reset:step}
+  .step{counter-increment:step;display:grid;grid-template-columns:48px 1fr;gap:16px;margin:20px 0;align-items:start}
+  .step-n{width:48px;height:48px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;flex-shrink:0}
+  .step-body strong{display:block;font-size:1rem;margin-bottom:4px;color:#1a2e1a}
+  .step-body p{margin:0;font-size:.92rem}
+  .role-card{border:1px solid #e5e7eb;border-radius:10px;padding:20px 24px;margin:16px 0}
+  .role-card h4{font-size:1rem;font-weight:700;color:#1a2e1a;margin-bottom:6px}
+  .role-card p{margin:0;font-size:.9rem;color:#6b7280}
+  .role-card .salary{margin-top:10px;font-size:.82rem;background:#f0fdf4;color:#16a34a;font-weight:600;padding:4px 10px;border-radius:20px;display:inline-block}
+  .tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .tool{border:1px solid #e5e7eb;border-radius:8px;padding:14px 16px}
+  .tool-name{font-weight:700;font-size:.95rem;color:#1a2e1a;margin-bottom:4px}
+  .tool-desc{font-size:.85rem;color:#6b7280}
+  .roadmap{margin:20px 0}
+  .rm-step{display:flex;gap:16px;margin-bottom:8px;align-items:flex-start}
+  .rm-dot{width:12px;height:12px;background:#16a34a;border-radius:50%;flex-shrink:0;margin-top:5px}
+  .rm-line{width:2px;background:#dcfce7;margin:0 5px;height:30px;flex-shrink:0}
+  .myth{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:14px 16px;margin:12px 0}
+  .myth-header{font-weight:700;color:#991b1b;font-size:.9rem;margin-bottom:4px}
+  .myth-body{font-size:.88rem;color:#374151}
+  .footer{margin-top:56px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  @media(max-width:600px){.tools-grid{grid-template-columns:1fr}}
+  @media print{body{padding:20px}.cover{background:#1a3a2a !important;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">Primer día en datos</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">Guía de inicio · Nivel 0</div>
+  <h1>Tu primer día en el<br>mundo de los datos</h1>
+  <p>10 páginas para orientarte sin instalar nada. El punto de partida ideal si no sabes por dónde empezar.</p>
+  <div class="cover-meta">Ready4Data · Por Antonio, Data Engineer con 20+ años de experiencia</div>
+</div>
+
+<h2>¿Por qué ahora es el mejor momento?</h2>
+<p>Los datos son el petróleo del siglo XXI — y esta vez no es un cliché. En 2025, prácticamente todas las empresas, desde una panadería local hasta una multinacional, necesitan personas que entiendan, ordenen y expliquen sus datos.</p>
+<p>La buena noticia: <strong>no necesitas saber programar para empezar</strong>. No necesitas matemáticas avanzadas. No necesitas una carrera universitaria de 4 años. Solo necesitas curiosidad y un orden claro para aprender.</p>
+<div class="highlight"><p>Los profesionales de datos tienen una de las tasas de paro más bajas del mercado. En España, un analista junior empieza entre 22.000€ y 30.000€. Con 2-3 años de experiencia, entre 35.000€ y 50.000€.</p></div>
+
+<h2>Los mitos que te están frenando</h2>
+
+<div class="myth">
+  <div class="myth-header">❌ Mito 1: "Necesito saber programar"</div>
+  <div class="myth-body">✅ Realidad: SQL no es programar. Es un lenguaje de consulta que aprendes en semanas. Excel, Power BI y Tableau tampoco requieren código. Muchos analistas de datos exitosos nunca han escrito Python.</div>
+</div>
+<div class="myth">
+  <div class="myth-header">❌ Mito 2: "Tengo que ser muy bueno en matemáticas"</div>
+  <div class="myth-body">✅ Realidad: Para análisis de datos básico-intermedio necesitas suma, resta, porcentajes y algo de estadística descriptiva. Nada que no hayas aprendido en el colegio.</div>
+</div>
+<div class="myth">
+  <div class="myth-header">❌ Mito 3: "Es solo para jóvenes / técnicos"</div>
+  <div class="myth-body">✅ Realidad: He visto personas de 45 años reconvertirse y conseguir trabajo en menos de un año. La experiencia de negocio que ya tienes es un activo enorme.</div>
+</div>
+<div class="myth">
+  <div class="myth-header">❌ Mito 4: "Necesito un master caro"</div>
+  <div class="myth-body">✅ Realidad: El mercado valora el portfolio y las habilidades demostrables más que el título. Puedes aprender con recursos gratuitos + práctica constante.</div>
+</div>
+
+<h2>El mapa del territorio: los roles de datos</h2>
+
+<div class="role-card">
+  <h4>📊 Data Analyst — El analista</h4>
+  <p>Responde preguntas de negocio usando datos: "¿cuántos clientes perdimos en Q3?", "¿qué producto tiene más devoluciones?". Usa SQL, Excel y dashboards.</p>
+  <span class="salary">Salario junior: 22.000–30.000€/año</span>
+</div>
+<div class="role-card">
+  <h4>📈 BI Developer — El visualizador</h4>
+  <p>Crea dashboards e informes que el negocio puede entender sin ser técnicos. Especializado en Power BI, Tableau o Looker. Trabaja muy cerca del negocio.</p>
+  <span class="salary">Salario junior: 25.000–35.000€/año</span>
+</div>
+<div class="role-card">
+  <h4>🔧 Data Engineer — El fontanero de datos</h4>
+  <p>Construye las tuberías por las que fluyen los datos. Diseña, construye y mantiene los pipelines. Más técnico: Python, SQL, herramientas cloud.</p>
+  <span class="salary">Salario junior: 28.000–40.000€/año</span>
+</div>
+<div class="role-card">
+  <h4>🤖 Data Scientist — El predictor</h4>
+  <p>Aplica estadística y machine learning para predecir comportamientos. El perfil más técnico y difícil de conseguir sin formación específica.</p>
+  <span class="salary">Salario junior: 30.000–45.000€/año</span>
+</div>
+
+<h2>Las herramientas que el mercado pide</h2>
+
+<div class="tools-grid">
+  <div class="tool"><div class="tool-name">📄 SQL</div><div class="tool-desc">El lenguaje universal de los datos. Imprescindible para cualquier rol. Aprenderlo cambiará tu carrera.</div></div>
+  <div class="tool"><div class="tool-name">📊 Excel / Google Sheets</div><div class="tool-desc">El punto de entrada. Si ya lo dominas, estás más avanzado de lo que crees.</div></div>
+  <div class="tool"><div class="tool-name">📈 Power BI</div><div class="tool-desc">La herramienta de visualización más demandada en España. Microsoft. Se aprende en semanas.</div></div>
+  <div class="tool"><div class="tool-name">🐍 Python</div><div class="tool-desc">El lenguaje de programación más usado en datos. No es imprescindible para empezar, pero te abre puertas.</div></div>
+  <div class="tool"><div class="tool-name">☁️ BigQuery / Azure</div><div class="tool-desc">Plataformas cloud para datos a escala. Se aprende después de dominar SQL.</div></div>
+  <div class="tool"><div class="tool-name">🔄 dbt</div><div class="tool-desc">La herramienta moderna para transformar datos. Muy demandada en Analytics Engineering.</div></div>
+</div>
+
+<h2>Tu hoja de ruta para los próximos 6 meses</h2>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-n">1</div>
+    <div class="step-body">
+      <strong>Mes 1–2: SQL y Excel avanzado</strong>
+      <p>Empieza por el lenguaje universal. SELECT, WHERE, GROUP BY, JOIN. En paralelo, domina tablas dinámicas y Power Query en Excel. Son las herramientas más demandadas del mercado.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">2</div>
+    <div class="step-body">
+      <strong>Mes 2–3: Tu primera visualización</strong>
+      <p>Aprende Power BI o Tableau. Crea tu primer dashboard con datos reales. Puedes usar datasets públicos de Kaggle, datos del INE o de tu empresa si tienes acceso.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">3</div>
+    <div class="step-body">
+      <strong>Mes 3–4: Tu primer proyecto real</strong>
+      <p>Elige un dataset que te interese (fútbol, películas, economía, salud) y responde 5 preguntas con SQL y un dashboard. Esto será la base de tu portfolio.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">4</div>
+    <div class="step-body">
+      <strong>Mes 4–5: Portfolio y LinkedIn</strong>
+      <p>Sube tus proyectos a GitHub. Escribe posts en LinkedIn sobre lo que has aprendido. La visibilidad es clave. Los recruiters buscan activamente personas en proceso de aprendizaje.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-n">5</div>
+    <div class="step-body">
+      <strong>Mes 5–6: Primeras entrevistas</strong>
+      <p>Empieza a aplicar aunque no te sientas "listo". No existe el listo perfecto. Las entrevistas son también aprendizaje. Con SQL sólido y un portfolio tienes opciones reales.</p>
+    </div>
+  </div>
+</div>
+
+<h2>Dónde practicar sin instalar nada</h2>
+<p>Estos recursos son gratuitos y funcionan directamente en el navegador:</p>
+<ul style="margin:16px 0 16px 20px;color:#374151">
+  <li style="margin-bottom:8px"><strong>SQLiteOnline.com</strong> — Practica SQL en el navegador, carga tus propios CSV</li>
+  <li style="margin-bottom:8px"><strong>Mode Analytics SQL Tutorial</strong> — Tutorial interactivo con ejercicios reales</li>
+  <li style="margin-bottom:8px"><strong>Kaggle Learn</strong> — Cursos gratuitos de SQL, Python y ML con notebooks en la nube</li>
+  <li style="margin-bottom:8px"><strong>Google Looker Studio</strong> — Crea dashboards gratis con datos de Google Analytics u hojas de cálculo</li>
+  <li style="margin-bottom:8px"><strong>Power BI Desktop</strong> — Descarga gratuita para Windows</li>
+</ul>
+
+<h2>El consejo más importante</h2>
+<div class="highlight">
+  <p><strong>Aprender de forma lineal no funciona.</strong> No esperes a "terminar SQL" para empezar con Power BI. No esperes a "dominar todo" para hacer tu primer proyecto. Aprende lo suficiente de cada cosa para construir algo real, y luego vuelve a profundizar.</p>
+</div>
+<p>La práctica con datos reales enseña el doble que cualquier curso. Consigue datos de algo que te importe —tu empresa, tu deporte favorito, la economía de tu país— y empieza a hacerles preguntas.</p>
+<p>Tienes todo lo que necesitas para empezar hoy.</p>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

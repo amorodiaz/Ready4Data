@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ready4Data — Aprende datos desde cero, sin codigo, sin miedo, paso a paso.">
+  <title>Ready4Data — Aprende datos desde cero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    :root{
+      --bg:#ffffff;--bg2:#f8f8f6;--bg3:#f0f0ec;
+      --t:#0a0a0a;--t2:#4a4a4a;--t3:#9a9a9a;
+      --ac:#1a3a2a;--ac2:#14532d;
+      --hl:#16a34a;--hl2:#f59e0b;
+      --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
+      --r:4px;
+      --s:0 2px 12px rgba(0,0,0,.06);
+      --s2:0 8px 32px rgba(0,0,0,.11);
+      --fb:'Inter','Segoe UI',system-ui,sans-serif;
+      --fe:'Playfair Display',Georgia,serif;
+      --fd:'Syne','Arial Black',sans-serif
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--fb);color:var(--t);background:var(--bg);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    /* --- SCROLL PROGRESS --- */
+    #spbar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);width:0%;z-index:9999;transition:width .1s}
+
+    /* --- HEADER --- */
+    .hdr{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.1rem 0;transition:all .3s}
+    .hdr.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--s);padding:.7rem 0}
+    .hdr-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:.75rem}
+    .logo-icon{color:var(--ac);flex-shrink:0}
+    .logo-brand{font-family:var(--fd);font-size:1.15rem;font-weight:800;letter-spacing:-.01em;line-height:1}
+    .logo-data{color:var(--t)}
+    /* Logo en hero (fondo oscuro): texto blanco */
+    .logo-ready{color:#fff;transition:color .3s}.logo-4data{background:linear-gradient(90deg,#4ade80,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:all .3s}
+    .logo-sub{font-family:var(--fb);font-size:.58rem;font-weight:500;color:rgba(255,255,255,.6);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem;transition:color .3s}
+    /* Logo en scrolled (fondo blanco): texto oscuro */
+    .hdr.scrolled .logo-ready{color:var(--t)}
+    .hdr.scrolled .logo-4data{background:linear-gradient(90deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hdr.scrolled .logo-sub{color:var(--t3)}
+    .hnav{display:flex;align-items:center;gap:.2rem}
+    .hnav a{font-family:var(--fd);font-size:.85rem;font-weight:700;color:#fff;padding:.5rem 1rem;border-radius:20px;transition:all .2s;letter-spacing:.02em;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.28)}
+    .hnav a:hover,.hnav a.active{color:#fff;background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.6)}
+    .hdr.scrolled .hnav a{color:var(--t2);background:transparent;border-color:transparent}
+    .hdr.scrolled .hnav a:hover,.hdr.scrolled .hnav a.active{color:var(--t);background:var(--bg2);border-color:transparent}
+    /* Botón CTA: siempre verde pero más visible en hero */
+    .hnav .nav-cta{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.5);color:#fff !important;padding:.45rem 1.1rem;backdrop-filter:blur(4px)}
+    .hnav .nav-cta:hover{background:rgba(255,255,255,.28) !important;border-color:#fff}
+    .hdr.scrolled .hnav .nav-cta{background:var(--ac) !important;border-color:var(--ac) !important;color:#fff !important}
+    .hdr.scrolled .hnav .nav-cta:hover{background:var(--ac2) !important;border-color:var(--ac2) !important}
+    /* Mobile */
+    .mbtn{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#fff;padding:.3rem;transition:color .3s}
+    .hdr.scrolled .mbtn{color:var(--t)}
+    .mnav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;padding:5rem 2rem 2rem;z-index:998;flex-direction:column;gap:.25rem;overflow-y:auto}
+    .mnav.open{display:flex}
+    .mnav a{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--t2);padding:.85rem 0;border-bottom:1px solid var(--bd);transition:color .2s}
+    .mnav a:hover{color:var(--t)}
+    .mnav-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;font-size:1.6rem;cursor:pointer;color:var(--t2)}
+
+    /* --- HERO --- */
+    .hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&auto=format&fit=crop&q=80');background-size:cover;background-position:center;will-change:transform}
+    @keyframes hbg{
+      0%{background:linear-gradient(135deg,rgba(10,28,18,.97) 0%,rgba(26,58,42,.92) 50%,rgba(10,28,18,.88) 100%)}
+      100%{background:linear-gradient(135deg,rgba(10,28,18,.98) 0%,rgba(22,163,74,.35) 50%,rgba(10,28,18,.90) 100%)}
+    }
+    .hero-overlay{position:absolute;inset:0;animation:hbg 8s ease-in-out infinite alternate}
+    .hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;width:100%}
+    .hero-label{font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+    .hero-label::before{content:'';display:block;width:28px;height:2px;background:var(--hl2)}
+    .hero-title{font-family:var(--fe);font-size:clamp(2.8rem,6vw,5rem);font-weight:800;color:#fff;line-height:1.08;margin-bottom:1.5rem;max-width:680px}
+    .hero-sub{font-size:1.1rem;color:rgba(255,255,255,.82);line-height:1.75;max-width:540px;margin-bottom:2.5rem;font-weight:300}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
+    .btn-hero-main{display:inline-block;background:#fff;color:var(--ac);padding:.85rem 2rem;border-radius:var(--r);font-family:var(--fd);font-size:.82rem;font-weight:700;letter-spacing:.04em;transition:all .2s}
+    .btn-hero-main:hover{background:var(--bg2);transform:translateY(-2px)}
+    .btn-hero-sec{display:inline-block;background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;padding:.85rem 2rem;border-radius:var(--r);font-family:var(--fd);font-size:.82rem;font-weight:700;letter-spacing:.04em;transition:all .2s}
+    .btn-hero-sec:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+    .hero-stats{border-top:1px solid rgba(255,255,255,.15);padding-top:2rem;display:flex;gap:3rem;flex-wrap:wrap}
+    .hs-item{}
+    .hs-val{font-family:var(--fe);font-size:2rem;font-weight:800;color:#fff;line-height:1}
+    .hs-lbl{font-size:.78rem;color:rgba(255,255,255,.6);margin-top:.25rem;font-weight:400}
+
+    /* --- TICKER --- */
+    .ticker-section{padding:1.2rem 0;background:var(--ac);overflow:hidden;border-bottom:1px solid rgba(0,0,0,.08)}
+    .ticker-inner{display:flex;align-items:center;gap:0}
+    .ticker-badge{flex-shrink:0;font-family:var(--fd);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--hl2);color:#fff;padding:.28rem .8rem;border-radius:20px;margin:0 1.5rem;white-space:nowrap}
+    .ticker-track{display:flex;gap:0;overflow:hidden;flex:1}
+    .ticker-list{display:flex;gap:0;animation:ticker 28s linear infinite;white-space:nowrap;flex-shrink:0}
+    .ticker-list span{font-family:var(--fd);font-size:.78rem;font-weight:600;color:rgba(255,255,255,.85);padding:0 1.5rem;letter-spacing:.04em}
+    .ticker-list span::after{content:'·';margin-left:1.5rem;color:rgba(255,255,255,.35)}
+    .ticker-list span:last-child::after{display:none}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* --- SECTIONS --- */
+    .sec-white{padding:100px 0;background:var(--bg)}
+    .sec-gray{padding:100px 0;background:var(--bg2)}
+    .cnt{max-width:1200px;margin:0 auto;padding:0 2rem}
+    .sec-header{margin-bottom:3.5rem}
+    .sec-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hl);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}
+    .sec-label::before{content:'';display:block;width:20px;height:2px;background:var(--hl)}
+    .sec-title{font-family:var(--fe);font-size:clamp(2rem,4vw,2.9rem);font-weight:800;color:var(--t);line-height:1.15;margin-bottom:.85rem}
+    .sec-sub{font-size:1rem;color:var(--t2);max-width:580px;line-height:1.75}
+
+    /* --- FEATURED CARDS --- */
+    .fc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem}
+    .fc{background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;transition:all .3s;display:flex;flex-direction:column}
+    .fc:hover{box-shadow:var(--s2);transform:translateY(-4px);border-color:var(--hl)}
+    .fc-cat{font-family:var(--fd);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);padding:1.4rem 1.5rem .6rem}
+    .fc-body{padding:.25rem 1.5rem 1.25rem;flex:1}
+    .fc-title{font-family:var(--fe);font-size:1.2rem;font-weight:700;color:var(--t);line-height:1.3;margin-bottom:.7rem}
+    .fc-text{font-size:.9rem;color:var(--t2);line-height:1.72}
+    .fc-foot{padding:1.25rem 1.5rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+    .fc-badge{font-family:var(--fd);font-size:.6rem;font-weight:700;padding:.22rem .65rem;border-radius:20px;letter-spacing:.06em;text-transform:uppercase}
+    .fc-badge.green{background:#dcfce7;color:#166534}
+    .fc-badge.amber{background:#fef3c7;color:#92400e}
+    .fc-badge.gray{background:var(--bg3);color:var(--t3)}
+    .fc-link{font-family:var(--fd);font-size:.72rem;font-weight:700;color:var(--hl);letter-spacing:.04em;transition:color .2s}
+    .fc-link:hover{color:var(--ac)}
+
+    /* --- PATH CARDS --- */
+    .paths-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+    .path-card{background:var(--bg);border:1px solid var(--bd);border-left:4px solid var(--bd2);border-radius:6px;padding:1.75rem 1.5rem;transition:all .3s}
+    .path-card:hover{border-left-color:var(--hl);box-shadow:var(--s2);transform:translateX(4px)}
+    .path-icon{font-size:1.6rem;margin-bottom:.75rem;line-height:1}
+    .path-level{font-family:var(--fd);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:.4rem}
+    .path-title{font-family:var(--fe);font-size:1.1rem;font-weight:700;color:var(--t);margin-bottom:.65rem;line-height:1.25}
+    .path-text{font-size:.87rem;color:var(--t2);line-height:1.7}
+
+    /* --- IMAGE DIVIDER --- */
+    .img-divider{position:relative;height:320px;overflow:hidden}
+    .img-divider img{width:100%;height:100%;object-fit:cover;object-position:center}
+    .img-divider-overlay{position:absolute;inset:0;background:rgba(10,28,18,.72);display:flex;align-items:center;justify-content:center;padding:2rem}
+    .img-divider-text{font-family:var(--fe);font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;color:#fff;text-align:center;max-width:720px;line-height:1.35}
+
+    /* --- ABOUT SPLIT --- */
+    .about-split{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .about-img{border-radius:8px;overflow:hidden;aspect-ratio:4/5;position:relative}
+    .about-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+    .about-img:hover img{transform:scale(1.03)}
+    .about-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hl);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}
+    .about-label::before{content:'';display:block;width:20px;height:2px;background:var(--hl)}
+    .about-title{font-family:var(--fe);font-size:2.2rem;font-weight:800;color:var(--t);line-height:1.2;margin-bottom:1rem}
+    .about-text{font-size:.95rem;color:var(--t2);line-height:1.8;margin-bottom:1.5rem}
+    .af-list{margin-bottom:2rem;display:flex;flex-direction:column;gap:.75rem}
+    .af-row{display:flex;align-items:flex-start;gap:.7rem;font-size:.9rem;color:var(--t2);line-height:1.55}
+    .af-row::before{content:'✓';color:var(--hl);font-weight:700;flex-shrink:0;margin-top:.05rem}
+    .btn-outline{display:inline-block;background:transparent;border:2px solid var(--ac);color:var(--ac);padding:.75rem 1.75rem;border-radius:var(--r);font-family:var(--fd);font-size:.8rem;font-weight:700;letter-spacing:.04em;transition:all .2s}
+    .btn-outline:hover{background:var(--ac);color:#fff}
+
+    /* --- NEWSLETTER --- */
+    .nl-section{padding:90px 0;background:var(--bg2);border-top:1px solid var(--bd)}
+    .nl-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .nl-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hl);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}
+    .nl-label::before{content:'';display:block;width:20px;height:2px;background:var(--hl)}
+    .nl-title{font-family:var(--fe);font-size:2rem;font-weight:800;color:var(--t);line-height:1.2;margin-bottom:.75rem}
+    .nl-sub{font-size:.95rem;color:var(--t2);line-height:1.75}
+    .newsletter-inputs{display:flex;gap:.6rem;margin-bottom:.85rem}
+    .newsletter-inputs input{flex:1;padding:.8rem 1rem;border:1px solid var(--bd2);border-radius:var(--r);font-family:var(--fb);font-size:.9rem;color:var(--t);background:var(--bg);outline:none;transition:border-color .2s}
+    .newsletter-inputs input:focus{border-color:var(--hl)}
+    .btn-newsletter{background:var(--ac);color:#fff;padding:.8rem 1.4rem;border:none;border-radius:var(--r);font-family:var(--fd);font-size:.78rem;font-weight:700;letter-spacing:.04em;cursor:pointer;white-space:nowrap;transition:background .2s}
+    .btn-newsletter:hover{background:var(--ac2)}
+    .newsletter-rgpd{display:flex;align-items:flex-start;gap:.5rem;font-size:.78rem;color:var(--t3);line-height:1.5;cursor:pointer}
+    .newsletter-rgpd input{margin-top:.15rem;accent-color:var(--hl);flex-shrink:0}
+
+    /* --- CTA SECTION --- */
+    @keyframes ctabg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    .cta-section{background:linear-gradient(135deg,#1a3a2a 0%,#14532d 50%,#1a3a2a 100%);background-size:200% 200%;animation:ctabg 6s ease infinite;padding:100px 0;text-align:center}
+    .cta-title{font-family:var(--fe);font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;margin-bottom:1rem;line-height:1.15}
+    .cta-sub{font-size:1.05rem;color:rgba(255,255,255,.75);margin-bottom:2.5rem;line-height:1.7}
+    .btn-white{display:inline-block;background:#fff;color:var(--ac);padding:.85rem 2.2rem;border-radius:var(--r);font-family:var(--fd);font-size:.85rem;font-weight:700;letter-spacing:.04em;transition:all .2s}
+    .btn-white:hover{background:var(--bg2);transform:translateY(-2px)}
+
+    /* --- FOOTER --- */
+    .footer{background:var(--ac);color:#fff;padding:80px 0 40px}
+    .ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+    .ft-brand .logo-data{color:#fff}
+    .ft-brand .logo-ready{color:#fff}.ft-brand .logo-4data{background:linear-gradient(90deg,#4ade80,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .ft-brand .logo-sub{color:rgba(255,255,255,.45)}
+    .ft-brand .logo-icon{color:rgba(255,255,255,.8)}
+    .ft-desc{font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.75;margin:1rem 0 1.25rem}
+    .ft-social{display:flex;flex-direction:column;gap:.45rem}
+    .ft-link{font-size:.82rem;color:rgba(255,255,255,.6);transition:color .2s}
+    .ft-link:hover{color:#fff}
+    .ft-col h4{font-family:var(--fd);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:1.1rem}
+    .ft-col ul{list-style:none}
+    .ft-col ul li{margin-bottom:.5rem}
+    .ft-col ul li a{font-size:.88rem;color:rgba(255,255,255,.65);transition:color .2s}
+    .ft-col ul li a:hover{color:#fff}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:1.5rem;text-align:center}
+    .ft-bot p{font-size:.8rem;color:rgba(255,255,255,.38)}
+
+    /* --- REVEAL ANIMATIONS --- */
+    .rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+    .rv.in{opacity:1;transform:translateY(0)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
+    .iz img{transform:scale(1.05);transition:transform .8s ease}
+    .iz.iz-in img{transform:scale(1)}
+
+    /* --- RESPONSIVE --- */
+    @media(max-width:1024px){
+      .fc-grid{grid-template-columns:repeat(2,1fr)}
+      .paths-grid{grid-template-columns:repeat(2,1fr)}
+      .ft-grid{grid-template-columns:1fr 1fr;gap:2rem}
+      .about-split{grid-template-columns:1fr;gap:2.5rem}
+      .about-img{aspect-ratio:16/9}
+      .nl-inner{grid-template-columns:1fr;gap:2.5rem}
+    }
+    @media(max-width:768px){
+      .mbtn{display:block}
+      .hnav{display:none}
+      .fc-grid{grid-template-columns:1fr}
+      .paths-grid{grid-template-columns:1fr}
+      .hero-stats{gap:2rem}
+      .ft-grid{grid-template-columns:1fr}
+      .newsletter-inputs{flex-direction:column}
+      .btn-newsletter{width:100%}
+    }
+  </style>
+  <style id="r4d">
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#FDFCF9;color:#374151;overflow-x:hidden;line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    :root{--green:#16a34a;--amber:#f59e0b;--dgreen:#1a3a2a;--dkgreen:#0d2518;--warm:#FDFCF9;--cream:#F5F0E8;--rad:16px;--sh:0 4px 24px rgba(22,163,74,.08);--sha:0 8px 40px rgba(22,163,74,.16);--tr:all .3s cubic-bezier(.4,0,.2,1)}
+    #scroll-progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);z-index:9999;transition:width .1s linear}
+    #main-header{position:fixed;top:3px;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}
+    #main-header.scrolled{background:rgba(253,252,249,.95);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(0,0,0,.08)}
+    .logo-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;display:flex;align-items:center;gap:2px}
+    .logo-r{color:#1a3a2a;transition:color .3s}
+    #main-header:not(.scrolled) .logo-r{color:#fff}
+    .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #main-nav{display:flex;align-items:center;gap:32px}
+    #main-nav a{font-size:.9rem;font-weight:500;color:#374151;transition:color .2s}
+    #main-nav a:hover{color:#16a34a}
+    #main-header:not(.scrolled) #main-nav a{color:rgba(255,255,255,.85)}
+    .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:var(--tr)}
+    .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
+    .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hmbg span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:var(--tr)}
+    #main-header.scrolled .hmbg span{background:#374151}
+    #mob-nav{display:none;position:fixed;inset:0;background:rgba(13,37,24,.98);z-index:998;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    #mob-nav.open{display:flex}
+    #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700}
+    #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
+    #hero{min-height:100vh;background:linear-gradient(135deg,#1a3a2a 0%,#0d2518 60%,#162d1e 100%);display:flex;align-items:center;padding:120px 32px 80px;position:relative;overflow:hidden}
+    #hero::before{content:'';position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(22,163,74,.15) 0%,transparent 70%);pointer-events:none}
+    #hero::after{content:'';position:absolute;bottom:-20%;left:-5%;width:400px;height:400px;background:radial-gradient(circle,rgba(245,158,11,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.4);color:#4ade80;padding:6px 16px;border-radius:50px;font-size:.85rem;font-weight:600;font-family:'Syne',sans-serif;margin-bottom:24px}
+    .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px}
+    .hero-h1 em{font-style:italic;color:#4ade80}
+    .hero-tw{font-size:1.4rem;color:rgba(255,255,255,.8);font-weight:300;margin-bottom:40px;min-height:2em}
+    #tw-el{color:#fbbf24;font-weight:600;border-right:2px solid #fbbf24;animation:blink .8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px}
+    .btn-p{background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:14px 32px;border-radius:50px;font-weight:700;font-size:1rem;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 24px rgba(22,163,74,.4);transition:var(--tr)}
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(22,163,74,.5)}
+    .btn-s{color:rgba(255,255,255,.9);padding:14px 32px;border-radius:50px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);display:inline-flex;align-items:center;gap:8px;transition:var(--tr)}
+    .btn-s:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+    .hero-stats{display:flex;gap:40px;flex-wrap:wrap}
+    .stat-item .stat-number{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#4ade80;display:block}
+    .stat-item .stat-label{font-size:.8rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em}
+    .bar-b{transform-origin:bottom;animation:growB 1.2s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)}
+    .bar-b:nth-child(1){animation-delay:.2s}.bar-b:nth-child(2){animation-delay:.35s}.bar-b:nth-child(3){animation-delay:.5s}.bar-b:nth-child(4){animation-delay:.65s}.bar-b:nth-child(5){animation-delay:.8s}
+    @keyframes growB{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+    .fl{animation:fl 4s ease-in-out infinite}.fl2{animation:fl 5s ease-in-out .8s infinite}.fl3{animation:fl 3.5s ease-in-out .4s infinite}
+    @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    #ticker{background:linear-gradient(135deg,#16a34a,#15803d);overflow:hidden;padding:14px 0}
+    .ticker-t{display:flex;animation:tickS 28s linear infinite;width:max-content}
+    .ticker-i{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.1em;padding:0 36px;white-space:nowrap}
+    .ticker-d{color:#fbbf24;padding:0 4px}
+    @keyframes tickS{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    section{padding:96px 32px}
+    .sec-in{max-width:1200px;margin:0 auto}
+    .sec-lbl{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#16a34a;margin-bottom:12px}
+    .sec-ttl{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:900;color:#1a2e1a;line-height:1.2;margin-bottom:16px}
+    .sec-sub{font-size:1.1rem;color:#6b7280;max-width:560px;margin-bottom:56px}
+    #level-selector{background:#fff}
+    .level-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .level-card{border:2px solid #e5e7eb;border-radius:var(--rad);padding:28px 24px;cursor:pointer;transition:var(--tr);background:#fff;position:relative;overflow:hidden}
+    .level-card:hover{border-color:#86efac;transform:translateY(-2px);box-shadow:var(--sha)}
+    .level-card.active{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+    .level-card.active::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b)}
+    .lvl-icon{width:56px;height:56px;margin-bottom:16px}
+    .lvl-badge{display:inline-block;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:50px;margin-bottom:12px}
+    .lvl-badge.z{background:#fef3c7;color:#92400e}.lvl-badge.b{background:#dcfce7;color:#166534}.lvl-badge.m{background:#dbeafe;color:#1e40af}.lvl-badge.a{background:#fce7f3;color:#9d174d}
+    .lvl-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:#1a2e1a;margin-bottom:8px}
+    .lvl-desc{font-size:.85rem;color:#6b7280}
+    .lvl-steps{margin-top:20px;padding-top:20px;border-top:1px solid #f0fdf4;display:none}
+    .level-card.active .lvl-steps{display:block}
+    .lvl-step{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:.85rem;color:#374151}
+    .step-n{width:24px;height:24px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+    .lvl-cta{display:block;margin-top:16px;text-align:center;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:10px 20px;border-radius:50px;font-size:.85rem;font-weight:600;transition:var(--tr)}
+    .lvl-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.3)}
+    #features{background:var(--cream)}
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .feat-card{background:#fff;border-radius:var(--rad);padding:32px 28px;transition:var(--tr);border:1px solid transparent;opacity:0;transform:translateY(24px)}
+    .feat-card.vis{opacity:1;transform:translateY(0);transition:opacity .5s ease,transform .5s ease,box-shadow .3s,border-color .3s}
+    .feat-card:hover{border-color:#86efac;box-shadow:var(--sha);transform:translateY(-4px)}
+    .feat-icon{font-size:2.2rem;margin-bottom:16px;display:block}
+    .feat-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:#1a2e1a;margin-bottom:10px}
+    .feat-desc{font-size:.9rem;color:#6b7280;line-height:1.6}
+    .feat-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:#16a34a;font-size:.85rem;font-weight:600;transition:gap .2s}
+    .feat-link:hover{gap:10px}
+    #paths{background:#fff}
+    .path-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+    .path-c{background:var(--cream);border-radius:var(--rad);padding:32px;border:1px solid #e9e4d9;transition:var(--tr)}
+    .path-c:hover{box-shadow:var(--sha);transform:translateY(-2px)}
+    .path-hdr{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
+    .path-ico{font-size:2rem;width:52px;height:52px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .path-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:#1a2e1a}
+    .path-sub{font-size:.88rem;color:#6b7280;margin-top:4px}
+    .pb-lbl{display:flex;justify-content:space-between;font-size:.8rem;color:#9ca3af;margin-bottom:8px}
+    .pb-lbl span:last-child{color:#16a34a;font-weight:600}
+    .pb-bg{height:8px;background:#e5e7eb;border-radius:50px;overflow:hidden}
+    .pb-fill{height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:50px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+    .path-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .path-tag{font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:50px;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+    #quote-div{background:linear-gradient(135deg,#1a3a2a,#0d2518);padding:80px 32px;text-align:center;position:relative;overflow:hidden}
+    #quote-div::before{content:'"';position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:200px;color:rgba(255,255,255,.04);line-height:1}
+    .qt{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.4rem);font-style:italic;color:rgba(255,255,255,.92);max-width:760px;margin:0 auto 24px;line-height:1.4}
+    .qt em{color:#4ade80;font-style:normal}
+    .qt-by{font-family:'Syne',sans-serif;font-size:.9rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em}
+    #about{background:var(--cream)}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .about-chk{list-style:none;margin:24px 0 32px}
+    .about-chk li{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:.95rem;color:#374151;border-bottom:1px solid #e9e4d9}
+    .about-chk li:last-child{border-bottom:none}
+    .chk-ico{width:24px;height:24px;background:#f0fdf4;border:2px solid #16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .btn-ol{display:inline-flex;align-items:center;gap:8px;color:#16a34a;border:2px solid #16a34a;padding:12px 28px;border-radius:50px;font-weight:600;transition:var(--tr)}
+    .btn-ol:hover{background:#16a34a;color:#fff}
+    #newsletter{background:#fff}
+    .nl-c{max-width:640px;margin:0 auto;text-align:center}
+    .nl-form{display:flex;gap:12px;margin-top:32px}
+    .nl-inp{flex:1;padding:14px 20px;border:2px solid #e5e7eb;border-radius:50px;font-size:.95rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;background:var(--warm)}
+    .nl-inp:focus{border-color:#16a34a}
+    .nl-inp.err{border-color:#ef4444;animation:shake .5s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+    .nl-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:14px 28px;border:none;border-radius:50px;font-size:.95rem;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap}
+    .nl-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(22,163,74,.4)}
+    .nl-ok{display:none;align-items:center;justify-content:center;gap:12px;color:#16a34a;font-weight:600;padding:16px;background:#f0fdf4;border-radius:12px;margin-top:16px}
+    .nl-ok.show{display:flex;animation:fadeUp .4s ease}
+    .ok-ico{width:32px;height:32px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:scaleI .3s ease .1s both}
+    @keyframes scaleI{from{transform:scale(0)}to{transform:scale(1)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .nl-note{font-size:.8rem;color:#9ca3af;margin-top:12px}
+    #cta-s{background:linear-gradient(135deg,#1a3a2a,#0d2518,#162d1e);padding:100px 32px;text-align:center;position:relative;overflow:hidden}
+    .cta-c{max-width:700px;margin:0 auto;position:relative;z-index:1}
+    .cta-ttl{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:20px}
+    .cta-ttl em{color:#4ade80;font-style:italic}
+    .cta-sub-t{color:rgba(255,255,255,.7);font-size:1.1rem;margin-bottom:40px}
+    .cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+    #main-footer{background:#0d2518;color:rgba(255,255,255,.7);padding:60px 32px 32px}
+    .ft-in{max-width:1200px;margin:0 auto}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+    .ft-tagline{font-size:.88rem;line-height:1.6;margin-top:12px;max-width:280px}
+    .ft-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:rgba(255,255,255,.9);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
+    .ft-col ul{list-style:none}
+    .ft-col ul li{margin-bottom:10px}
+    .ft-col ul li a{color:rgba(255,255,255,.6);font-size:.88rem;transition:color .2s}
+    .ft-col ul li a:hover{color:#4ade80}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+    @media(max-width:1024px){.hero-inner{gap:48px}.level-grid{grid-template-columns:repeat(2,1fr)}.feat-grid{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr 1fr}.ft-brand{grid-column:span 2}.about-grid{grid-template-columns:1fr;gap:40px}.path-grid{grid-template-columns:1fr}}
+    @media(max-width:768px){section{padding:64px 20px}#main-header{padding:16px 20px}#main-nav{display:none}.hmbg{display:flex}.hero-inner{grid-template-columns:1fr}.hero-illus{display:none}.level-grid{grid-template-columns:1fr 1fr}.feat-grid{grid-template-columns:1fr}.nl-form{flex-direction:column}.ft-top{grid-template-columns:1fr}.ft-brand{grid-column:span 1}.ft-bot{flex-direction:column;gap:12px;text-align:center}}
+    @media(max-width:480px){.level-grid{grid-template-columns:1fr}.hero-btns,.cta-btns{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- Mobile Nav -->
+<div id="mob-nav">
+  <button id="mob-close">&#10005;</button>
+  <a href="index.html">Inicio</a>
+  <a href="recursos.html">Recursos</a>
+  <a href="blog.html">Blog</a>
+  <a href="videos.html">Vídeos</a>
+  <a href="herramientas-datos.html">Herramientas</a>
+  <a href="sobre-mi.html">Sobre mí</a>
+  <a href="contacto.html" class="btn-p" style="font-size:1rem;padding:10px 24px">Contacto</a>
+</div>
+
+<!-- Header -->
+<header id="main-header">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo-r">Ready</span><span class="logo-g">4Data</span>
+  </a>
+  <nav id="main-nav">
+    <a href="index.html">Inicio</a>
+    <a href="recursos.html">Recursos</a>
+    <a href="blog.html">Blog</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="herramientas-datos.html">Herramientas</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="contacto.html" class="nav-cta-btn">Contacto</a>
+  </nav>
+  <button class="hmbg" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">🌱 Aprende datos desde cero</div>
+      <h1 class="hero-h1">Los datos son<br><em>para ti.</em></h1>
+      <div class="hero-tw"><span id="tw-el"></span></div>
+      <div class="hero-btns">
+        <a href="recursos.html" class="btn-p">Empieza gratis →</a>
+        <a href="#level-selector" class="btn-s">¿Por dónde empiezo?</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="st1" data-target="20" data-suffix="+ años">0</span>
+          <span class="stat-label">Experiencia</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="st2" data-target="5" data-suffix="+ rutas">0</span>
+          <span class="stat-label">De aprendizaje</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="st3" data-target="50" data-suffix="+ guías">0</span>
+          <span class="stat-label">Y recursos</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-illus">
+      <svg width="420" height="340" viewBox="0 0 420 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="380" height="300" rx="20" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+        <rect x="40" y="40" width="160" height="16" rx="8" fill="rgba(255,255,255,.2)"/>
+        <rect x="210" y="44" width="60" height="8" rx="4" fill="rgba(74,222,128,.6)"/>
+        <rect x="280" y="44" width="40" height="8" rx="4" fill="rgba(251,191,36,.5)"/>
+        <g transform="translate(40,80)">
+          <line x1="0" y1="120" x2="170" y2="120" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+          <rect class="bar-b" x="10" y="40" width="22" height="80" rx="4" fill="#16a34a" opacity=".9"/>
+          <rect class="bar-b" x="44" y="20" width="22" height="100" rx="4" fill="#22c55e" opacity=".9"/>
+          <rect class="bar-b" x="78" y="55" width="22" height="65" rx="4" fill="#f59e0b" opacity=".9"/>
+          <rect class="bar-b" x="112" y="10" width="22" height="110" rx="4" fill="#3b82f6" opacity=".9"/>
+          <rect class="bar-b" x="146" y="35" width="22" height="85" rx="4" fill="#a855f7" opacity=".9"/>
+          <text x="21" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Ene</text>
+          <text x="55" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Feb</text>
+          <text x="89" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Mar</text>
+          <text x="123" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Abr</text>
+          <text x="157" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">May</text>
+        </g>
+        <g transform="translate(250,75)" class="fl">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="20"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#16a34a" stroke-width="20" stroke-dasharray="126 188" stroke-dashoffset="47" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#f59e0b" stroke-width="20" stroke-dasharray="63 251" stroke-dashoffset="-79" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#3b82f6" stroke-width="20" stroke-dasharray="47 267" stroke-dashoffset="-142" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="30" fill="rgba(13,37,24,.8)"/>
+          <text x="60" y="57" fill="white" font-size="10" text-anchor="middle" font-family="Inter">datos</text>
+          <text x="60" y="69" fill="rgba(255,255,255,.6)" font-size="8" text-anchor="middle">42%</text>
+        </g>
+        <g transform="translate(40,240)" class="fl2">
+          <rect width="160" height="56" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          <line x1="0" y1="18" x2="160" y2="18" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+          <line x1="0" y1="36" x2="160" y2="36" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+          <rect x="8" y="6" width="40" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
+          <rect x="56" y="6" width="30" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
+          <rect x="94" y="6" width="50" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
+          <rect x="8" y="24" width="32" height="5" rx="2.5" fill="rgba(74,222,128,.5)"/>
+          <rect x="56" y="24" width="24" height="5" rx="2.5" fill="rgba(255,255,255,.2)"/>
+          <rect x="94" y="24" width="38" height="5" rx="2.5" fill="rgba(251,191,36,.5)"/>
+          <rect x="8" y="42" width="28" height="5" rx="2.5" fill="rgba(74,222,128,.3)"/>
+          <rect x="56" y="42" width="36" height="5" rx="2.5" fill="rgba(255,255,255,.15)"/>
+          <rect x="94" y="42" width="42" height="5" rx="2.5" fill="rgba(59,130,246,.5)"/>
+        </g>
+        <circle cx="350" cy="240" r="8" fill="#f59e0b" opacity=".8" class="fl"/>
+        <circle cx="370" cy="265" r="5" fill="#16a34a" opacity=".7" class="fl2"/>
+        <circle cx="345" cy="278" r="6" fill="#3b82f6" opacity=".7" class="fl3"/>
+        <g transform="translate(240,228)" class="fl3">
+          <path d="M10 40 L25 20 L45 30 L70 5" stroke="#4ade80" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon points="65,0 75,10 60,8" fill="#4ade80"/>
+        </g>
+        <g transform="translate(318,46)" class="fl2">
+          <rect width="76" height="36" rx="10" fill="rgba(245,158,11,.2)" stroke="rgba(245,158,11,.4)" stroke-width="1"/>
+          <text x="38" y="14" fill="#fbbf24" font-size="10" text-anchor="middle">&#127919; KPI</text>
+          <text x="38" y="28" fill="rgba(255,255,255,.8)" font-size="9" text-anchor="middle" font-weight="bold">+24%</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Ticker -->
+<div id="ticker">
+  <div class="ticker-t">
+    <span class="ticker-i">SQL</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Power BI</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Excel Avanzado</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Análisis de datos</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Tableau</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Python</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Data Engineering</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">BigQuery</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Dashboards</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Storytelling con datos</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">SQL</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Power BI</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Excel Avanzado</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Análisis de datos</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Tableau</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Python</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Data Engineering</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">BigQuery</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Dashboards</span><span class="ticker-d">✦</span>
+    <span class="ticker-i">Storytelling con datos</span><span class="ticker-d">✦</span>
+  </div>
+</div>
+
+<!-- Level Selector -->
+<section id="level-selector">
+  <div class="sec-in">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="sec-lbl">Tu punto de partida</div>
+      <h2 class="sec-ttl">&#9889; ¿Cuál es tu nivel?</h2>
+      <p class="sec-sub" style="margin:0 auto">Elige tu punto de partida y te mostramos el camino ideal para ti.</p>
+    </div>
+    <div class="level-grid">
+      <div class="level-card" onclick="selectLevel(this)">
+        <svg class="lvl-icon" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#fef3c7"/>
+          <path d="M30 44 C30 44 16 35 16 25 C16 17.3 22.3 11 30 11 C37.7 11 44 17.3 44 25 C44 35 30 44 30 44Z" stroke="#f59e0b" stroke-width="2" fill="rgba(245,158,11,.2)"/>
+          <line x1="30" y1="44" x2="30" y2="50" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="25" y1="48" x2="35" y2="48" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="30" cy="25" r="4" fill="#f59e0b"/>
+        </svg>
+        <span class="lvl-badge z">Nivel 0</span>
+        <div class="lvl-title">Cero conocimiento</div>
+        <div class="lvl-desc">Empiezo desde cero absoluto. Los datos me suenan a chino.</div>
+        <div class="lvl-steps">
+          <div class="lvl-step"><div class="step-n">1</div><span>¿Qué son los datos?</span></div>
+          <div class="lvl-step"><div class="step-n">2</div><span>Excel básico desde cero</span></div>
+          <div class="lvl-step"><div class="step-n">3</div><span>Tu primer informe</span></div>
+          <a href="recursos.html" class="lvl-cta">Ver ruta completa →</a>
+        </div>
+      </div>
+      <div class="level-card" onclick="selectLevel(this)">
+        <svg class="lvl-icon" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#dcfce7"/>
+          <rect x="14" y="16" width="32" height="28" rx="3" fill="#fff" stroke="#16a34a" stroke-width="2"/>
+          <line x1="20" y1="24" x2="40" y2="24" stroke="#16a34a" stroke-width="1.5"/>
+          <line x1="20" y1="29" x2="36" y2="29" stroke="#86efac" stroke-width="1.5"/>
+          <line x1="20" y1="34" x2="38" y2="34" stroke="#86efac" stroke-width="1.5"/>
+          <line x1="20" y1="39" x2="33" y2="39" stroke="#86efac" stroke-width="1.5"/>
+          <path d="M36 44 L40 48 L50 38" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span class="lvl-badge b">Nivel 1</span>
+        <div class="lvl-title">Conozco Excel</div>
+        <div class="lvl-desc">Manejo Excel básico y quiero ir más lejos con los datos.</div>
+        <div class="lvl-steps">
+          <div class="lvl-step"><div class="step-n">1</div><span>Excel Avanzado + Power Query</span></div>
+          <div class="lvl-step"><div class="step-n">2</div><span>Tu primer SQL</span></div>
+          <div class="lvl-step"><div class="step-n">3</div><span>Dashboards básicos</span></div>
+          <a href="recursos.html" class="lvl-cta">Ver ruta completa →</a>
+        </div>
+      </div>
+      <div class="level-card" onclick="selectLevel(this)">
+        <svg class="lvl-icon" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#dbeafe"/>
+          <polyline points="12,40 22,28 32,34 42,18 48,22" stroke="#3b82f6" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="40" r="3" fill="#3b82f6"/>
+          <circle cx="22" cy="28" r="3" fill="#3b82f6"/>
+          <circle cx="32" cy="34" r="3" fill="#f59e0b"/>
+          <circle cx="42" cy="18" r="3" fill="#3b82f6"/>
+          <circle cx="48" cy="22" r="3" fill="#16a34a"/>
+          <line x1="12" y1="44" x2="50" y2="44" stroke="rgba(59,130,246,.4)" stroke-width="1.5"/>
+        </svg>
+        <span class="lvl-badge m">Nivel 2</span>
+        <div class="lvl-title">Sé algo de SQL</div>
+        <div class="lvl-desc">Escribo consultas SQL y quiero mejorar mi análisis visual.</div>
+        <div class="lvl-steps">
+          <div class="lvl-step"><div class="step-n">1</div><span>SQL Intermedio + JOINs</span></div>
+          <div class="lvl-step"><div class="step-n">2</div><span>Power BI / Tableau</span></div>
+          <div class="lvl-step"><div class="step-n">3</div><span>Primeros proyectos reales</span></div>
+          <a href="recursos.html" class="lvl-cta">Ver ruta completa →</a>
+        </div>
+      </div>
+      <div class="level-card" onclick="selectLevel(this)">
+        <svg class="lvl-icon" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#fce7f3"/>
+          <path d="M30 48 L30 28" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M26 32 L30 28 L34 32" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M22 38 C18 35 16 31 17 26 C18 20 23.5 15 30 15 C36.5 15 42 20 43 26 C44 31 42 35 38 38" stroke="#a855f7" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="30" cy="28" r="3" fill="#a855f7"/>
+          <path d="M20 46 C20 46 24 44 30 44 C36 44 40 46 40 46" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span class="lvl-badge a">Nivel 3</span>
+        <div class="lvl-title">Ya trabajo con datos</div>
+        <div class="lvl-desc">Tengo experiencia y quiero escalar hacia ingeniería de datos.</div>
+        <div class="lvl-steps">
+          <div class="lvl-step"><div class="step-n">1</div><span>Python para datos</span></div>
+          <div class="lvl-step"><div class="step-n">2</div><span>dbt + Modelado de datos</span></div>
+          <div class="lvl-step"><div class="step-n">3</div><span>Cloud: BigQuery / Azure</span></div>
+          <a href="recursos.html" class="lvl-cta">Ver ruta completa →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="sec-in">
+    <div class="sec-lbl">Contenido</div>
+    <h2 class="sec-ttl">&#128218; Lo que encontrarás aquí</h2>
+    <p class="sec-sub">Todo lo que necesitas para dominar los datos, explicado de forma humana.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <span class="feat-icon">&#128451;</span>
+        <div class="feat-title">SQL sin miedo</div>
+        <div class="feat-desc">Aprende a consultar bases de datos reales desde cero. Sin jerga técnica, con ejemplos del mundo real.</div>
+        <a href="recursos.html" class="feat-link">Ver guías SQL →</a>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#128202;</span>
+        <div class="feat-title">Excel que de verdad usas</div>
+        <div class="feat-desc">Desde tablas dinámicas hasta Power Query. El Excel que se pide en las ofertas de trabajo.</div>
+        <a href="recursos.html" class="feat-link">Ver guías Excel →</a>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#128200;</span>
+        <div class="feat-title">Power BI paso a paso</div>
+        <div class="feat-desc">Dashboards profesionales desde cero. DAX, modelado de datos y visualizaciones que impresionan.</div>
+        <a href="recursos.html" class="feat-link">Ver guías Power BI →</a>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#128188;</span>
+        <div class="feat-title">Carrera en datos</div>
+        <div class="feat-desc">CV, entrevistas, portafolio. Todo lo que necesitas para conseguir tu primer trabajo en datos.</div>
+        <a href="recursos.html" class="feat-link">Preparar mi carrera →</a>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#128295;</span>
+        <div class="feat-title">Herramientas del oficio</div>
+        <div class="feat-desc">dbt, BigQuery, Python, Tableau. Las herramientas que usan los profesionales, explicadas para humanos.</div>
+        <a href="recursos.html" class="feat-link">Ver herramientas →</a>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">&#127959;</span>
+        <div class="feat-title">Proyectos reales</div>
+        <div class="feat-desc">Practica con proyectos que puedes añadir a tu portafolio. Datos reales, problemas reales.</div>
+        <a href="recursos.html" class="feat-link">Ver proyectos →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Learning Paths -->
+<section id="paths">
+  <div class="sec-in">
+    <div class="sec-lbl">Rutas</div>
+    <h2 class="sec-ttl">&#128506; Rutas de aprendizaje</h2>
+    <p class="sec-sub">Caminos estructurados para llevarte de donde estás a donde quieres llegar.</p>
+    <div class="path-grid">
+      <div class="path-c">
+        <div class="path-hdr">
+          <div class="path-ico">&#128202;</div>
+          <div>
+            <div class="path-name">Analista de Datos</div>
+            <div class="path-sub">Excel → SQL → Power BI → Proyectos</div>
+          </div>
+        </div>
+        <div class="pb-lbl"><span>Guías disponibles</span><span>85%</span></div>
+        <div class="pb-bg"><div class="pb-fill" data-target="85"></div></div>
+        <div class="path-tags">
+          <span class="path-tag">Excel</span><span class="path-tag">SQL</span><span class="path-tag">Power BI</span><span class="path-tag">Tableau</span>
+        </div>
+      </div>
+      <div class="path-c">
+        <div class="path-hdr">
+          <div class="path-ico">&#128295;</div>
+          <div>
+            <div class="path-name">Data Engineer</div>
+            <div class="path-sub">SQL → Python → dbt → Cloud</div>
+          </div>
+        </div>
+        <div class="pb-lbl"><span>Guías disponibles</span><span>62%</span></div>
+        <div class="pb-bg"><div class="pb-fill" data-target="62"></div></div>
+        <div class="path-tags">
+          <span class="path-tag">Python</span><span class="path-tag">dbt</span><span class="path-tag">BigQuery</span><span class="path-tag">Azure</span>
+        </div>
+      </div>
+      <div class="path-c">
+        <div class="path-hdr">
+          <div class="path-ico">&#128201;</div>
+          <div>
+            <div class="path-name">BI Developer</div>
+            <div class="path-sub">Modelado → DAX → Dashboards pro</div>
+          </div>
+        </div>
+        <div class="pb-lbl"><span>Guías disponibles</span><span>70%</span></div>
+        <div class="pb-bg"><div class="pb-fill" data-target="70"></div></div>
+        <div class="path-tags">
+          <span class="path-tag">Power BI</span><span class="path-tag">DAX</span><span class="path-tag">SQL Server</span>
+        </div>
+      </div>
+      <div class="path-c">
+        <div class="path-hdr">
+          <div class="path-ico">&#128640;</div>
+          <div>
+            <div class="path-name">Desde Cero a Datos</div>
+            <div class="path-sub">Para quienes empiezan sin saber nada</div>
+          </div>
+        </div>
+        <div class="pb-lbl"><span>Guías disponibles</span><span>92%</span></div>
+        <div class="pb-bg"><div class="pb-fill" data-target="92"></div></div>
+        <div class="path-tags">
+          <span class="path-tag">Fundamentos</span><span class="path-tag">Excel</span><span class="path-tag">SQL básico</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote -->
+<div id="quote-div">
+  <blockquote class="qt">
+    "Cualquiera puede entender los datos.<br>Solo necesitas el <em>enfoque correcto</em> y un poco de paciencia."
+  </blockquote>
+  <div class="qt-by">— Antonio, Ready4Data</div>
+</div>
+
+<!-- About -->
+<section id="about">
+  <div class="sec-in">
+    <div class="about-grid">
+      <div style="display:flex;justify-content:center;align-items:center">
+        <svg width="280" height="280" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="140" cy="140" r="130" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5"/>
+          <rect x="60" y="120" width="160" height="100" rx="8" fill="#1a3a2a" stroke="#16a34a" stroke-width="1.5"/>
+          <rect x="68" y="128" width="144" height="76" rx="4" fill="#0d2518"/>
+          <rect x="76" y="148" width="16" height="40" rx="3" fill="#16a34a" opacity=".8"/>
+          <rect x="98" y="136" width="16" height="52" rx="3" fill="#22c55e" opacity=".8"/>
+          <rect x="120" y="155" width="16" height="33" rx="3" fill="#f59e0b" opacity=".8"/>
+          <rect x="142" y="142" width="16" height="46" rx="3" fill="#3b82f6" opacity=".8"/>
+          <rect x="164" y="150" width="16" height="38" rx="3" fill="#a855f7" opacity=".8"/>
+          <line x1="74" y1="196" x2="194" y2="196" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+          <rect x="126" y="220" width="28" height="12" rx="2" fill="#2d5a3d"/>
+          <rect x="112" y="232" width="56" height="6" rx="3" fill="#2d5a3d"/>
+          <circle cx="140" cy="90" r="22" fill="#f0e6d3" stroke="#e2c9a8" stroke-width="1.5"/>
+          <path d="M118 86 C118 73 128 64 140 64 C152 64 162 73 162 86" fill="#3d2b1f"/>
+          <circle cx="133" cy="88" r="2.5" fill="#3d2b1f"/>
+          <circle cx="147" cy="88" r="2.5" fill="#3d2b1f"/>
+          <path d="M134 96 Q140 101 146 96" stroke="#c17a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <g class="fl">
+            <circle cx="80" cy="72" r="13" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="80" y="76" font-size="10" text-anchor="middle" fill="#f59e0b" font-family="Syne,sans-serif">SQL</text>
+          </g>
+          <g class="fl2">
+            <circle cx="200" cy="68" r="14" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="200" y="72" font-size="9" text-anchor="middle" fill="#16a34a" font-family="Syne,sans-serif">Data</text>
+          </g>
+          <g class="fl3">
+            <circle cx="218" cy="112" r="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="218" y="116" font-size="9" text-anchor="middle" fill="#3b82f6" font-family="Syne,sans-serif">BI</text>
+          </g>
+          <g class="fl">
+            <circle cx="63" cy="110" r="12" fill="#fce7f3" stroke="#a855f7" stroke-width="1.5"/>
+            <text x="63" y="114" font-size="11" text-anchor="middle">&#128013;</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="sec-lbl">El creador</div>
+        <h2 class="sec-ttl" style="margin-bottom:12px">Hola, soy Antonio &#128075;</h2>
+        <p style="color:#6b7280;font-size:1rem;line-height:1.75;margin-bottom:10px">
+          20+ años como Data Engineer. He trabajado en <strong>Accenture, IBM, Orange</strong> y he visto cómo las empresas toman mejores decisiones con los datos.
+        </p>
+        <p style="color:#6b7280;font-size:1rem;line-height:1.75;margin-bottom:24px">
+          Creo que <strong>cualquiera puede entender los datos</strong> con el enfoque correcto. Por eso creé Ready4Data.
+        </p>
+        <ul class="about-chk">
+          <li>
+            <div class="chk-ico"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><polyline points="2,6 5,9 10,3" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            Proyectos reales, no de laboratorio
+          </li>
+          <li>
+            <div class="chk-ico"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><polyline points="2,6 5,9 10,3" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            Lenguaje humano, no jerga técnica
+          </li>
+          <li>
+            <div class="chk-ico"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><polyline points="2,6 5,9 10,3" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            Aprende a tu ritmo, sin presión
+          </li>
+        </ul>
+        <a href="sobre-mi.html" class="btn-ol">Conoce mi historia →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section id="newsletter">
+  <div class="sec-in">
+    <div class="nl-c">
+      <div class="sec-lbl">Newsletter</div>
+      <h2 class="sec-ttl">&#128236; Una guía de datos<br>cada semana</h2>
+      <p class="sec-sub" style="margin:0 auto">Sin spam. Sin jerga. Solo contenido útil para tu carrera en datos.</p>
+      <form class="nl-form" id="nl-form" action="https://formspree.io/f/FORMSPREE_DATABYNU_AQUI" method="POST">
+        <input type="email" name="email" id="nl-email" class="nl-inp" placeholder="tu@email.com" required>
+        <button type="submit" class="nl-btn">Suscribirme →</button>
+      </form>
+      <div class="nl-ok" id="nl-ok">
+        <div class="ok-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <polyline points="3,8 6,11 13,5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        ¡Perfecto! Ya formas parte de la comunidad Ready4Data &#127881;
+      </div>
+      <p class="nl-note">✓ Gratis · ✓ Sin spam · ✓ Cancela cuando quieras</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-s">
+  <div class="cta-c">
+    <div class="sec-lbl" style="color:#4ade80;text-align:center;margin-bottom:20px">¿Listo para empezar?</div>
+    <h2 class="cta-ttl">Tu viaje con los datos<br>empieza <em>hoy</em></h2>
+    <p class="cta-sub-t">No necesitas saber programar. No necesitas ser matemático.<br>Solo necesitas querer aprender.</p>
+    <div class="cta-btns">
+      <a href="recursos.html" class="btn-p">Explorar recursos →</a>
+      <a href="sobre-mi.html" class="btn-s">Conocer a Antonio</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer id="main-footer">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo-wrap" style="margin-bottom:4px">
+          <span class="logo-r" style="color:rgba(255,255,255,.9)">Ready</span><span class="logo-g">4Data</span>
+        </a>
+        <p class="ft-tagline">Aprende datos desde cero, sin miedo, sin código. El sitio donde los datos dejan de darte miedo.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Contenido</h4>
+        <ul>
+          <li><a href="recursos.html">Recursos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="videos.html">Vídeos</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Más</h4>
+        <ul>
+          <li><a href="sobre-mi.html">Sobre mí</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Ready4Data · Hecho con &#128154; para los curiosos de los datos</span>
+      <span style="color:rgba(255,255,255,.4)">Sin código. Sin miedo. Paso a paso.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="scroll.js"></script>
+<script>
+  // ── Typewriter effect
+  const tw=document.getElementById('tw-el');
+  if(tw){
+    const phrases=['Sin código complicado.','Sin carreras de 4 años.','Con ejemplos reales.','Paso a paso, sin miedo.','Desde cero absoluto.'];
+    let pi=0,ci=0,del=false;
+    function type(){
+      const phrase=phrases[pi];
+      if(!del){tw.textContent=phrase.substring(0,++ci);if(ci===phrase.length){del=true;setTimeout(type,1800);return}}
+      else{tw.textContent=phrase.substring(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length}}
+      setTimeout(type,del?55:90);
+    }
+    setTimeout(type,900);
+  }
+
+  // ── Level selector
+  function selectLevel(card){
+    document.querySelectorAll('.level-card').forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+  }
+</script>
+</body>
+</html>

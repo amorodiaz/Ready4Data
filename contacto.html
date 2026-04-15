@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Ready4Data</title>
+  <meta name="description" content="Escríbeme con cualquier pregunta sobre datos, recursos o el mundo del análisis. Respondo a todos.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a3a2a' rx='12'/><line x1='50' y1='92' x2='50' y2='46' stroke='white' stroke-width='6' stroke-linecap='round' opacity='.8'/><path d='M50 62 C34 54 22 38 30 26 C38 14 50 26 50 46' fill='white' opacity='.7'/><path d='M50 56 C66 48 80 34 72 22 C64 10 50 22 50 42' fill='white' opacity='.55'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    :root{
+      --bg:#ffffff;--bg2:#f8f8f6;--bg3:#f0f0ec;
+      --t:#0a0a0a;--t2:#4a4a4a;--t3:#9a9a9a;
+      --ac:#1a3a2a;--ac2:#14532d;
+      --hl:#16a34a;--hl2:#f59e0b;
+      --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
+      --r:4px;
+      --s:0 2px 12px rgba(0,0,0,.06);
+      --s2:0 8px 32px rgba(0,0,0,.11);
+      --fb:'Inter','Segoe UI',system-ui,sans-serif;
+      --fe:'Playfair Display',Georgia,serif;
+      --fd:'Syne','Arial Black',sans-serif
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--fb);color:var(--t);background:var(--bg);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    #scroll-progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);z-index:9999;transition:width .1s linear}
+
+    #main-header{position:fixed;top:3px;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled{background:rgba(253,252,249,.97);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(0,0,0,.08)}
+    .logo-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;display:flex;align-items:center;gap:2px;text-decoration:none}
+    .logo-r{color:#fff;transition:color .3s}
+    #main-header.scrolled .logo-r{color:#1a3a2a}
+    .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #main-nav{display:flex;align-items:center;gap:28px}
+    #main-nav a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:color .2s;text-decoration:none}
+    #main-nav a:hover,#main-nav a.active{color:#fff}
+    #main-header.scrolled #main-nav a{color:#374151}
+    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#16a34a}
+    .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
+    .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hmbg span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled .hmbg span{background:#374151}
+    #mob-nav{display:none;position:fixed;inset:0;background:rgba(13,37,24,.98);z-index:998;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    #mob-nav.open{display:flex}
+    #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;text-decoration:none}
+    #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
+
+    /* PAGE HERO */
+    .page-hero{position:relative;height:380px;display:flex;align-items:center;overflow:hidden}
+    .page-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1400&auto=format&fit=crop&q=80');background-size:cover;background-position:center}
+    .page-hero-overlay{position:absolute;inset:0;background:rgba(10,28,18,.80)}
+    .page-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;padding-top:5rem;width:100%}
+    .page-hero-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .page-hero-label::before{content:'';display:block;width:24px;height:2px;background:var(--hl2)}
+    .page-hero-title{font-family:var(--fe);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:.85rem}
+    .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.78);max-width:520px;line-height:1.7}
+
+    /* CONTACT LAYOUT */
+    .sec-white{padding:90px 0;background:var(--bg)}
+    .sec-gray{padding:90px 0;background:var(--bg2)}
+    .cnt{max-width:1200px;margin:0 auto;padding:0 2rem}
+    .contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start}
+
+    /* CONTACT INFO */
+    .ci-title{font-family:var(--fe);font-size:1.9rem;font-weight:800;color:var(--t);line-height:1.2;margin-bottom:2rem}
+    .ci-items{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:2.5rem}
+    .ci-item{}
+    .ci-label{font-family:var(--fd);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:.3rem}
+    .ci-value{font-size:.95rem;color:var(--t2);line-height:1.55}
+    .ci-value a{color:var(--hl);transition:color .2s}
+    .ci-value a:hover{color:var(--ac)}
+    .ci-uses-title{font-family:var(--fd);font-size:.78rem;font-weight:700;color:var(--t);margin-bottom:.85rem;letter-spacing:.02em}
+    .ci-uses-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+    .ci-uses-list li{font-size:.9rem;color:var(--t2);display:flex;align-items:flex-start;gap:.6rem;line-height:1.5}
+    .ci-uses-list li::before{content:'→';color:var(--hl);font-weight:700;flex-shrink:0;font-family:var(--fd);font-size:.8rem;margin-top:.05rem}
+
+    /* CONTACT FORM */
+    .contact-form-wrap{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:2.5rem}
+    .cf-title{font-family:var(--fe);font-size:1.5rem;font-weight:800;color:var(--t);margin-bottom:.5rem}
+    .cf-sub{font-size:.88rem;color:var(--t3);margin-bottom:2rem;line-height:1.6}
+    .contact-form{display:flex;flex-direction:column;gap:1.1rem}
+    .form-group{display:flex;flex-direction:column;gap:.4rem}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .form-group label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t2)}
+    .form-group input,
+    .form-group select,
+    .form-group textarea{padding:.8rem 1rem;border:1px solid var(--bd2);border-radius:var(--r);font-family:var(--fb);font-size:.9rem;color:var(--t);background:var(--bg);outline:none;transition:border-color .2s;width:100%}
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus{border-color:var(--hl);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+    .form-group textarea{resize:vertical;min-height:130px;line-height:1.65}
+    .form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a9a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer}
+    .form-rgpd{display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem;color:var(--t3);line-height:1.55;cursor:pointer}
+    .form-rgpd input{margin-top:.2rem;accent-color:var(--hl);flex-shrink:0;width:14px;height:14px}
+    .btn-submit{background:var(--ac);color:#fff;padding:.9rem 2rem;border:none;border-radius:var(--r);font-family:var(--fd);font-size:.82rem;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:all .2s;align-self:flex-start}
+    .btn-submit:hover{background:var(--ac2);transform:translateY(-2px)}
+    .form-success{display:none;background:#dcfce7;border:1px solid #86efac;border-radius:var(--r);padding:1rem 1.25rem;font-size:.9rem;color:#166534;line-height:1.55;margin-top:.5rem}
+
+    /* HOW IT WORKS */
+    .hww-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem}
+    .hww-card{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:2rem 1.75rem;transition:all .3s}
+    .hww-card:hover{box-shadow:var(--s2);transform:translateY(-4px)}
+    .hww-num{font-family:var(--fd);font-size:2.2rem;font-weight:800;color:var(--hl);opacity:.22;line-height:1;margin-bottom:.75rem;letter-spacing:-.02em}
+    .hww-title{font-family:var(--fe);font-size:1.15rem;font-weight:700;color:var(--t);margin-bottom:.65rem;line-height:1.3}
+    .hww-text{font-size:.9rem;color:var(--t2);line-height:1.75}
+
+    /* FOOTER */
+    #main-footer{background:#0d2518;color:rgba(255,255,255,.7);padding:60px 32px 32px}
+    .ft-in{max-width:1200px;margin:0 auto}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+    .ft-brand{color:rgba(255,255,255,.7)}
+    .ft-tagline{font-size:.88rem;line-height:1.6;margin-top:12px;max-width:280px;color:rgba(255,255,255,.55)}
+    .ft-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:rgba(255,255,255,.9);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
+    .ft-col ul{list-style:none}
+    .ft-col ul li{margin-bottom:10px}
+    .ft-col ul li a{color:rgba(255,255,255,.6);font-size:.88rem;transition:color .2s;text-decoration:none}
+    .ft-col ul li a:hover{color:#4ade80}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+
+    /* ANIMATIONS */
+    .rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+    .rv.in{opacity:1;transform:translateY(0)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+    @media(max-width:1024px){.contact-layout{grid-template-columns:1fr;gap:3rem}.hww-grid{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr 1fr}.ft-brand{grid-column:span 2}}
+    @media(max-width:768px){.hmbg{display:flex}#main-nav{display:none}.hww-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.ft-top{grid-template-columns:1fr}.ft-brand{grid-column:span 1}.ft-bot{flex-direction:column;gap:12px;text-align:center}.btn-submit{width:100%}}
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<div id="mob-nav">
+  <button id="mob-close">&#10005;</button>
+  <a href="index.html">Inicio</a>
+  <a href="recursos.html">Recursos</a>
+  <a href="blog.html">Blog</a>
+  <a href="videos.html">Vídeos</a>
+  <a href="herramientas-datos.html">Herramientas</a>
+  <a href="sobre-mi.html">Sobre mí</a>
+  <a href="contacto.html" class="btn-p" style="font-size:1rem;padding:10px 24px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border-radius:50px;font-weight:600">Contacto</a>
+</div>
+
+<header id="main-header">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo-r">Ready</span><span class="logo-g">4Data</span>
+  </a>
+  <nav id="main-nav">
+    <a href="index.html">Inicio</a>
+    <a href="recursos.html">Recursos</a>
+    <a href="blog.html">Blog</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="herramientas-datos.html">Herramientas</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="contacto.html" class="nav-cta-btn active">Contacto</a>
+  </nav>
+  <button class="hmbg" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-label">Hablemos</div>
+    <h1 class="page-hero-title">¿En qué te puedo ayudar?</h1>
+    <p class="page-hero-sub">Cualquier pregunta sobre datos, recursos o el mundo del análisis. Respondo a todos.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec-white">
+  <div class="cnt">
+    <div class="contact-layout">
+
+      <!-- INFO -->
+      <div class="rv">
+        <h2 class="ci-title">Ponerse en contacto</h2>
+        <div class="ci-items">
+          <div class="ci-item">
+            <div class="ci-label">Email</div>
+            <div class="ci-value"><a href="mailto:hola@ready4data.es">hola@ready4data.es</a></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-label">LinkedIn</div>
+            <div class="ci-value"><a href="https://linkedin.com/in/antonio-moro-diaz-62346213b" target="_blank" rel="noopener">antonio-moro-diaz</a></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-label">Tiempo de respuesta</div>
+            <div class="ci-value">Normalmente menos de 48 horas</div>
+          </div>
+        </div>
+        <div class="ci-uses-title">¿Para qué me sueles escribir?</div>
+        <ul class="ci-uses-list">
+          <li>Dudas sobre recursos gratuitos</li>
+          <li>Feedback sobre contenido</li>
+          <li>Propuestas de colaboración</li>
+          <li>Compartir tu progreso 🎉</li>
+        </ul>
+      </div>
+
+      <!-- FORM -->
+      <div class="contact-form-wrap rv d2">
+        <div class="cf-title">Escríbeme</div>
+        <p class="cf-sub">Cuéntame en qué puedo ayudarte. Leo todos los mensajes personalmente.</p>
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/FORMSPREE_DATABYNU_AQUI" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="tu@email.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="asunto">Asunto</label>
+            <select id="asunto" name="asunto" required>
+              <option value="" disabled selected>Selecciona el motivo</option>
+              <option value="duda-recurso">Duda sobre un recurso</option>
+              <option value="colaboracion">Quiero colaborar</option>
+              <option value="feedback">Feedback</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Cuéntame..." required></textarea>
+          </div>
+          <label class="form-rgpd">
+            <input type="checkbox" required>
+            <span>Acepto la política de privacidad y el tratamiento de mis datos para gestionar este mensaje.</span>
+          </label>
+          <button type="submit" class="btn-submit">Enviar mensaje →</button>
+          <div class="form-success" id="formSuccess">
+            ¡Mensaje enviado! Te responderé en menos de 48 horas. Gracias por escribirme 🌱
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sec-gray">
+  <div class="cnt">
+    <div style="text-align:center;margin-bottom:3rem">
+      <h2 style="font-family:var(--fe);font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;color:var(--t);line-height:1.2" class="rv">¿Cómo funciona?</h2>
+    </div>
+    <div class="hww-grid">
+      <div class="hww-card rv d1">
+        <div class="hww-num">01</div>
+        <div class="hww-title">Escríbeme</div>
+        <p class="hww-text">Sin formularios complicados. Un mensaje directo sobre lo que necesitas.</p>
+      </div>
+      <div class="hww-card rv d2">
+        <div class="hww-num">02</div>
+        <div class="hww-title">Respondo en 48h</div>
+        <p class="hww-text">Leo todos los mensajes y respondo personalmente. Sin respuestas automáticas.</p>
+      </div>
+      <div class="hww-card rv d3">
+        <div class="hww-num">03</div>
+        <div class="hww-title">Resolvemos juntos</div>
+        <p class="hww-text">Ya sea una duda puntual o un proyecto más grande, encontramos la mejor forma de ayudarte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="main-footer">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo-wrap" style="margin-bottom:4px">
+          <span class="logo-r" style="color:rgba(255,255,255,.9)">Ready</span><span class="logo-g">4Data</span>
+        </a>
+        <p class="ft-tagline">Aprende datos desde cero, sin miedo, sin código. El sitio donde los datos dejan de darte miedo.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Contenido</h4>
+        <ul>
+          <li><a href="recursos.html">Recursos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="videos.html">Vídeos</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Más</h4>
+        <ul>
+          <li><a href="sobre-mi.html">Sobre mí</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Ready4Data · Hecho con &#128154; para los curiosos de los datos</span>
+      <span style="color:rgba(255,255,255,.4)">Sin código. Sin miedo. Paso a paso.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="scroll.js"></script>
+<script>
+  // ── Contact form submit
+  const form=document.getElementById('contactForm');
+  const success=document.getElementById('formSuccess');
+  if(form){
+    form.addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      const data=new FormData(form);
+      try{
+        const res=await fetch(form.action,{method:'POST',body:data,headers:{Accept:'application/json'}});
+        if(res.ok){success.style.display='block';form.reset();form.querySelectorAll('button[type=submit]').forEach(b=>b.disabled=true)}
+      } catch(err){form.submit()}
+    });
+  }
+</script>
+</body>
+</html>

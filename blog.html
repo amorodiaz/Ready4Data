@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Ready4Data</title>
+  <meta name="description" content="Artículos sobre datos para principiantes. SQL, Excel, carrera en datos y fundamentos explicados de forma sencilla.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a3a2a' rx='12'/><line x1='50' y1='92' x2='50' y2='46' stroke='white' stroke-width='6' stroke-linecap='round' opacity='.8'/><path d='M50 62 C34 54 22 38 30 26 C38 14 50 26 50 46' fill='white' opacity='.7'/><path d='M50 56 C66 48 80 34 72 22 C64 10 50 22 50 42' fill='white' opacity='.55'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    :root{
+      --bg:#ffffff;--bg2:#f8f8f6;--bg3:#f0f0ec;
+      --t:#0a0a0a;--t2:#4a4a4a;--t3:#9a9a9a;
+      --ac:#1a3a2a;--ac2:#14532d;
+      --hl:#16a34a;--hl2:#f59e0b;
+      --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
+      --r:4px;
+      --s:0 2px 12px rgba(0,0,0,.06);
+      --s2:0 8px 32px rgba(0,0,0,.11);
+      --fb:'Inter','Segoe UI',system-ui,sans-serif;
+      --fe:'Playfair Display',Georgia,serif;
+      --fd:'Syne','Arial Black',sans-serif
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--fb);color:var(--t);background:var(--bg);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    #scroll-progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);z-index:9999;transition:width .1s linear}
+
+    #main-header{position:fixed;top:3px;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled{background:rgba(253,252,249,.97);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(0,0,0,.08)}
+    .logo-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;display:flex;align-items:center;gap:2px;text-decoration:none}
+    .logo-r{color:#fff;transition:color .3s}
+    #main-header.scrolled .logo-r{color:#1a3a2a}
+    .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #main-nav{display:flex;align-items:center;gap:28px}
+    #main-nav a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:color .2s;text-decoration:none}
+    #main-nav a:hover,#main-nav a.active{color:#fff}
+    #main-header.scrolled #main-nav a{color:#374151}
+    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#16a34a}
+    .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
+    .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hmbg span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled .hmbg span{background:#374151}
+    #mob-nav{display:none;position:fixed;inset:0;background:rgba(13,37,24,.98);z-index:998;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    #mob-nav.open{display:flex}
+    #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;text-decoration:none}
+    #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
+
+    /* PAGE HERO */
+    .page-hero{position:relative;height:380px;display:flex;align-items:center;overflow:hidden}
+    .page-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1400&auto=format&fit=crop&q=80');background-size:cover;background-position:center top}
+    .page-hero-overlay{position:absolute;inset:0;background:rgba(10,28,18,.78)}
+    .page-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;padding-top:5rem;width:100%}
+    .page-hero-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .page-hero-label::before{content:'';display:block;width:24px;height:2px;background:var(--hl2)}
+    .page-hero-title{font-family:var(--fe);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:.85rem}
+    .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.78);max-width:520px;line-height:1.7}
+
+    /* SECTIONS */
+    .sec-white{padding:90px 0;background:var(--bg)}
+    .cnt{max-width:1200px;margin:0 auto;padding:0 2rem}
+    .sec-header{margin-bottom:2.5rem}
+    .sec-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hl);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}
+    .sec-label::before{content:'';display:block;width:20px;height:2px;background:var(--hl)}
+    .sec-title{font-family:var(--fe);font-size:clamp(1.9rem,4vw,2.7rem);font-weight:800;color:var(--t);line-height:1.15;margin-bottom:.85rem}
+
+    /* FEATURED ARTICLE */
+    .featured-article{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--bd);margin-bottom:3.5rem;box-shadow:var(--s)}
+    .fa-img{position:relative;overflow:hidden;aspect-ratio:4/3}
+    .fa-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+    .featured-article:hover .fa-img img{transform:scale(1.04)}
+    .fa-body{padding:2.5rem 2.5rem;display:flex;flex-direction:column;justify-content:center;background:var(--bg)}
+    .fa-cat{font-family:var(--fd);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--hl);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .fa-cat::before{content:'';display:block;width:16px;height:2px;background:var(--hl)}
+    .fa-title{font-family:var(--fe);font-size:1.6rem;font-weight:800;color:var(--t);line-height:1.25;margin-bottom:1rem}
+    .fa-excerpt{font-size:.92rem;color:var(--t2);line-height:1.75;margin-bottom:1.25rem}
+    .fa-meta{font-family:var(--fd);font-size:.68rem;font-weight:600;color:var(--t3);letter-spacing:.05em;margin-bottom:1.5rem}
+    .btn-read{display:inline-block;background:var(--ac);color:#fff;padding:.7rem 1.5rem;border-radius:var(--r);font-family:var(--fd);font-size:.78rem;font-weight:700;letter-spacing:.04em;transition:all .2s}
+    .btn-read:hover{background:var(--ac2);transform:translateY(-2px)}
+
+    /* FILTERS */
+    .blog-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+    .bf-btn{font-family:var(--fd);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:.42rem 1.1rem;border-radius:20px;border:1px solid var(--bd);background:var(--bg2);color:var(--t2);cursor:pointer;transition:all .2s}
+    .bf-btn:hover,.bf-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+    /* BLOG GRID */
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem}
+    .bc{background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:all .3s}
+    .bc:hover{box-shadow:var(--s2);transform:translateY(-4px);border-color:var(--hl)}
+    .bc-img{overflow:hidden;aspect-ratio:16/10}
+    .bc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+    .bc:hover .bc-img img{transform:scale(1.06)}
+    .bc-body{padding:1.4rem 1.5rem 1rem;flex:1}
+    .bc-cat{font-family:var(--fd);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);margin-bottom:.6rem}
+    .bc-title{font-family:var(--fe);font-size:1.1rem;font-weight:700;color:var(--t);line-height:1.3;margin-bottom:.65rem}
+    .bc-excerpt{font-size:.84rem;color:var(--t2);line-height:1.7}
+    .bc-foot{padding:.9rem 1.5rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+    .bc-meta{font-family:var(--fd);font-size:.65rem;font-weight:600;color:var(--t3);letter-spacing:.04em}
+    .bc-link{font-family:var(--fd);font-size:.7rem;font-weight:700;color:var(--hl);letter-spacing:.04em;transition:color .2s}
+    .bc-link:hover{color:var(--ac)}
+
+    /* NEWSLETTER INLINE */
+    .nl-inline{background:linear-gradient(135deg,#1a3a2a,#14532d);border-radius:8px;padding:2.5rem;display:flex;flex-direction:column;justify-content:center;margin-top:2.5rem}
+    .nl-inline h3{font-family:var(--fe);font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:.5rem;line-height:1.25}
+    .nl-inline p{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:1.4rem;line-height:1.6}
+    .nl-inline-form{display:flex;gap:.5rem;flex-wrap:wrap}
+    .nl-inline-form input{flex:1;min-width:160px;padding:.72rem .9rem;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);border-radius:var(--r);font-family:var(--fb);font-size:.85rem;color:#fff;outline:none;transition:border-color .2s}
+    .nl-inline-form input::placeholder{color:rgba(255,255,255,.45)}
+    .nl-inline-form input:focus{border-color:rgba(255,255,255,.5)}
+    .btn-nl-inline{background:var(--hl2);color:#fff;padding:.72rem 1.1rem;border:none;border-radius:var(--r);font-family:var(--fd);font-size:.72rem;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .btn-nl-inline:hover{background:#d97706}
+
+    /* FOOTER */
+    #main-footer{background:#0d2518;color:rgba(255,255,255,.7);padding:60px 32px 32px}
+    .ft-in{max-width:1200px;margin:0 auto}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+    .ft-brand{color:rgba(255,255,255,.7)}
+    .ft-tagline{font-size:.88rem;line-height:1.6;margin-top:12px;max-width:280px;color:rgba(255,255,255,.55)}
+    .ft-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:rgba(255,255,255,.9);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
+    .ft-col ul{list-style:none}
+    .ft-col ul li{margin-bottom:10px}
+    .ft-col ul li a{color:rgba(255,255,255,.6);font-size:.88rem;transition:color .2s;text-decoration:none}
+    .ft-col ul li a:hover{color:#4ade80}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+
+    /* ANIMATIONS */
+    .rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+    .rv.in{opacity:1;transform:translateY(0)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+    .bc.hidden{display:none}
+
+    @media(max-width:1024px){.featured-article{grid-template-columns:1fr}.fa-img{aspect-ratio:16/9}.blog-grid{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr 1fr}.ft-brand{grid-column:span 2}}
+    @media(max-width:768px){.hmbg{display:flex}#main-nav{display:none}.blog-grid{grid-template-columns:1fr}.nl-inline-form{flex-direction:column}.btn-nl-inline{width:100%}.ft-top{grid-template-columns:1fr}.ft-brand{grid-column:span 1}.ft-bot{flex-direction:column;gap:12px;text-align:center}}
+
+    /* ── ARTICLE DRAWER ───────────────────────────── */
+    .bc,.featured-article{cursor:pointer}
+    .art-overlay{position:fixed;inset:0;background:rgba(5,20,12,.6);z-index:2000;opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(4px)}
+    .art-overlay.open{opacity:1;pointer-events:all}
+    .art-drawer{position:fixed;top:0;right:0;bottom:0;width:min(760px,100vw);background:#fff;z-index:2001;transform:translateX(105%);transition:transform .42s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-8px 0 40px rgba(0,0,0,.18)}
+    .art-drawer.open{transform:translateX(0)}
+    .art-topbar{flex-shrink:0;height:3px;background:#f0f0ec}
+    .art-readprog{height:100%;width:0%;background:linear-gradient(90deg,#16a34a,#f59e0b);transition:width .08s linear}
+    .art-header{flex-shrink:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .art-header-meta{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:#9a9a9a;letter-spacing:.05em}
+    .art-close{background:none;border:1px solid #e5e7eb;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#374151;transition:all .2s;flex-shrink:0}
+    .art-close:hover{background:#f3f4f6;border-color:#d1d5db}
+    .art-scroll{flex:1;overflow-y:auto;scroll-behavior:smooth}
+    .art-hero-img{width:100%;aspect-ratio:16/7;object-fit:cover;display:block}
+    .art-inner{padding:40px 48px 80px;max-width:680px;margin:0 auto}
+    .art-badge{display:inline-block;font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 12px;border-radius:20px;margin-bottom:16px}
+    .art-inner h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.55rem,3vw,2.1rem);font-weight:800;color:#0a0a0a;line-height:1.22;margin-bottom:14px}
+    .art-byline{font-size:.8rem;color:#9a9a9a;font-family:'Syne',sans-serif;font-weight:600;margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid #f0f0ec;display:flex;align-items:center;gap:12px}
+    .art-byline span{background:#f0f0ec;padding:3px 10px;border-radius:20px}
+    .art-inner h2{font-family:'Playfair Display',serif;font-size:1.22rem;font-weight:800;color:#0a0a0a;margin:36px 0 12px;padding-bottom:6px;border-bottom:2px solid #f0fdf4}
+    .art-inner p{font-size:.97rem;color:#374151;line-height:1.88;margin-bottom:18px}
+    .art-inner ul,.art-inner ol{margin:4px 0 20px 22px;color:#374151;font-size:.94rem;line-height:1.8}
+    .art-inner li{margin-bottom:9px}
+    .art-inner strong{color:#1a2e1a}
+    .art-callout{background:#f0fdf4;border-left:4px solid #16a34a;border-radius:0 8px 8px 0;padding:14px 20px;margin:22px 0;font-size:.91rem;color:#166534;line-height:1.75}
+    .art-warn{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:14px 20px;margin:22px 0;font-size:.91rem;color:#92400e;line-height:1.75}
+    .art-inner code{font-family:'Fira Code','Courier New',monospace;background:#1e293b;color:#86efac;padding:2px 8px;border-radius:4px;font-size:.87em}
+    .art-pre{background:#1e293b;border-radius:10px;padding:22px 26px;margin:22px 0;overflow-x:auto}
+    .art-pre code{background:none;padding:0;color:#e2e8f0;font-size:.87rem;line-height:1.75;display:block}
+    .kw{color:#7dd3fc}.fn{color:#86efac}.str{color:#fcd34d}.cm{color:#64748b}
+    .art-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.88rem}
+    .art-table th{background:#1a3a2a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+    .art-table td{padding:9px 14px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+    .art-table tr:nth-child(even) td{background:#f9fafb}
+    .art-end{margin-top:48px;padding:24px;background:#f8f8f6;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+    .art-end p{font-size:.88rem;color:#6b7280;margin-bottom:12px}
+    .art-end a{display:inline-block;background:#1a3a2a;color:#fff;padding:10px 24px;border-radius:4px;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.04em;transition:background .2s}
+    .art-end a:hover{background:#14532d}
+    @media(max-width:600px){.art-inner{padding:24px 20px 60px}.art-header{padding:12px 16px}}
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<div id="mob-nav">
+  <button id="mob-close">&#10005;</button>
+  <a href="index.html">Inicio</a>
+  <a href="recursos.html">Recursos</a>
+  <a href="blog.html">Blog</a>
+  <a href="videos.html">Vídeos</a>
+  <a href="herramientas-datos.html">Herramientas</a>
+  <a href="sobre-mi.html">Sobre mí</a>
+  <a href="contacto.html" class="btn-p" style="font-size:1rem;padding:10px 24px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border-radius:50px;font-weight:600">Contacto</a>
+</div>
+
+<header id="main-header">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo-r">Ready</span><span class="logo-g">4Data</span>
+  </a>
+  <nav id="main-nav">
+    <a href="index.html">Inicio</a>
+    <a href="recursos.html">Recursos</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="herramientas-datos.html">Herramientas</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="contacto.html" class="nav-cta-btn">Contacto</a>
+  </nav>
+  <button class="hmbg" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-label">Blog</div>
+    <h1 class="page-hero-title">Artículos para empezar</h1>
+    <p class="page-hero-sub">Explico conceptos de datos de forma sencilla, con ejemplos del día a día.</p>
+  </div>
+</section>
+
+<!-- BLOG CONTENT -->
+<section class="sec-white">
+  <div class="cnt">
+
+    <!-- FEATURED ARTICLE -->
+    <div class="featured-article rv" data-article-id="a0">
+      <div class="fa-img">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop&q=80" alt="Código SQL en pantalla" loading="lazy">
+      </div>
+      <div class="fa-body">
+        <div class="fa-cat">Fundamentos</div>
+        <h2 class="fa-title">¿Qué es SQL y por qué todo el mundo habla de ello?</h2>
+        <p class="fa-excerpt">SQL es el lenguaje que usan las bases de datos. Pero no te asustes: si sabes usar Excel, ya entiendes la idea principal. En este artículo te explico qué es, para qué sirve y si tú necesitas aprenderlo.</p>
+        <div class="fa-meta">10 Ene 2025 &nbsp;·&nbsp; 8 min de lectura</div>
+        <a href="#" class="btn-read">Leer artículo →</a>
+      </div>
+    </div>
+
+    <!-- CATEGORY FILTERS -->
+    <div class="blog-filters rv d1">
+      <button class="bf-btn active" data-filter="all">Todo</button>
+      <button class="bf-btn" data-filter="Fundamentos">Fundamentos</button>
+      <button class="bf-btn" data-filter="SQL">SQL</button>
+      <button class="bf-btn" data-filter="Excel">Excel</button>
+      <button class="bf-btn" data-filter="Carrera">Carrera</button>
+      <button class="bf-btn" data-filter="Herramientas">Herramientas</button>
+    </div>
+
+    <!-- BLOG GRID -->
+    <div class="blog-grid" id="blogGrid">
+
+      <article class="bc rv" data-cat="Fundamentos" data-article-id="a1">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=700&auto=format&fit=crop&q=80" alt="Base de datos" loading="lazy">
+        </div>
+        <div class="bc-body">
+          <div class="bc-cat">Fundamentos</div>
+          <div class="bc-title">¿Qué es una base de datos? (explicado con analogías)</div>
+          <p class="bc-excerpt">Una base de datos es como un Excel muy ordenado. Pero hay mucho más. Te lo explico con ejemplos que usas a diario.</p>
+        </div>
+        <div class="bc-foot">
+          <span class="bc-meta">15 Ene 2025 &nbsp;·&nbsp; 6 min</span>
+          <a href="#" class="bc-link">Leer →</a>
+        </div>
+      </article>
+
+      <article class="bc rv d1" data-cat="Excel" data-article-id="a2">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&auto=format&fit=crop&q=80" alt="Excel en pantalla" loading="lazy">
+        </div>
+        <div class="bc-body">
+          <div class="bc-cat">Excel</div>
+          <div class="bc-title">Las 5 fórmulas de Excel que todo analista necesita</div>
+          <p class="bc-excerpt">BUSCARV, SUMAR.SI, CONTAR.SI, ÍNDICE+COINCIDIR y Tablas Dinámicas. Si dominas estas cinco, ya eres analista.</p>
+        </div>
+        <div class="bc-foot">
+          <span class="bc-meta">20 Ene 2025 &nbsp;·&nbsp; 5 min</span>
+          <a href="#" class="bc-link">Leer →</a>
+        </div>
+      </article>
+
+      <article class="bc rv d2" data-cat="SQL" data-article-id="a3">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=700&auto=format&fit=crop&q=80" alt="Pantalla con código" loading="lazy">
+        </div>
+        <div class="bc-body">
+          <div class="bc-cat">SQL</div>
+          <div class="bc-title">SELECT, FROM, WHERE: tu primer SQL en 10 minutos</div>
+          <p class="bc-excerpt">Las tres palabras más importantes de SQL. Con este artículo puedes hacer tu primera consulta real sin instalar nada.</p>
+        </div>
+        <div class="bc-foot">
+          <span class="bc-meta">25 Ene 2025 &nbsp;·&nbsp; 10 min</span>
+          <a href="#" class="bc-link">Leer →</a>
+        </div>
+      </article>
+
+      <article class="bc rv" data-cat="Carrera" data-article-id="a4">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&auto=format&fit=crop&q=80" alt="Personas trabajando" loading="lazy">
+        </div>
+        <div class="bc-body">
+          <div class="bc-cat">Carrera</div>
+          <div class="bc-title">¿Qué es un Data Analyst y cómo convertirte en uno?</div>
+          <p class="bc-excerpt">El rol más accesible del mundo de los datos. Te cuento qué hace, cuánto cobra y qué necesitas para conseguir tu primer trabajo.</p>
+        </div>
+        <div class="bc-foot">
+          <span class="bc-meta">1 Feb 2025 &nbsp;·&nbsp; 7 min</span>
+          <a href="#" class="bc-link">Leer →</a>
+        </div>
+      </article>
+
+      <article class="bc rv d1" data-cat="Herramientas" data-article-id="a5">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&auto=format&fit=crop&q=80" alt="Dashboard" loading="lazy">
+        </div>
+        <div class="bc-body">
+          <div class="bc-cat">Herramientas</div>
+          <div class="bc-title">Power BI vs Tableau vs Looker Studio: ¿cuál aprendo primero?</div>
+          <p class="bc-excerpt">Tres herramientas de visualización, tres públicos distintos. Te ayudo a elegir la correcta según tu situación.</p>
+        </div>
+        <div class="bc-foot">
+          <span class="bc-meta">5 Feb 2025 &nbsp;·&nbsp; 6 min</span>
+          <a href="#" class="bc-link">Leer →</a>
+        </div>
+      </article>
+
+      <article class="bc rv d2" data-cat="Fundamentos" data-article-id="a6">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=700&auto=format&fit=crop&q=80" alt="Gráfica de datos" loading="lazy">
+        </div>
+        <div class="bc-body">
+          <div class="bc-cat">Fundamentos</div>
+          <div class="bc-title">Datos en tiempo real vs datos históricos: ¿cuál es la diferencia?</div>
+          <p class="bc-excerpt">No es lo mismo mirar qué pasó ayer que saber qué está pasando ahora. Dos mundos distintos explicados sin tecnicismos.</p>
+        </div>
+        <div class="bc-foot">
+          <span class="bc-meta">10 Feb 2025 &nbsp;·&nbsp; 5 min</span>
+          <a href="#" class="bc-link">Leer →</a>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- NEWSLETTER INLINE -->
+    <div class="nl-inline rv">
+      <h3>¿Te gustan estos artículos?</h3>
+      <p>Recibe uno nuevo cada semana directamente en tu bandeja de entrada. Sin spam, solo datos.</p>
+      <form class="nl-inline-form" action="https://formspree.io/f/FORMSPREE_DATABYNU_AQUI" method="POST">
+        <input type="email" name="email" placeholder="tu@email.com" required autocomplete="email">
+        <button type="submit" class="btn-nl-inline">Suscribirme →</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="main-footer">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo-wrap" style="margin-bottom:4px">
+          <span class="logo-r" style="color:rgba(255,255,255,.9)">Ready</span><span class="logo-g">4Data</span>
+        </a>
+        <p class="ft-tagline">Aprende datos desde cero, sin miedo, sin código. El sitio donde los datos dejan de darte miedo.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Contenido</h4>
+        <ul>
+          <li><a href="recursos.html">Recursos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="videos.html">Vídeos</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Más</h4>
+        <ul>
+          <li><a href="sobre-mi.html">Sobre mí</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Ready4Data · Hecho con &#128154; para los curiosos de los datos</span>
+      <span style="color:rgba(255,255,255,.4)">Sin código. Sin miedo. Paso a paso.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="scroll.js"></script>
+
+<!-- ARTICLE DRAWER -->
+<div class="art-overlay" id="artOverlay"></div>
+<div class="art-drawer" id="artDrawer" role="dialog" aria-modal="true" aria-label="Artículo">
+  <div class="art-topbar"><div class="art-readprog" id="artReadProg"></div></div>
+  <div class="art-header">
+    <span class="art-header-meta" id="artHeaderMeta"></span>
+    <button class="art-close" id="artClose" aria-label="Cerrar artículo">✕</button>
+  </div>
+  <div class="art-scroll" id="artScroll">
+    <img class="art-hero-img" id="artHeroImg" src="" alt="">
+    <div class="art-inner" id="artInner"></div>
+  </div>
+</div>
+
+<script>
+// ── Blog category filter
+document.querySelectorAll('.bf-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.bf-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter=btn.dataset.filter;
+    document.querySelectorAll('.bc').forEach(card=>{
+      if(filter==='all'||card.dataset.cat===filter){card.classList.remove('hidden')}
+      else{card.classList.add('hidden')}
+    });
+  });
+});
+
+// ── Article content data
+const ARTICLES = {
+  a0:{
+    cat:'Fundamentos', title:'¿Qué es SQL y por qué todo el mundo habla de ello?',
+    meta:'10 Ene 2025', read:'8 min de lectura',
+    img:'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>Si llevas un tiempo oyendo hablar de "datos", "analítica" o "data science", habrás escuchado la palabra SQL. Aparece en todas partes: en ofertas de trabajo, en cursos, en conversaciones de equipo. Pero ¿qué es exactamente?</p>
+      <h2>La respuesta en una frase</h2>
+      <p><strong>SQL (Structured Query Language) es el lenguaje que usas para hablarle a una base de datos.</strong> Le preguntas cosas y ella te responde con datos.</p>
+      <div class="art-callout">💡 Piénsalo como Google, pero para los datos de tu empresa. En vez de buscar en internet, buscas en millones de filas de información interna.</div>
+      <h2>La analogía con Excel que lo hace todo más fácil</h2>
+      <p>Si sabes usar Excel, ya entiendes el 70% de SQL sin saberlo. En Excel tienes filas, columnas y hojas. En SQL tienes filas, columnas y tablas. La diferencia es que SQL puede manejar millones de filas sin que tu ordenador explote.</p>
+      <table class="art-table"><tr><th>Excel</th><th>SQL</th></tr><tr><td>Hoja</td><td>Tabla</td></tr><tr><td>Columna</td><td>Campo / columna</td></tr><tr><td>Fila</td><td>Registro / fila</td></tr><tr><td>Filtro</td><td>WHERE</td></tr><tr><td>SUMA()</td><td>SUM()</td></tr><tr><td>Tabla Dinámica</td><td>GROUP BY</td></tr></table>
+      <h2>Tu primera consulta SQL</h2>
+      <p>Toda consulta SQL empieza con tres palabras clave: <code>SELECT</code>, <code>FROM</code> y opcionalmente <code>WHERE</code>.</p>
+      <div class="art-pre"><code><span class="kw">SELECT</span> nombre, ventas, fecha
+<span class="kw">FROM</span>   pedidos
+<span class="kw">WHERE</span>  fecha >= <span class="str">'2024-01-01'</span>
+<span class="kw">ORDER BY</span> ventas <span class="kw">DESC</span>;</code></div>
+      <p>Traducido al español: <em>"Dame el nombre, las ventas y la fecha de la tabla pedidos, solo los del año 2024, ordenados de mayor a menor venta."</em></p>
+      <h2>¿Necesitas aprenderlo?</h2>
+      <p>Depende de tu rol. Pero si trabajas con datos de cualquier forma, la respuesta casi siempre es sí:</p>
+      <ul>
+        <li><strong>Analista de datos:</strong> imprescindible, es tu herramienta principal</li>
+        <li><strong>Marketing / negocio:</strong> muy útil para extraer tus propios informes sin depender del equipo técnico</li>
+        <li><strong>Directivo:</strong> no necesitas escribirlo, pero entenderlo te dará mucho poder en las reuniones</li>
+        <li><strong>Developer:</strong> probablemente ya lo sabes, pero nunca está de más reforzarlo</li>
+      </ul>
+      <div class="art-warn">⚠️ El mayor error que veo es esperar a tener tiempo para aprenderlo. 1 hora a la semana durante 3 meses y tendrás nivel para el 80% de los trabajos que piden SQL.</div>
+      <h2>Por dónde empezar</h2>
+      <p>No necesitas instalar nada para practicar SQL. Puedes empezar ahora mismo en el navegador con herramientas como <strong>SQLiteOnline.com</strong> o <strong>Mode Analytics</strong>. Y si quieres estructura, el recurso gratuito "SQL Cheatsheet para principiantes" de esta web tiene las 20 consultas que usarás el 80% del tiempo.</p>
+      <div class="art-callout">🎯 Objetivo realista: en 10 horas de práctica puedes dominar SELECT, FROM, WHERE, GROUP BY y JOIN. Eso es suficiente para la mayoría de roles de analista junior.</div>
+    `
+  },
+  a1:{
+    cat:'Fundamentos', title:'¿Qué es una base de datos? (explicado con analogías)',
+    meta:'15 Ene 2025', read:'6 min de lectura',
+    img:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>Cuando oyes "base de datos" quizás imaginas algo muy técnico y complicado. Pero en realidad ya interactúas con bases de datos docenas de veces al día sin saberlo.</p>
+      <h2>La analogía de la agenda de contactos</h2>
+      <p>Tu lista de contactos del móvil es una base de datos. Tiene filas (una por cada persona) y columnas (nombre, teléfono, email, foto). Cuando buscas a alguien, estás haciendo una consulta a esa base de datos.</p>
+      <p>Amazon, cuando guarda tus pedidos. Spotify, cuando recuerda qué canciones te gustan. Netflix, cuando sabe en qué minuto dejaste la película. Todas esas cosas viven en bases de datos.</p>
+      <h2>Diferencia entre Excel y una base de datos</h2>
+      <table class="art-table"><tr><th>Excel</th><th>Base de datos</th></tr><tr><td>Hasta ~1M filas (lento con muchas)</td><td>Millones o miles de millones de filas</td></tr><tr><td>Un archivo, un usuario a la vez</td><td>Miles de usuarios simultáneos</td></tr><tr><td>Manual y propenso a errores</td><td>Reglas de integridad automáticas</td></tr><tr><td>Difícil de relacionar datos</td><td>Diseñada para relacionar tablas</td></tr><tr><td>Para análisis personal</td><td>Para sistemas en producción</td></tr></table>
+      <h2>Tipos de bases de datos</h2>
+      <p>Hay dos grandes familias:</p>
+      <ul>
+        <li><strong>Relacionales (SQL):</strong> datos en tablas con relaciones entre ellas. Son las más comunes. Ejemplos: MySQL, PostgreSQL, Oracle, SQL Server.</li>
+        <li><strong>No relacionales (NoSQL):</strong> datos en formatos más flexibles (documentos, clave-valor, grafos). Ejemplos: MongoDB, Redis, Cassandra. Se usan cuando los datos no encajan bien en tablas.</li>
+      </ul>
+      <div class="art-callout">💡 Para el 90% de los roles de datos en empresas medianas, con saber manejar bases de datos relacionales (SQL) tienes más que suficiente.</div>
+      <h2>¿Cómo se relacionan las tablas?</h2>
+      <p>La magia de las bases de datos relacionales está en que puedes conectar tablas entre sí. Por ejemplo:</p>
+      <ul>
+        <li>Tabla <code>clientes</code>: id, nombre, email</li>
+        <li>Tabla <code>pedidos</code>: id, cliente_id, producto, importe</li>
+      </ul>
+      <p>El campo <code>cliente_id</code> conecta las dos tablas. Así puedes saber qué ha comprado cada cliente sin duplicar su información en cada pedido. A esta conexión se le llama <strong>clave foránea</strong> y a la consulta que las une se le llama <strong>JOIN</strong>.</p>
+      <div class="art-warn">⚠️ El error más común de los principiantes es guardar todo en un único Excel enorme. Las bases de datos están diseñadas para separar la información en tablas relacionadas y luego unirlas cuando las necesitas.</div>
+    `
+  },
+  a2:{
+    cat:'Excel', title:'Las 5 fórmulas de Excel que todo analista necesita',
+    meta:'20 Ene 2025', read:'5 min de lectura',
+    img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>Excel tiene cientos de fórmulas. Pero si dominas estas cinco, ya puedes hacer el trabajo del 80% de los analistas de datos. Son las que aparecen en todas las entrevistas, en todos los proyectos y en todos los informes.</p>
+      <h2>1. BUSCARV / XLOOKUP</h2>
+      <p><strong>Para qué sirve:</strong> buscar un valor en una tabla y traer información relacionada. Como cuando buscas un número de cliente y quieres saber su nombre.</p>
+      <div class="art-pre"><code><span class="cm">// Versión clásica</span>
+=<span class="fn">BUSCARV</span>(A2, tabla_clientes, 2, <span class="str">FALSO</span>)
+
+<span class="cm">// Versión moderna (Excel 365)</span>
+=<span class="fn">XLOOKUP</span>(A2, clientes[ID], clientes[Nombre])</code></div>
+      <div class="art-callout">💡 XLOOKUP es la evolución de BUSCARV. Si tienes Excel 365, úsala siempre: es más flexible, más rápida y no falla con columnas a la izquierda.</div>
+      <h2>2. SUMAR.SI y SUMAR.SI.CONJUNTO</h2>
+      <p><strong>Para qué sirve:</strong> sumar solo los valores que cumplen una condición. Ventas de Madrid, ingresos del Q1, pedidos mayores de 100€.</p>
+      <div class="art-pre"><code>=<span class="fn">SUMAR.SI</span>(ciudad, <span class="str">"Madrid"</span>, ventas)
+=<span class="fn">SUMAR.SI.CONJUNTO</span>(ventas, ciudad, <span class="str">"Madrid"</span>, año, 2024)</code></div>
+      <h2>3. CONTAR.SI y CONTAR.SI.CONJUNTO</h2>
+      <p><strong>Para qué sirve:</strong> contar cuántas filas cumplen un criterio. ¿Cuántos clientes hay en Barcelona? ¿Cuántos pedidos se cancelaron en enero?</p>
+      <div class="art-pre"><code>=<span class="fn">CONTAR.SI</span>(estado, <span class="str">"Cancelado"</span>)
+=<span class="fn">CONTAR.SI.CONJUNTO</span>(estado, <span class="str">"Cancelado"</span>, mes, <span class="str">"Enero"</span>)</code></div>
+      <h2>4. ÍNDICE + COINCIDIR</h2>
+      <p><strong>Para qué sirve:</strong> búsqueda bidireccional. Más potente que BUSCARV porque puede buscar en cualquier dirección y no le afecta insertar columnas.</p>
+      <div class="art-pre"><code>=<span class="fn">ÍNDICE</span>(columna_resultado,
+  <span class="fn">COINCIDIR</span>(valor_buscado, columna_búsqueda, 0))</code></div>
+      <div class="art-warn">⚠️ Si aún usas BUSCARV con el número de columna hardcodeado (como BUSCARV(A2,tabla,5,FALSO)), cuando alguien inserte una columna en medio tu fórmula devolverá resultados incorrectos en silencio. Usa XLOOKUP o ÍNDICE+COINCIDIR.</div>
+      <h2>5. Tablas dinámicas (no es fórmula, pero es imprescindible)</h2>
+      <p>Las tablas dinámicas no son una fórmula sino una función de Excel, pero son la herramienta más poderosa que tiene para análisis. Te permiten resumir, agrupar y cruzar datos en segundos.</p>
+      <ul>
+        <li>Inserta → Tabla Dinámica</li>
+        <li>Arrastra campos a Filas, Columnas y Valores</li>
+        <li>Cambia la función de agregación (suma, promedio, conteo)</li>
+        <li>Añade filtros y segmentadores para interactividad</li>
+      </ul>
+      <div class="art-callout">🎯 Reto: coge cualquier dataset (puedes bajarte uno de Kaggle) y practica estas 5 herramientas. En 2 horas tendrás más soltura que la mayoría de tus compañeros de trabajo.</div>
+    `
+  },
+  a3:{
+    cat:'SQL', title:'SELECT, FROM, WHERE: tu primer SQL en 10 minutos',
+    meta:'25 Ene 2025', read:'10 min de lectura',
+    img:'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>No necesitas instalar nada. No necesitas una cuenta en ningún sitio. En 10 minutos puedes escribir tu primera consulta SQL real y entender exactamente qué hace cada parte.</p>
+      <h2>Las tres palabras más importantes de SQL</h2>
+      <p>Casi todas las consultas SQL empiezan con estas tres palabras. Una vez que las entiendes, el resto es añadir matices.</p>
+      <h2>SELECT: qué quiero ver</h2>
+      <p><code>SELECT</code> le dice a la base de datos qué columnas quieres ver en el resultado. Es como elegir qué columnas mostrar en Excel.</p>
+      <div class="art-pre"><code><span class="cm">-- Ver todas las columnas</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> clientes;
+
+<span class="cm">-- Ver solo nombre y email</span>
+<span class="kw">SELECT</span> nombre, email
+<span class="kw">FROM</span> clientes;</code></div>
+      <div class="art-callout">💡 El asterisco (*) significa "todas las columnas". Úsalo para explorar, pero en producción siempre es mejor especificar las columnas que necesitas: es más rápido y más claro.</div>
+      <h2>FROM: de dónde vienen los datos</h2>
+      <p><code>FROM</code> indica la tabla de la que quieres extraer los datos. Una tabla es como una hoja de Excel: tiene filas y columnas.</p>
+      <div class="art-pre"><code><span class="kw">SELECT</span> nombre, ciudad, fecha_registro
+<span class="kw">FROM</span>   clientes;</code></div>
+      <h2>WHERE: el filtro</h2>
+      <p><code>WHERE</code> filtra los resultados. Solo devuelve las filas que cumplen la condición. Es exactamente lo mismo que el filtro de Excel, pero escrito como texto.</p>
+      <div class="art-pre"><code><span class="kw">SELECT</span> nombre, ventas
+<span class="kw">FROM</span>   pedidos
+<span class="kw">WHERE</span>  ciudad = <span class="str">'Madrid'</span>
+  <span class="kw">AND</span>  ventas > 500;</code></div>
+      <h2>El orden correcto de las cláusulas</h2>
+      <table class="art-table"><tr><th>Cláusula</th><th>Para qué</th><th>Obligatorio</th></tr><tr><td>SELECT</td><td>Qué columnas mostrar</td><td>Sí</td></tr><tr><td>FROM</td><td>De qué tabla</td><td>Sí</td></tr><tr><td>WHERE</td><td>Filtrar filas</td><td>No</td></tr><tr><td>GROUP BY</td><td>Agrupar y resumir</td><td>No</td></tr><tr><td>HAVING</td><td>Filtrar grupos</td><td>No</td></tr><tr><td>ORDER BY</td><td>Ordenar resultados</td><td>No</td></tr><tr><td>LIMIT</td><td>Limitar nº de filas</td><td>No</td></tr></table>
+      <div class="art-warn">⚠️ SQL se escribe en ese orden exacto. Si pones WHERE antes de FROM, dará error. Muchos principiantes tropiezan con esto al principio.</div>
+      <h2>Tu primer ejercicio real</h2>
+      <p>Ve a <strong>sqliteonline.com</strong>, haz clic en "Demo DB" y escribe esto:</p>
+      <div class="art-pre"><code><span class="kw">SELECT</span> name, age
+<span class="kw">FROM</span>   people
+<span class="kw">WHERE</span>  age > 25
+<span class="kw">ORDER BY</span> age <span class="kw">DESC</span>
+<span class="kw">LIMIT</span>  5;</code></div>
+      <p>Acabas de escribir tu primera consulta SQL real. Felicidades. Ahora cambia el número, cambia la columna, añade un segundo filtro con AND. Aprenderás 10 veces más rápido experimentando que leyendo.</p>
+      <div class="art-callout">🎯 Próximo paso: aprende GROUP BY y COUNT(). Con SELECT, FROM, WHERE, GROUP BY y COUNT() puedes hacer el 70% de las consultas que piden en entrevistas para analistas junior.</div>
+    `
+  },
+  a4:{
+    cat:'Carrera', title:'¿Qué es un Data Analyst y cómo convertirte en uno?',
+    meta:'1 Feb 2025', read:'7 min de lectura',
+    img:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>El rol de Data Analyst es probablemente el más accesible del mundo de los datos para alguien que viene de fuera. No necesitas un máster en estadística ni saber programar como un ingeniero. Pero sí necesitas saber exactamente qué hace esta persona y qué habilidades tiene.</p>
+      <h2>Qué hace un Data Analyst en su día a día</h2>
+      <ul>
+        <li>Extrae datos con SQL de bases de datos o plataformas de analítica</li>
+        <li>Limpia y prepara los datos (eliminar duplicados, corregir formatos, rellenar nulos)</li>
+        <li>Analiza patrones y tendencias para responder preguntas de negocio</li>
+        <li>Crea dashboards e informes en Power BI, Tableau o Looker</li>
+        <li>Presenta conclusiones a personas no técnicas (el CEO no quiere ver código)</li>
+      </ul>
+      <div class="art-callout">💡 La parte más infravalorada del trabajo es la comunicación. Puedes tener el análisis más brillante del mundo, pero si no sabes explicarlo a alguien de negocio, no sirve de nada.</div>
+      <h2>Habilidades que necesitas</h2>
+      <table class="art-table"><tr><th>Habilidad</th><th>Nivel requerido</th><th>Herramientas</th></tr><tr><td>SQL</td><td>Intermedio</td><td>BigQuery, Redshift, PostgreSQL</td></tr><tr><td>Excel/Sheets</td><td>Avanzado</td><td>Tablas dinámicas, Power Query</td></tr><tr><td>Visualización</td><td>Intermedio</td><td>Power BI, Tableau, Looker</td></tr><tr><td>Estadística</td><td>Básico</td><td>Media, mediana, correlación</td></tr><tr><td>Python/R</td><td>Básico (opcional)</td><td>Pandas, matplotlib</td></tr><tr><td>Comunicación</td><td>Alto</td><td>PowerPoint, storytelling</td></tr></table>
+      <h2>Cuánto cobra un Data Analyst en España</h2>
+      <p>Según datos de 2024:</p>
+      <ul>
+        <li><strong>Junior (0-2 años):</strong> 22.000–32.000 €/año</li>
+        <li><strong>Mid (2-5 años):</strong> 32.000–45.000 €/año</li>
+        <li><strong>Senior (5+ años):</strong> 45.000–65.000 €/año</li>
+      </ul>
+      <p>En startups tech los rangos suelen ser un 20-30% más altos. El trabajo remoto también está muy extendido en este sector.</p>
+      <h2>Diferencia con otros roles de datos</h2>
+      <table class="art-table"><tr><th>Rol</th><th>Foco</th><th>Habilidad clave</th></tr><tr><td>Data Analyst</td><td>Responder preguntas de negocio</td><td>SQL + visualización</td></tr><tr><td>Data Engineer</td><td>Construir pipelines de datos</td><td>Python + infraestructura</td></tr><tr><td>Data Scientist</td><td>Modelos predictivos y ML</td><td>Estadística + Python/R</td></tr><tr><td>BI Developer</td><td>Dashboards e informes</td><td>Power BI / Tableau</td></tr><tr><td>Analytics Engineer</td><td>Transformar datos en el DW</td><td>SQL + dbt</td></tr></table>
+      <h2>Cómo empezar si vienes de otro sector</h2>
+      <ol>
+        <li>Aprende SQL (3-4 semanas practicando 1h/día)</li>
+        <li>Domina Excel avanzado y Power BI (2-3 semanas)</li>
+        <li>Crea 2-3 proyectos propios con datos reales de Kaggle</li>
+        <li>Publica tu portfolio en GitHub y LinkedIn</li>
+        <li>Aplica a posiciones de "Junior Data Analyst" o "Business Analyst"</li>
+      </ol>
+      <div class="art-warn">⚠️ El error más común: esperar a "estar listo". Nadie está 100% listo. Las empresas buscan actitud de aprendizaje y un portfolio que demuestre que sabes hacer el trabajo, aunque sea con proyectos propios.</div>
+    `
+  },
+  a5:{
+    cat:'Herramientas', title:'Power BI vs Tableau vs Looker Studio: ¿cuál aprendo primero?',
+    meta:'5 Feb 2025', read:'6 min de lectura',
+    img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>Tres herramientas de visualización de datos que suenan parecidas pero están diseñadas para públicos muy distintos. Aquí te ayudo a elegir sin perder el tiempo aprendiendo la equivocada.</p>
+      <h2>La tabla comparativa definitiva</h2>
+      <table class="art-table"><tr><th></th><th>Power BI</th><th>Tableau</th><th>Looker Studio</th></tr><tr><td><strong>Precio</strong></td><td>~10€/mes (pro)</td><td>~70€/mes</td><td>Gratis</td></tr><tr><td><strong>Curva aprendizaje</strong></td><td>Media</td><td>Alta</td><td>Baja</td></tr><tr><td><strong>Potencia</strong></td><td>Alta</td><td>Muy alta</td><td>Media</td></tr><tr><td><strong>Integración</strong></td><td>Ecosistema Microsoft</td><td>Multi-plataforma</td><td>Google (GA4, Sheets, BigQuery)</td></tr><tr><td><strong>Empresa típica</strong></td><td>Mediana empresa española</td><td>Grandes corporaciones</td><td>Startups, marketing digital</td></tr></table>
+      <h2>Power BI: el más empleable en España</h2>
+      <p>Si buscas trabajo en España, <strong>Power BI es la mejor inversión</strong>. El 70% de las ofertas de analista de datos en España que piden una herramienta de visualización piden Power BI. Es más barato, está integrado con Excel (que ya conoces) y Microsoft lo está metiendo en todos los entornos corporativos.</p>
+      <div class="art-callout">✅ Aprende Power BI si: trabajas en o buscas trabajo en empresas medianas/grandes en España, ya usas Excel, o tu empresa usa Azure / Microsoft 365.</div>
+      <h2>Tableau: el más potente y el más difícil</h2>
+      <p>Tableau es la herramienta preferida de los Data Analysts más avanzados y de las grandes corporaciones internacionales. Sus visualizaciones son más ricas y tiene más profundidad analítica. Pero es caro y tiene una curva de aprendizaje más pronunciada.</p>
+      <div class="art-callout">✅ Aprende Tableau si: te orientas a grandes empresas internacionales, consultoras de datos, o si ya dominas Power BI y quieres diferenciarte.</div>
+      <h2>Looker Studio: el punto de entrada gratuito</h2>
+      <p>Looker Studio (antes Google Data Studio) es completamente gratis y se conecta de forma nativa con Google Analytics, Google Sheets, BigQuery y todas las herramientas de Google. Es perfecto para empezar.</p>
+      <div class="art-callout">✅ Aprende Looker Studio si: estás en marketing digital, trabajas mucho con datos de Google, o simplemente quieres empezar a hacer dashboards sin gastar nada.</div>
+      <h2>Mi recomendación</h2>
+      <p>Si estás empezando y no tienes claro tu camino: <strong>empieza con Looker Studio</strong> (gratis, fácil) para entender los conceptos de visualización, y luego pasa a <strong>Power BI</strong> para ser empleable en el mercado español. Si la empresa donde quieres trabajar usa Tableau, lo aprenderás en 3-4 semanas una vez que ya sepas Power BI.</p>
+      <div class="art-warn">⚠️ La herramienta importa menos que saber qué quieres comunicar con los datos. Un dashboard mediocre en Tableau no vale más que un dashboard claro y bien diseñado en Looker Studio.</div>
+    `
+  },
+  a6:{
+    cat:'Fundamentos', title:'Datos en tiempo real vs datos históricos: ¿cuál es la diferencia?',
+    meta:'10 Feb 2025', read:'5 min de lectura',
+    img:'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&auto=format&fit=crop&q=80',
+    body:`
+      <p>En el mundo de los datos hay dos preguntas muy distintas: "¿qué está pasando ahora mismo?" y "¿qué pasó el mes pasado?". Aunque parecen similares, responderlas requiere arquitecturas, herramientas y mentalidades completamente diferentes.</p>
+      <h2>Datos históricos (batch): el mundo del analista</h2>
+      <p>Los datos históricos se procesan en lotes (batches). Una vez al día, una vez a la semana, cada hora... se recogen todos los datos acumulados y se procesan juntos. El resultado es información sobre el pasado.</p>
+      <p><strong>Ejemplos cotidianos:</strong></p>
+      <ul>
+        <li>El informe de ventas del mes que se prepara cada lunes</li>
+        <li>El dashboard de métricas que se actualiza cada mañana</li>
+        <li>El análisis de comportamiento de usuarios del trimestre</li>
+      </ul>
+      <div class="art-callout">💡 La mayoría de los analistas de datos trabajan con datos históricos. SQL + un Data Warehouse (BigQuery, Snowflake) + Power BI es el stack estándar.</div>
+      <h2>Datos en tiempo real (streaming): el mundo del ingeniero</h2>
+      <p>Los datos en tiempo real se procesan en el momento en que se generan, con latencias de milisegundos o segundos. No esperas a que se acumulen: cada evento se procesa al instante.</p>
+      <p><strong>Ejemplos cotidianos:</strong></p>
+      <ul>
+        <li>Detección de fraude en una tarjeta de crédito (decisión en milisegundos)</li>
+        <li>Precios dinámicos de Uber o de un vuelo</li>
+        <li>Alertas de un sistema de monitorización en producción</li>
+        <li>El feed de Twitter/X en tiempo real</li>
+      </ul>
+      <h2>La tabla comparativa</h2>
+      <table class="art-table"><tr><th></th><th>Datos históricos (batch)</th><th>Datos en tiempo real (streaming)</th></tr><tr><td>Latencia</td><td>Horas o días</td><td>Milisegundos a segundos</td></tr><tr><td>Complejidad</td><td>Baja/Media</td><td>Alta</td></tr><tr><td>Coste</td><td>Menor</td><td>Mayor</td></tr><tr><td>Herramientas</td><td>SQL, dbt, Airflow</td><td>Kafka, Spark Streaming, Flink</td></tr><tr><td>Quién lo construye</td><td>Data Analyst / Engineer</td><td>Data Engineer senior</td></tr><tr><td>Casos de uso</td><td>Reporting, análisis, BI</td><td>Alertas, fraude, precios dinámicos</td></tr></table>
+      <h2>¿Cuándo necesitas tiempo real?</h2>
+      <p>Menos veces de lo que crees. Muchas empresas sobreestiman su necesidad de datos en tiempo real. Antes de invertir en una arquitectura de streaming (cara y compleja), pregúntate:</p>
+      <ul>
+        <li>¿La decisión de negocio cambia si tengo los datos con 15 minutos de retraso?</li>
+        <li>¿El coste de no actuar inmediatamente supera el coste de construir streaming?</li>
+        <li>¿Tenemos el equipo técnico para mantener Kafka en producción?</li>
+      </ul>
+      <p>Si la respuesta a las tres es no, probablemente <strong>near-real-time</strong> (actualizaciones cada 5-15 minutos) sea suficiente y mucho más sencillo de implementar.</p>
+      <div class="art-warn">⚠️ El error más caro que veo en empresas medianas: construir una arquitectura de streaming compleja cuando un proceso batch cada hora habría resuelto el problema al 10% del coste.</div>
+    `
+  }
+};
+
+// ── Modal drawer logic
+const overlay = document.getElementById('artOverlay');
+const drawer  = document.getElementById('artDrawer');
+const scroller= document.getElementById('artScroll');
+const prog    = document.getElementById('artReadProg');
+const headerMeta = document.getElementById('artHeaderMeta');
+const inner   = document.getElementById('artInner');
+const heroImg = document.getElementById('artHeroImg');
+
+function openArticle(id){
+  const art = ARTICLES[id];
+  if(!art) return;
+  // Populate
+  heroImg.src = art.img;
+  heroImg.alt = art.title;
+  headerMeta.textContent = art.cat + ' · ' + art.read;
+  inner.innerHTML = `
+    <span class="art-badge">${art.cat}</span>
+    <h1>${art.title}</h1>
+    <div class="art-byline">
+      <span>${art.meta}</span>
+      <span>${art.read}</span>
+    </div>
+    <div>${art.body}</div>
+    <div class="art-end">
+      <p>¿Te ha sido útil este artículo? Compártelo con alguien que esté empezando en datos.</p>
+      <a href="blog.html">Ver todos los artículos →</a>
+    </div>`;
+  scroller.scrollTop = 0;
+  prog.style.width = '0%';
+  // Open
+  overlay.classList.add('open');
+  drawer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  drawer.focus();
+}
+
+function closeArticle(){
+  overlay.classList.remove('open');
+  drawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Read progress inside drawer
+scroller.addEventListener('scroll',()=>{
+  const pct = scroller.scrollTop / (scroller.scrollHeight - scroller.clientHeight) * 100;
+  prog.style.width = Math.min(pct,100) + '%';
+});
+
+// Click triggers
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-article-id]');
+  if(el){
+    e.preventDefault();
+    openArticle(el.dataset.articleId);
+  }
+});
+
+overlay.addEventListener('click', closeArticle);
+document.getElementById('artClose').addEventListener('click', closeArticle);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeArticle(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Plantilla CV para Roles de Datos — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Syne:wght@700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.65;max-width:860px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:48px 0 40px;border-bottom:3px solid #16a34a;margin-bottom:40px}
+  .cover-badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+  .cover h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#1a2e1a;margin-bottom:8px}
+  .cover p{color:#6b7280;font-size:1rem}
+  .cover-meta{margin-top:16px;font-size:.82rem;color:#9ca3af}
+  h2{font-size:1.1rem;font-weight:700;color:#fff;background:#1a2e1a;padding:9px 16px;border-radius:6px;margin:36px 0 14px}
+  .tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#166534}
+  .tip::before{content:'💡 '}
+  .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#991b1b}
+  .warn::before{content:'❌ '}
+  .good{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin:8px 0;font-size:.88rem;color:#166534}
+  .good::before{content:'✅ '}
+  /* CV Template */
+  .cv-template{border:2px dashed #d1d5db;border-radius:12px;padding:32px 36px;margin:20px 0;background:#fafafa}
+  .cv-name{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#1a2e1a;margin-bottom:4px}
+  .cv-title{font-size:1rem;color:#16a34a;font-weight:600;margin-bottom:8px}
+  .cv-contact{font-size:.82rem;color:#6b7280;margin-bottom:20px}
+  .cv-section{margin:20px 0}
+  .cv-section-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#16a34a;border-bottom:2px solid #dcfce7;padding-bottom:4px;margin-bottom:12px}
+  .cv-summary{font-size:.9rem;color:#374151;background:#f0fdf4;padding:12px 14px;border-radius:6px;border-left:3px solid #16a34a}
+  .cv-exp{margin-bottom:16px}
+  .cv-exp-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+  .cv-exp-title{font-weight:700;font-size:.95rem}
+  .cv-exp-date{font-size:.8rem;color:#9ca3af}
+  .cv-exp-company{font-size:.88rem;color:#6b7280;margin-bottom:6px}
+  .cv-exp-bullets{list-style:none;margin-left:0}
+  .cv-exp-bullets li{font-size:.86rem;color:#374151;padding:3px 0 3px 16px;position:relative}
+  .cv-exp-bullets li::before{content:'▸';position:absolute;left:0;color:#16a34a;font-size:.8rem}
+  .cv-skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cv-skill-cat{font-size:.8rem}
+  .cv-skill-label{font-weight:600;color:#1a2e1a;margin-bottom:2px}
+  .cv-skill-items{color:#6b7280;font-size:.82rem}
+  .placeholder{color:#9ca3af;font-style:italic}
+  p{margin-bottom:14px;color:#374151;font-size:.92rem}
+  ul{margin:8px 0 14px 20px;color:#374151;font-size:.9rem}
+  li{margin-bottom:8px}
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  @media print{body{padding:20px}.cv-template{border:1px solid #e5e7eb}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">Plantilla CV datos</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">Carrera · Todos los niveles</div>
+  <h1>Plantilla de CV para<br>Roles de Datos</h1>
+  <p>Cómo destacar lo que ya sabes aunque no tengas experiencia formal en datos.</p>
+  <div class="cover-meta">Ready4Data · Consejos basados en 20+ años contratando y siendo contratado en el sector</div>
+</div>
+
+<h2>📋 La plantilla base</h2>
+<p>A continuación tienes una plantilla con texto de ejemplo. Los campos en <em>cursiva gris</em> son los que debes personalizar:</p>
+
+<div class="cv-template">
+  <div class="cv-name">Tu Nombre Completo</div>
+  <div class="cv-title">Data Analyst · Analista de Datos</div>
+  <div class="cv-contact">📧 tuemail@gmail.com &nbsp;|&nbsp; 💼 linkedin.com/in/tuperfil &nbsp;|&nbsp; 🐙 github.com/tuusuario &nbsp;|&nbsp; 📍 Madrid, España</div>
+
+  <div class="cv-section">
+    <div class="cv-section-title">Perfil profesional</div>
+    <div class="cv-summary">
+      <span class="placeholder">Analista de datos con formación en SQL, Excel avanzado y Power BI. [X] años de experiencia en [sector anterior] con exposición a análisis de datos operativos. En proceso de transición hacia roles de datos con foco en [área: e-commerce / RRHH / finanzas / marketing]. Portfolio disponible en GitHub.</span>
+    </div>
+  </div>
+
+  <div class="cv-section">
+    <div class="cv-section-title">Habilidades técnicas</div>
+    <div class="cv-skills-grid">
+      <div class="cv-skill-cat">
+        <div class="cv-skill-label">Lenguajes y consultas</div>
+        <div class="cv-skill-items"><span class="placeholder">SQL (intermedio), Python básico</span></div>
+      </div>
+      <div class="cv-skill-cat">
+        <div class="cv-skill-label">Visualización</div>
+        <div class="cv-skill-items"><span class="placeholder">Power BI, Tableau, Looker Studio</span></div>
+      </div>
+      <div class="cv-skill-cat" style="margin-top:8px">
+        <div class="cv-skill-label">Hojas de cálculo</div>
+        <div class="cv-skill-items"><span class="placeholder">Excel avanzado, Power Query, Google Sheets</span></div>
+      </div>
+      <div class="cv-skill-cat" style="margin-top:8px">
+        <div class="cv-skill-label">Plataformas y herramientas</div>
+        <div class="cv-skill-items"><span class="placeholder">BigQuery, dbt (básico), Git, Jira</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cv-section">
+    <div class="cv-section-title">Proyectos de datos (Portfolio)</div>
+    <div class="cv-exp">
+      <div class="cv-exp-head">
+        <span class="cv-exp-title"><span class="placeholder">Análisis de Ventas E-commerce — Proyecto personal</span></span>
+        <span class="cv-exp-date"><span class="placeholder">2024</span></span>
+      </div>
+      <ul class="cv-exp-bullets">
+        <li><span class="placeholder">Análisis de 50.000 pedidos usando SQL (BigQuery) para identificar patrones de abandono de carrito</span></li>
+        <li><span class="placeholder">Dashboard en Power BI con 8 visualizaciones mostrando KPIs de ventas, tasa de devolución y LTV por segmento</span></li>
+        <li><span class="placeholder">Hallazgo: los clientes que reciben email de bienvenida tienen un 23% más de tasa de recompra</span></li>
+        <li><span class="placeholder">Código disponible en github.com/tuusuario/analisis-ecommerce</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cv-section">
+    <div class="cv-section-title">Experiencia profesional</div>
+    <div class="cv-exp">
+      <div class="cv-exp-head">
+        <span class="cv-exp-title"><span class="placeholder">Gestor / Responsable de [tu área anterior]</span></span>
+        <span class="cv-exp-date"><span class="placeholder">2020 – 2024</span></span>
+      </div>
+      <div class="cv-exp-company"><span class="placeholder">Empresa Anterior, S.L. — Madrid</span></div>
+      <ul class="cv-exp-bullets">
+        <li><span class="placeholder">Elaboré informes semanales de [ventas/producción/RRHH] con Excel, reduciendo el tiempo de preparación en 3 horas/semana</span></li>
+        <li><span class="placeholder">Automaticé el cruce de datos de [sistema A] con [sistema B] usando Power Query, eliminando errores manuales</span></li>
+        <li><span class="placeholder">Propuse y lideré mejora de proceso basada en análisis de datos que generó un ahorro de X€/año</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cv-section">
+    <div class="cv-section-title">Formación y certificaciones</div>
+    <div class="cv-exp">
+      <div class="cv-exp-head">
+        <span class="cv-exp-title"><span class="placeholder">Certificación Microsoft Power BI (PL-300) — en curso</span></span>
+        <span class="cv-exp-date"><span class="placeholder">2024</span></span>
+      </div>
+    </div>
+    <div class="cv-exp">
+      <div class="cv-exp-head">
+        <span class="cv-exp-title"><span class="placeholder">SQL para Análisis de Datos — Kaggle Learn</span></span>
+        <span class="cv-exp-date"><span class="placeholder">2024</span></span>
+      </div>
+    </div>
+    <div class="cv-exp">
+      <div class="cv-exp-head">
+        <span class="cv-exp-title"><span class="placeholder">Grado en [tu carrera] — Universidad de [tu ciudad]</span></span>
+        <span class="cv-exp-date"><span class="placeholder">2015 – 2019</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>✍️ Reglas de oro para el CV de datos</h2>
+
+<p><strong>1. Cuantifica siempre que puedas</strong></p>
+<div class="warn">"Mejoré los procesos de reporting de la empresa"</div>
+<div class="good">"Reduje de 8h a 2h/semana el tiempo de preparación de informes automatizando con Power Query"</div>
+
+<p><strong>2. Muestra impacto, no tareas</strong></p>
+<div class="warn">"Hice consultas SQL para extraer datos"</div>
+<div class="good">"Desarrollé 15 consultas SQL que permitieron identificar un segmento de clientes con 3x mayor LTV"</div>
+
+<p><strong>3. Incluye SIEMPRE un enlace a tu portfolio</strong></p>
+<p>Un recruiter de datos mira primero tu GitHub/portfolio, luego el CV. Si no tienes portfolio, tienes un 70% menos de posibilidades. No tiene que ser perfecto: 1-2 proyectos bien explicados son suficientes.</p>
+
+<p><strong>4. Adapta las palabras clave a la oferta</strong></p>
+<p>Los ATS (sistemas de filtrado automático) buscan palabras exactas. Si la oferta dice "Power BI" y tú pones "Powerbi", puedes quedar descartado automáticamente. Copia las palabras clave exactas de la oferta.</p>
+
+<p><strong>5. Nunca pongas esto en el CV de datos</strong></p>
+<ul>
+  <li>Barras de progreso para habilidades (son subjetivas e inútiles)</li>
+  <li>Foto (en España no es obligatorio y puede generar sesgos)</li>
+  <li>Objetivo profesional genérico ("busco un puesto que me permita crecer...")</li>
+  <li>Referencias "disponibles bajo petición" (se sobreentiende)</li>
+  <li>Cursos sin terminar (a menos que estén a punto de acabar)</li>
+</ul>
+
+<h2>🎯 Qué buscan los recruiters en datos junior</h2>
+
+<p>He hablado con decenas de recruiters especializados en datos. Esto es lo que priorizan:</p>
+<ul>
+  <li><strong>SQL funcional</strong> — No perfecto, pero que puedas hacer consultas reales</li>
+  <li><strong>Portfolio con proyectos propios</strong> — Aunque sean de datos de Kaggle</li>
+  <li><strong>Curiosidad y mentalidad de aprendizaje</strong> — Visible en posts de LinkedIn, cursos, actividad en GitHub</li>
+  <li><strong>Conocimiento del sector</strong> — Si aplicas a una empresa de fintech, habla el idioma del fintech</li>
+  <li><strong>Comunicación</strong> — En los datos vale de poco analizar si no puedes explicarlo</li>
+</ul>
+
+<div class="tip">El mercado de datos en España busca perfiles junior con muchas más ganas que con las habilidades perfectas. Una actitud de aprendizaje continuo y un portfolio, aunque sea pequeño, abren más puertas que 10 certificados sin práctica.</div>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

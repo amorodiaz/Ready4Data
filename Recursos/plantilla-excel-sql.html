@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Plantilla Excel → SQL — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.65;max-width:900px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:48px 0 40px;border-bottom:3px solid #16a34a;margin-bottom:40px}
+  .cover-badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+  .cover h1{font-size:2.2rem;font-weight:800;color:#1a2e1a;margin-bottom:8px}
+  .cover p{color:#6b7280;font-size:1rem}
+  .cover-meta{margin-top:16px;font-size:.82rem;color:#9ca3af}
+  h2{font-size:1.15rem;font-weight:700;color:#fff;background:#1a2e1a;padding:10px 16px;border-radius:6px;margin:36px 0 16px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;align-items:start}
+  .pair-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .excel-side .pair-label{color:#217346} /* Excel green */
+  .sql-side .pair-label{color:#16a34a}
+  .excel-box{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:14px 16px;font-family:'Fira Code',monospace;font-size:.83rem;color:#1b5e20}
+  .sql-box{background:#1e293b;border-radius:8px;padding:14px 16px;font-family:'Fira Code',monospace;font-size:.83rem;color:#e2e8f0}
+  .kw{color:#7dd3fc} .fn{color:#86efac} .str{color:#fcd34d} .cm{color:#64748b}
+  .tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:.88rem;color:#166534}
+  .tip::before{content:'💡 '}
+  .warn{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:.88rem;color:#92400e}
+  .warn::before{content:'⚠️ '}
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  @media(max-width:680px){.pair{grid-template-columns:1fr}}
+  @media print{body{padding:20px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">Plantilla Excel → SQL</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">Plantilla · Nivel 1 · Excel + SQL</div>
+  <h1>Plantilla Excel → SQL</h1>
+  <p>Traduce tus fórmulas favoritas de Excel a SQL. Con ejemplos reales.</p>
+  <div class="cover-meta">Ready4Data · Si ya sabes Excel, ya tienes la mitad del camino recorrido</div>
+</div>
+
+<h2>SUMA / CONTAR → SUM / COUNT</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=SUMA(B2:B100)<br>=CONTAR(B2:B100)<br>=CONTARA(B2:B100)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span>
+  <span class="fn">SUM</span>(importe),
+  <span class="fn">COUNT</span>(*),
+  <span class="fn">COUNT</span>(email) <span class="cm">-- no nulos</span>
+<span class="kw">FROM</span> ventas;</div>
+  </div>
+</div>
+<div class="tip">COUNT(*) cuenta todas las filas. COUNT(columna) cuenta solo los no nulos. Como CONTARA en Excel.</div>
+
+<h2>PROMEDIO / MIN / MAX → AVG / MIN / MAX</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=PROMEDIO(C2:C100)<br>=MIN(C2:C100)<br>=MAX(C2:C100)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span>
+  <span class="fn">AVG</span>(precio),
+  <span class="fn">MIN</span>(precio),
+  <span class="fn">MAX</span>(precio)
+<span class="kw">FROM</span> productos;</div>
+  </div>
+</div>
+
+<h2>SI → CASE WHEN</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=SI(B2>1000,"Premium","Normal")<br><br>=SI(B2>1000,"A",<br>  SI(B2>500,"B","C"))</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">CASE</span>
+  <span class="kw">WHEN</span> ventas > 1000 <span class="kw">THEN</span> <span class="str">'Premium'</span>
+  <span class="kw">WHEN</span> ventas > 500  <span class="kw">THEN</span> <span class="str">'Medio'</span>
+  <span class="kw">ELSE</span> <span class="str">'Básico'</span>
+<span class="kw">END AS</span> categoria</div>
+  </div>
+</div>
+
+<h2>SUMAR.SI → SUM con WHERE / GROUP BY</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=SUMAR.SI(<br>  A2:A100,"Madrid",<br>  B2:B100<br>)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span> <span class="fn">SUM</span>(ventas)
+<span class="kw">FROM</span> pedidos
+<span class="kw">WHERE</span> ciudad = <span class="str">'Madrid'</span>;
+
+<span class="cm">-- Por todas las ciudades:</span>
+<span class="kw">SELECT</span> ciudad, <span class="fn">SUM</span>(ventas)
+<span class="kw">FROM</span> pedidos
+<span class="kw">GROUP BY</span> ciudad;</div>
+  </div>
+</div>
+
+<h2>CONTAR.SI → COUNT con WHERE / GROUP BY</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=CONTAR.SI(<br>  A2:A100,"Activo"<br>)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span> <span class="fn">COUNT</span>(*)
+<span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> estado = <span class="str">'Activo'</span>;
+
+<span class="cm">-- Todos los estados:</span>
+<span class="kw">SELECT</span> estado, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total
+<span class="kw">FROM</span> clientes
+<span class="kw">GROUP BY</span> estado;</div>
+  </div>
+</div>
+
+<h2>BUSCARV / XLOOKUP → JOIN</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box"><span class="cm">-- Buscar nombre del cliente</span>
+=BUSCARV(<br>  B2,          <span class="cm">-- lo que busco</span>
+  Clientes!A:C, <span class="cm">-- dónde</span>
+  2,           <span class="cm">-- qué columna</span>
+  FALSO<br>)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span>
+  p.id,
+  p.fecha,
+  c.nombre, <span class="cm">-- "columna 2"</span>
+  p.importe
+<span class="kw">FROM</span> pedidos p
+<span class="kw">JOIN</span> clientes c
+  <span class="kw">ON</span> p.cliente_id = c.id;</div>
+  </div>
+</div>
+<div class="tip">El JOIN en SQL es mucho más potente que BUSCARV: no tiene límite de columnas, es más rápido y puede cruzar múltiples tablas.</div>
+
+<h2>ÍNDICE + COINCIDIR → JOIN con condición</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=ÍNDICE(<br>  Precios!B:B,<br>  COINCIDIR(<br>    A2,<br>    Precios!A:A,<br>    0<br>  )<br>)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span>
+  p.producto_id,
+  pr.precio <span class="cm">-- "columna B de Precios"</span>
+<span class="kw">FROM</span> pedidos p
+<span class="kw">JOIN</span> precios pr
+  <span class="kw">ON</span> p.producto_id = pr.producto_id;</div>
+  </div>
+</div>
+
+<h2>Tabla Dinámica → GROUP BY</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel — Tabla dinámica</div>
+    <div class="excel-box">Filas: Ciudad<br>Columnas: Categoría<br>Valores: SUMA de Ventas<br>Filtro: Año = 2024</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span>
+  ciudad,
+  categoria,
+  <span class="fn">SUM</span>(ventas) <span class="kw">AS</span> total
+<span class="kw">FROM</span> pedidos
+<span class="kw">WHERE</span> <span class="fn">YEAR</span>(fecha) = 2024
+<span class="kw">GROUP BY</span> ciudad, categoria
+<span class="kw">ORDER BY</span> ciudad, total <span class="kw">DESC</span>;</div>
+  </div>
+</div>
+
+<h2>CONCATENAR / CONCAT → CONCAT</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=CONCATENAR(A2," ",B2)<br>=A2&" "&B2<br>=CONCAT(A2:C2)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="kw">SELECT</span>
+  <span class="fn">CONCAT</span>(nombre, <span class="str">' '</span>, apellido)
+    <span class="kw">AS</span> nombre_completo
+<span class="kw">FROM</span> clientes;
+
+<span class="cm">-- En algunos SGBD:</span>
+nombre || <span class="str">' '</span> || apellido</div>
+  </div>
+</div>
+
+<h2>IZQUIERDA / DERECHA / EXTRAE → SUBSTRING</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=IZQUIERDA(A2, 3)<br>=DERECHA(A2, 4)<br>=EXTRAE(A2, 3, 5)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="fn">LEFT</span>(codigo, 3)
+<span class="fn">RIGHT</span>(codigo, 4)
+<span class="fn">SUBSTRING</span>(codigo, 3, 5)
+<span class="cm">-- posición inicio, longitud</span></div>
+  </div>
+</div>
+
+<h2>LARGO / ESPACIOS → LENGTH / TRIM</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=LARGO(A2)<br>=ESPACIOS(A2)<br>=MAYUSC(A2)<br>=MINUSC(A2)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="fn">LENGTH</span>(nombre)
+<span class="fn">TRIM</span>(nombre)
+<span class="fn">UPPER</span>(nombre)
+<span class="fn">LOWER</span>(nombre)</div>
+  </div>
+</div>
+
+<h2>SIERROR / SI.ERROR → COALESCE / NULLIF</h2>
+
+<div class="pair">
+  <div class="excel-side">
+    <div class="pair-label">Excel</div>
+    <div class="excel-box">=SIERROR(A2/B2, 0)<br><br>=SI(A2="", "Sin dato", A2)</div>
+  </div>
+  <div class="sql-side">
+    <div class="pair-label">SQL</div>
+    <div class="sql-box"><span class="cm">-- Divide, devuelve 0 si B es 0</span>
+CASE WHEN b = 0 THEN 0
+     ELSE a / b END
+
+<span class="cm">-- Valor por defecto si NULL</span>
+<span class="fn">COALESCE</span>(email, <span class="str">'Sin dato'</span>)</div>
+  </div>
+</div>
+
+<h2>Reglas de oro de la traducción Excel → SQL</h2>
+<ul style="margin:16px 0 16px 20px;color:#374151;font-size:.92rem">
+  <li style="margin-bottom:10px">Las <strong>fórmulas en columnas</strong> de Excel = <strong>SELECT</strong> en SQL</li>
+  <li style="margin-bottom:10px">Los <strong>filtros de fila</strong> de Excel = <strong>WHERE</strong> en SQL</li>
+  <li style="margin-bottom:10px">Las <strong>tablas dinámicas</strong> de Excel = <strong>GROUP BY</strong> en SQL</li>
+  <li style="margin-bottom:10px">El <strong>BUSCARV</strong> de Excel = <strong>JOIN</strong> en SQL (mucho más potente)</li>
+  <li style="margin-bottom:10px">El <strong>SI()</strong> de Excel = <strong>CASE WHEN</strong> en SQL</li>
+</ul>
+
+<div class="warn">La diferencia clave: en Excel trabajas fila por fila. En SQL trabajas con conjuntos de datos enteros. Eso hace SQL mucho más rápido para grandes volúmenes.</div>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

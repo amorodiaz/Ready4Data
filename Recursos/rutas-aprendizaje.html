@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Rutas de Aprendizaje — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Syne:wght@700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.65;max-width:900px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:48px 0 40px;border-bottom:3px solid #16a34a;margin-bottom:40px}
+  .cover-badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+  .cover h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#1a2e1a;margin-bottom:8px}
+  .cover p{color:#6b7280;font-size:1rem}
+  .cover-meta{margin-top:16px;font-size:.82rem;color:#9ca3af}
+  .ruta{border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin:28px 0}
+  .ruta-head{padding:20px 24px;display:flex;align-items:center;gap:16px}
+  .ruta-icon{font-size:2rem;width:56px;height:56px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08);flex-shrink:0}
+  .ruta-meta{flex:1}
+  .ruta-nivel{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .ruta-name{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:#1a2e1a;margin-bottom:4px}
+  .ruta-desc{font-size:.88rem;color:#6b7280}
+  .ruta-body{padding:0 24px 24px}
+  .phase{margin:20px 0}
+  .phase-header{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px dashed #e5e7eb}
+  .steps{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .step-item{display:flex;align-items:flex-start;gap:12px;font-size:.9rem}
+  .step-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:1px}
+  .step-text strong{display:block;font-size:.9rem;color:#1a2e1a}
+  .step-text span{font-size:.82rem;color:#6b7280}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+  .tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+  .duracion{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:#6b7280;margin-top:10px}
+  .tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px 16px;margin:24px 0;font-size:.9rem;color:#166534}
+  .tip::before{content:'💡 '}
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  /* Colors per route */
+  .r1 .ruta-head{background:linear-gradient(135deg,#f0fdf4,#dcfce7)} .r1 .ruta-nivel{color:#16a34a}
+  .r2 .ruta-head{background:linear-gradient(135deg,#eff6ff,#dbeafe)} .r2 .ruta-nivel{color:#3b82f6} .r2 .step-dot{background:#3b82f6;color:#fff}
+  .r3 .ruta-head{background:linear-gradient(135deg,#faf5ff,#f3e8ff)} .r3 .ruta-nivel{color:#a855f7} .r3 .step-dot{background:#a855f7;color:#fff}
+  .r4 .ruta-head{background:linear-gradient(135deg,#fff7ed,#fed7aa)} .r4 .ruta-nivel{color:#f59e0b} .r4 .step-dot{background:#f59e0b;color:#fff}
+  .r1 .step-dot{background:#16a34a;color:#fff}
+  .r1 .phase-header{color:#16a34a} .r2 .phase-header{color:#3b82f6} .r3 .phase-header{color:#a855f7} .r4 .phase-header{color:#f59e0b}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">Rutas de aprendizaje</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">Rutas · Todos los niveles</div>
+  <h1>Rutas de Aprendizaje</h1>
+  <p>4 caminos estructurados para llevarte de donde estás a donde quieres llegar</p>
+  <div class="cover-meta">Ready4Data · Elige tu ruta según tu nivel actual y tu objetivo profesional</div>
+</div>
+
+<!-- RUTA 1 -->
+<div class="ruta r1">
+  <div class="ruta-head">
+    <div class="ruta-icon">📊</div>
+    <div class="ruta-meta">
+      <div class="ruta-nivel">Ruta 1 · Nivel 0 → 2</div>
+      <div class="ruta-name">Analista de Datos</div>
+      <div class="ruta-desc">Para quienes parten desde cero o con Excel básico y quieren analizar datos y crear dashboards.</div>
+      <div class="duracion">⏱ Dedicación estimada: 4–6 meses a razón de 1–2 horas/día</div>
+    </div>
+  </div>
+  <div class="ruta-body">
+    <div class="phase">
+      <div class="phase-header">📍 Fase 1 — Fundamentos (mes 1–2)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">1</div><div class="step-text"><strong>Excel intermedio-avanzado</strong><span>Tablas dinámicas, BUSCARV, Power Query básico, gráficos</span></div></li>
+        <li class="step-item"><div class="step-dot">2</div><div class="step-text"><strong>SQL desde cero</strong><span>SELECT, WHERE, GROUP BY, ORDER BY, funciones básicas</span></div></li>
+        <li class="step-item"><div class="step-dot">3</div><div class="step-text"><strong>Conceptos de datos</strong><span>Qué es una base de datos, tipos de datos, modelo relacional</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Fase 2 — Herramientas BI (mes 2–4)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">4</div><div class="step-text"><strong>SQL intermedio</strong><span>JOINs, subconsultas, CTEs, funciones de ventana básicas</span></div></li>
+        <li class="step-item"><div class="step-dot">5</div><div class="step-text"><strong>Power BI fundamentals</strong><span>Conectar datos, modelo de datos básico, visualizaciones, DAX básico</span></div></li>
+        <li class="step-item"><div class="step-dot">6</div><div class="step-text"><strong>Estadística descriptiva</strong><span>Media, mediana, moda, varianza, percentiles, correlación básica</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Fase 3 — Portfolio y carrera (mes 4–6)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">7</div><div class="step-text"><strong>Proyecto 1: análisis de negocio</strong><span>Dataset real (e-commerce, RRHH, finanzas) + dashboard en Power BI</span></div></li>
+        <li class="step-item"><div class="step-dot">8</div><div class="step-text"><strong>Proyecto 2: sector de tu interés</strong><span>Datos del sector donde quieras trabajar</span></div></li>
+        <li class="step-item"><div class="step-dot">9</div><div class="step-text"><strong>CV, LinkedIn y entrevistas</strong><span>Cómo presentar tu portfolio sin experiencia formal</span></div></li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag">Excel</span><span class="tag">SQL</span><span class="tag">Power BI</span><span class="tag">Tableau</span><span class="tag">Estadística básica</span>
+    </div>
+  </div>
+</div>
+
+<!-- RUTA 2 -->
+<div class="ruta r2">
+  <div class="ruta-head">
+    <div class="ruta-icon">🔧</div>
+    <div class="ruta-meta">
+      <div class="ruta-nivel">Ruta 2 · Nivel 2 → 4</div>
+      <div class="ruta-name">Data Engineer</div>
+      <div class="ruta-desc">Para analistas con SQL sólido que quieren construir pipelines y trabajar con datos a escala.</div>
+      <div class="duracion">⏱ Dedicación estimada: 6–9 meses a razón de 1–2 horas/día</div>
+    </div>
+  </div>
+  <div class="ruta-body">
+    <div class="phase">
+      <div class="phase-header">📍 Fase 1 — SQL avanzado + Python (mes 1–3)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">1</div><div class="step-text"><strong>SQL avanzado</strong><span>Window functions, CTEs recursivos, optimización, índices</span></div></li>
+        <li class="step-item"><div class="step-dot">2</div><div class="step-text"><strong>Python para datos</strong><span>Pandas, NumPy, manejo de archivos CSV/JSON, APIs básicas</span></div></li>
+        <li class="step-item"><div class="step-dot">3</div><div class="step-text"><strong>Fundamentos de sistemas</strong><span>Terminal, Git, Docker básico, conceptos de redes</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Fase 2 — Plataformas cloud y dbt (mes 3–6)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">4</div><div class="step-text"><strong>Cloud Data Warehouse</strong><span>BigQuery o Snowflake: cargar datos, optimizar queries, costes</span></div></li>
+        <li class="step-item"><div class="step-dot">5</div><div class="step-text"><strong>dbt (data build tool)</strong><span>Transformaciones en SQL con dbt, tests, documentación, lineage</span></div></li>
+        <li class="step-item"><div class="step-dot">6</div><div class="step-text"><strong>Orquestación</strong><span>Apache Airflow: DAGs básicos, scheduling, monitorización</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Fase 3 — Proyecto end-to-end (mes 6–9)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">7</div><div class="step-text"><strong>Pipeline completo</strong><span>Ingestión de API → BigQuery → dbt → dashboard</span></div></li>
+        <li class="step-item"><div class="step-dot">8</div><div class="step-text"><strong>Kafka / Streaming básico</strong><span>Conceptos de procesamiento en tiempo real</span></div></li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag">Python</span><span class="tag">SQL avanzado</span><span class="tag">dbt</span><span class="tag">Airflow</span><span class="tag">BigQuery</span><span class="tag">Docker</span>
+    </div>
+  </div>
+</div>
+
+<!-- RUTA 3 -->
+<div class="ruta r3">
+  <div class="ruta-head">
+    <div class="ruta-icon">📈</div>
+    <div class="ruta-meta">
+      <div class="ruta-nivel">Ruta 3 · Nivel 1 → 3</div>
+      <div class="ruta-name">BI Developer</div>
+      <div class="ruta-desc">Para quienes quieren especializarse en visualización y reporting profesional con Power BI o Tableau.</div>
+      <div class="duracion">⏱ Dedicación estimada: 4–5 meses a razón de 1–2 horas/día</div>
+    </div>
+  </div>
+  <div class="ruta-body">
+    <div class="phase">
+      <div class="phase-header">📍 Fase 1 — Modelado de datos (mes 1–2)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">1</div><div class="step-text"><strong>SQL para BI</strong><span>Queries para reporting, optimización, vistas</span></div></li>
+        <li class="step-item"><div class="step-dot">2</div><div class="step-text"><strong>Modelado dimensional</strong><span>Esquema estrella, tablas de hechos y dimensiones, granularidad</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Fase 2 — Power BI avanzado (mes 2–4)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">3</div><div class="step-text"><strong>DAX intermedio-avanzado</strong><span>CALCULATE, FILTER, time intelligence, medidas vs columnas</span></div></li>
+        <li class="step-item"><div class="step-dot">4</div><div class="step-text"><strong>Diseño de dashboards</strong><span>UX para datos, paletas de color, jerarquía visual, storytelling</span></div></li>
+        <li class="step-item"><div class="step-dot">5</div><div class="step-text"><strong>Power Query avanzado</strong><span>Transformaciones M, limpieza de datos, fuentes de datos complejas</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Fase 3 — Portfolio BI (mes 4–5)</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">6</div><div class="step-text"><strong>3 dashboards portfolio</strong><span>Ventas, RRHH y un sector de tu elección. Publicados en Power BI Service.</span></div></li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Power Query</span><span class="tag">Tableau</span><span class="tag">SQL</span>
+    </div>
+  </div>
+</div>
+
+<!-- RUTA 4 -->
+<div class="ruta r4">
+  <div class="ruta-head">
+    <div class="ruta-icon">🚀</div>
+    <div class="ruta-meta">
+      <div class="ruta-nivel">Ruta 4 · Nivel 0 → 1</div>
+      <div class="ruta-name">Inicio Rápido (4 semanas)</div>
+      <div class="ruta-desc">Para quienes quieren ver resultados pronto. Foco máximo en lo que da trabajo más rápido.</div>
+      <div class="duracion">⏱ Dedicación estimada: 4 semanas · 2 horas/día</div>
+    </div>
+  </div>
+  <div class="ruta-body">
+    <div class="phase">
+      <div class="phase-header">📍 Semana 1 — SQL básico</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">1</div><div class="step-text"><strong>SELECT, FROM, WHERE</strong><span>Lo mínimo para leer datos de cualquier base de datos</span></div></li>
+        <li class="step-item"><div class="step-dot">2</div><div class="step-text"><strong>GROUP BY + funciones</strong><span>COUNT, SUM, AVG — el 80% del trabajo de un analista</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Semana 2 — Excel que importa</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">3</div><div class="step-text"><strong>Tablas dinámicas</strong><span>La herramienta más usada en el mundo empresarial</span></div></li>
+        <li class="step-item"><div class="step-dot">4</div><div class="step-text"><strong>BUSCARV + SI + condicionales</strong><span>Las fórmulas que piden en todas las ofertas de trabajo</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Semana 3 — Tu primera visualización</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">5</div><div class="step-text"><strong>Looker Studio (Google)</strong><span>Gratis, en el navegador, conecta con Google Sheets. Sin instalación.</span></div></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-header">📍 Semana 4 — Tu primer proyecto</div>
+      <ul class="steps">
+        <li class="step-item"><div class="step-dot">6</div><div class="step-text"><strong>Proyecto portfolio mínimo</strong><span>Analiza un dataset que te interese y crea 1 dashboard. Súbelo a LinkedIn.</span></div></li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag">SQL básico</span><span class="tag">Excel</span><span class="tag">Looker Studio</span>
+    </div>
+  </div>
+</div>
+
+<div class="tip">No existe una ruta "correcta". Elige la que se adapte a tu situación, tus objetivos y el tiempo que puedes dedicar. Lo más importante: empieza hoy.</div>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

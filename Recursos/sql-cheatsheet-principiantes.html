@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>SQL Cheatsheet para Principiantes — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.6;max-width:860px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:48px 0 40px;border-bottom:3px solid #16a34a;margin-bottom:40px}
+  .cover-badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+  .cover h1{font-size:2.4rem;font-weight:800;color:#1a2e1a;margin-bottom:8px}
+  .cover p{color:#6b7280;font-size:1.05rem}
+  .cover-meta{margin-top:16px;font-size:.85rem;color:#9ca3af}
+  h2{font-size:1.2rem;font-weight:700;color:#1a2e1a;margin:36px 0 14px;padding-left:12px;border-left:4px solid #16a34a}
+  h3{font-size:.95rem;font-weight:700;color:#374151;margin:20px 0 8px}
+  .tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:.9rem;color:#166534}
+  .tip::before{content:'💡 ';font-weight:700}
+  table{width:100%;border-collapse:collapse;margin:12px 0 24px;font-size:.88rem}
+  th{background:#1a2e1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+  td{padding:9px 14px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+  tr:nth-child(even) td{background:#f9fafb}
+  code,pre{font-family:'Fira Code',monospace;background:#1e293b;color:#e2e8f0;border-radius:6px}
+  code{padding:2px 8px;font-size:.82rem}
+  pre{padding:16px 20px;margin:10px 0 20px;overflow-x:auto;font-size:.83rem;line-height:1.7}
+  .kw{color:#7dd3fc} .fn{color:#86efac} .str{color:#fcd34d} .cm{color:#94a3b8;font-style:italic}
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700}
+  .lv0{background:#fef3c7;color:#92400e} .lv1{background:#dcfce7;color:#166534} .lv2{background:#dbeafe;color:#1e40af}
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  @media print{body{padding:20px}.cover{padding:24px 0 20px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">SQL Cheatsheet</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">SQL · Nivel 1–2</div>
+  <h1>SQL Cheatsheet<br>para Principiantes</h1>
+  <p>Las 20 consultas que usarás el 80% del tiempo</p>
+  <div class="cover-meta">Ready4Data · ready4data.com · Con ejemplos reales en castellano</div>
+</div>
+
+<h2>1. SELECT — Leer datos</h2>
+<h3>Seleccionar todas las columnas</h3>
+<pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes;</pre>
+<h3>Seleccionar columnas específicas</h3>
+<pre><span class="kw">SELECT</span> nombre, email, ciudad
+<span class="kw">FROM</span> clientes;</pre>
+<div class="tip">Evita el <code>SELECT *</code> en producción. Especifica siempre las columnas que necesitas.</div>
+
+<h2>2. WHERE — Filtrar filas</h2>
+<pre><span class="kw">SELECT</span> nombre, ventas
+<span class="kw">FROM</span> pedidos
+<span class="kw">WHERE</span> ventas &gt; 1000;
+
+<span class="cm">-- Múltiples condiciones</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> ciudad = <span class="str">'Madrid'</span> <span class="kw">AND</span> activo = <span class="kw">TRUE</span>;</pre>
+
+<table>
+<tr><th>Operador</th><th>Significado</th><th>Ejemplo</th></tr>
+<tr><td><code>=</code></td><td>Igual a</td><td><code>WHERE pais = 'ES'</code></td></tr>
+<tr><td><code>!= / &lt;&gt;</code></td><td>Distinto de</td><td><code>WHERE estado != 'cancelado'</code></td></tr>
+<tr><td><code>&gt; / &lt;</code></td><td>Mayor / menor</td><td><code>WHERE precio &gt; 50</code></td></tr>
+<tr><td><code>BETWEEN</code></td><td>Rango inclusivo</td><td><code>WHERE edad BETWEEN 18 AND 65</code></td></tr>
+<tr><td><code>IN</code></td><td>En una lista</td><td><code>WHERE ciudad IN ('Madrid','Barcelona')</code></td></tr>
+<tr><td><code>LIKE</code></td><td>Patrón de texto</td><td><code>WHERE nombre LIKE 'Ana%'</code></td></tr>
+<tr><td><code>IS NULL</code></td><td>Valor vacío</td><td><code>WHERE telefono IS NULL</code></td></tr>
+</table>
+
+<h2>3. ORDER BY — Ordenar resultados</h2>
+<pre><span class="kw">SELECT</span> nombre, ventas
+<span class="kw">FROM</span> pedidos
+<span class="kw">ORDER BY</span> ventas <span class="kw">DESC</span>; <span class="cm">-- DESC = mayor a menor, ASC = menor a mayor</span></pre>
+
+<h2>4. LIMIT — Limitar resultados</h2>
+<pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> productos
+<span class="kw">ORDER BY</span> precio <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 10; <span class="cm">-- Solo los 10 primeros</span></pre>
+
+<h2>5. COUNT, SUM, AVG, MIN, MAX — Funciones de agregación</h2>
+<pre><span class="kw">SELECT</span>
+  <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total_pedidos,
+  <span class="fn">SUM</span>(importe) <span class="kw">AS</span> ventas_totales,
+  <span class="fn">AVG</span>(importe) <span class="kw">AS</span> ticket_medio,
+  <span class="fn">MIN</span>(importe) <span class="kw">AS</span> pedido_minimo,
+  <span class="fn">MAX</span>(importe) <span class="kw">AS</span> pedido_maximo
+<span class="kw">FROM</span> pedidos
+<span class="kw">WHERE</span> estado = <span class="str">'completado'</span>;</pre>
+
+<h2>6. GROUP BY — Agrupar y resumir</h2>
+<pre><span class="kw">SELECT</span> ciudad, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_clientes, <span class="fn">SUM</span>(ventas) <span class="kw">AS</span> total
+<span class="kw">FROM</span> clientes
+<span class="kw">GROUP BY</span> ciudad
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>;</pre>
+<div class="tip">Todas las columnas en el SELECT que no son funciones de agregación deben estar en el GROUP BY.</div>
+
+<h2>7. HAVING — Filtrar grupos</h2>
+<pre><span class="kw">SELECT</span> ciudad, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> clientes
+<span class="kw">FROM</span> clientes
+<span class="kw">GROUP BY</span> ciudad
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) &gt; 50; <span class="cm">-- Solo ciudades con más de 50 clientes</span></pre>
+<div class="tip">WHERE filtra filas. HAVING filtra grupos (después del GROUP BY).</div>
+
+<h2>8. JOIN — Combinar tablas</h2>
+<pre><span class="cm">-- INNER JOIN: solo coincidencias en ambas tablas</span>
+<span class="kw">SELECT</span> p.id, p.fecha, c.nombre, p.importe
+<span class="kw">FROM</span> pedidos p
+<span class="kw">INNER JOIN</span> clientes c <span class="kw">ON</span> p.cliente_id = c.id;
+
+<span class="cm">-- LEFT JOIN: todos los de la izquierda + coincidencias de la derecha</span>
+<span class="kw">SELECT</span> c.nombre, p.importe
+<span class="kw">FROM</span> clientes c
+<span class="kw">LEFT JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id;</pre>
+
+<table>
+<tr><th>Tipo JOIN</th><th>Qué devuelve</th></tr>
+<tr><td><code>INNER JOIN</code></td><td>Solo filas que coinciden en ambas tablas</td></tr>
+<tr><td><code>LEFT JOIN</code></td><td>Todas las filas de la tabla izquierda + coincidencias</td></tr>
+<tr><td><code>RIGHT JOIN</code></td><td>Todas las filas de la tabla derecha + coincidencias</td></tr>
+<tr><td><code>FULL JOIN</code></td><td>Todas las filas de ambas tablas</td></tr>
+</table>
+
+<h2>9. Alias — Renombrar columnas y tablas</h2>
+<pre><span class="kw">SELECT</span>
+  nombre <span class="kw">AS</span> <span class="str">"Nombre del cliente"</span>,
+  <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_pedidos
+<span class="kw">FROM</span> clientes c <span class="cm">-- alias de tabla: c</span>
+<span class="kw">JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id
+<span class="kw">GROUP BY</span> nombre;</pre>
+
+<h2>10. DISTINCT — Eliminar duplicados</h2>
+<pre><span class="kw">SELECT DISTINCT</span> ciudad <span class="kw">FROM</span> clientes; <span class="cm">-- ciudades únicas</span></pre>
+
+<h2>11. CASE WHEN — Condicional (el IF de SQL)</h2>
+<pre><span class="kw">SELECT</span> nombre,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> ventas &gt; 10000 <span class="kw">THEN</span> <span class="str">'Premium'</span>
+    <span class="kw">WHEN</span> ventas &gt; 5000  <span class="kw">THEN</span> <span class="str">'Estándar'</span>
+    <span class="kw">ELSE</span> <span class="str">'Básico'</span>
+  <span class="kw">END AS</span> categoria
+<span class="kw">FROM</span> clientes;</pre>
+
+<h2>12. Subconsultas (Subqueries)</h2>
+<pre><span class="kw">SELECT</span> nombre, ventas
+<span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> ventas &gt; (<span class="kw">SELECT</span> <span class="fn">AVG</span>(ventas) <span class="kw">FROM</span> clientes);
+<span class="cm">-- Clientes con ventas por encima de la media</span></pre>
+
+<h2>13. CTEs (WITH) — Consultas más legibles</h2>
+<pre><span class="kw">WITH</span> ventas_ciudad <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> ciudad, <span class="fn">SUM</span>(importe) <span class="kw">AS</span> total
+  <span class="kw">FROM</span> pedidos p
+  <span class="kw">JOIN</span> clientes c <span class="kw">ON</span> p.cliente_id = c.id
+  <span class="kw">GROUP BY</span> ciudad
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> ventas_ciudad
+<span class="kw">WHERE</span> total &gt; 50000;</pre>
+<div class="tip">Los CTEs hacen el código más legible. Úsalos cuando tu consulta tiene más de 3-4 pasos.</div>
+
+<h2>14. Funciones de fecha</h2>
+<pre><span class="cm">-- Año, mes, día de una fecha</span>
+<span class="kw">SELECT</span> <span class="fn">YEAR</span>(fecha), <span class="fn">MONTH</span>(fecha), <span class="fn">DAY</span>(fecha) <span class="kw">FROM</span> pedidos;
+
+<span class="cm">-- Diferencia entre fechas (días)</span>
+<span class="kw">SELECT</span> <span class="fn">DATEDIFF</span>(fecha_entrega, fecha_pedido) <span class="kw">AS</span> dias_entrega
+<span class="kw">FROM</span> pedidos;</pre>
+
+<h2>15. Funciones de texto</h2>
+<pre><span class="fn">UPPER</span>(nombre)        <span class="cm">-- ANTONIO</span>
+<span class="fn">LOWER</span>(nombre)        <span class="cm">-- antonio</span>
+<span class="fn">TRIM</span>(nombre)         <span class="cm">-- elimina espacios al inicio/fin</span>
+<span class="fn">CONCAT</span>(a, ' ', b)    <span class="cm">-- une texto</span>
+<span class="fn">LENGTH</span>(nombre)       <span class="cm">-- número de caracteres</span>
+<span class="fn">SUBSTRING</span>(txt,1,3)   <span class="cm">-- primeros 3 caracteres</span></pre>
+
+<h2>16. NULL — Gestión de vacíos</h2>
+<pre><span class="cm">-- Sustituir NULL por un valor</span>
+<span class="kw">SELECT</span> nombre, <span class="fn">COALESCE</span>(telefono, <span class="str">'Sin teléfono'</span>) <span class="kw">AS</span> tel
+<span class="kw">FROM</span> clientes;
+
+<span class="cm">-- Filtrar nulos</span>
+<span class="kw">WHERE</span> email <span class="kw">IS NOT NULL</span></pre>
+
+<h2>17. INSERT — Insertar datos</h2>
+<pre><span class="kw">INSERT INTO</span> clientes (nombre, email, ciudad)
+<span class="kw">VALUES</span> (<span class="str">'Ana García'</span>, <span class="str">'ana@email.com'</span>, <span class="str">'Madrid'</span>);</pre>
+
+<h2>18. UPDATE — Modificar datos</h2>
+<pre><span class="kw">UPDATE</span> clientes
+<span class="kw">SET</span> ciudad = <span class="str">'Barcelona'</span>, activo = <span class="kw">TRUE</span>
+<span class="kw">WHERE</span> id = 42;</pre>
+<div class="tip">¡Siempre usa WHERE en UPDATE y DELETE! Sin WHERE modificas TODAS las filas.</div>
+
+<h2>19. DELETE — Eliminar datos</h2>
+<pre><span class="kw">DELETE FROM</span> clientes
+<span class="kw">WHERE</span> activo = <span class="kw">FALSE</span> <span class="kw">AND</span> ultimo_pedido &lt; <span class="str">'2023-01-01'</span>;</pre>
+
+<h2>20. Orden de ejecución SQL</h2>
+<table>
+<tr><th>Orden</th><th>Cláusula</th><th>Qué hace</th></tr>
+<tr><td>1</td><td><code>FROM / JOIN</code></td><td>Define las tablas a usar</td></tr>
+<tr><td>2</td><td><code>WHERE</code></td><td>Filtra filas</td></tr>
+<tr><td>3</td><td><code>GROUP BY</code></td><td>Agrupa resultados</td></tr>
+<tr><td>4</td><td><code>HAVING</code></td><td>Filtra grupos</td></tr>
+<tr><td>5</td><td><code>SELECT</code></td><td>Selecciona columnas</td></tr>
+<tr><td>6</td><td><code>DISTINCT</code></td><td>Elimina duplicados</td></tr>
+<tr><td>7</td><td><code>ORDER BY</code></td><td>Ordena resultados</td></tr>
+<tr><td>8</td><td><code>LIMIT</code></td><td>Limita resultados</td></tr>
+</table>
+<div class="tip">SQL no se ejecuta en el orden en que se escribe. El motor empieza por FROM, no por SELECT.</div>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

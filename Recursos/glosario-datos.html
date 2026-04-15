@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Glosario de Datos — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.65;max-width:860px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:48px 0 40px;border-bottom:3px solid #16a34a;margin-bottom:40px}
+  .cover-badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+  .cover h1{font-size:2.2rem;font-weight:800;color:#1a2e1a;margin-bottom:8px}
+  .cover p{color:#6b7280;font-size:1rem}
+  .cover-meta{margin-top:16px;font-size:.82rem;color:#9ca3af}
+  .cat-header{font-size:1.15rem;font-weight:800;color:#fff;background:#1a2e1a;padding:10px 16px;border-radius:6px;margin:36px 0 16px;letter-spacing:.02em}
+  .term{display:grid;grid-template-columns:200px 1fr;gap:0;border-bottom:1px solid #e5e7eb;padding:12px 0}
+  .term-name{font-weight:700;color:#1a2e1a;font-size:.95rem;padding-right:16px}
+  .term-def{color:#374151;font-size:.9rem}
+  .term-def em{color:#16a34a;font-style:normal;font-weight:600}
+  .tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin:20px 0;font-size:.88rem;color:#166534}
+  .tip::before{content:'💡 '}
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  @media(max-width:600px){.term{grid-template-columns:1fr}.term-name{margin-bottom:4px}}
+  @media print{body{padding:20px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">Glosario de Datos</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">Fundamentos · Todos los niveles</div>
+  <h1>Glosario de Datos</h1>
+  <p>50 términos del mundo de los datos explicados sin tecnicismos</p>
+  <div class="cover-meta">Ready4Data · Guarda este documento como referencia rápida</div>
+</div>
+
+<div class="cat-header">📊 Fundamentos de datos</div>
+
+<div class="term"><div class="term-name">Base de datos</div><div class="term-def">Colección organizada de información almacenada en tablas. Piensa en un Excel muy bien ordenado y potente. Ejemplo: la base de datos de clientes de Amazon.</div></div>
+<div class="term"><div class="term-name">Tabla</div><div class="term-def">Estructura con filas y columnas que almacena un tipo de información. Como una hoja de Excel. Ejemplo: tabla de <em>pedidos</em> con columnas id, fecha, importe, cliente_id.</div></div>
+<div class="term"><div class="term-name">Fila / Registro</div><div class="term-def">Una entrada individual en una tabla. Si la tabla es "clientes", cada fila es un cliente concreto.</div></div>
+<div class="term"><div class="term-name">Columna / Campo</div><div class="term-def">Un atributo de la tabla. En la tabla "clientes" las columnas serían: nombre, email, ciudad, fecha_registro.</div></div>
+<div class="term"><div class="term-name">Clave primaria (PK)</div><div class="term-def">Columna que identifica de forma única cada fila. Normalmente llamada <em>id</em>. No puede repetirse ni estar vacía.</div></div>
+<div class="term"><div class="term-name">Clave foránea (FK)</div><div class="term-def">Columna que apunta a la clave primaria de otra tabla. Crea relaciones entre tablas. Ejemplo: <em>cliente_id</em> en la tabla pedidos.</div></div>
+<div class="term"><div class="term-name">SQL</div><div class="term-def">Lenguaje estructurado para consultar bases de datos. Se pronuncia "ese-cu-ele" o "siquel". Es el idioma universal para hablar con datos.</div></div>
+<div class="term"><div class="term-name">Query / Consulta</div><div class="term-def">Pregunta que haces a una base de datos. Ejemplo: "dame todos los pedidos de Madrid del último mes".</div></div>
+<div class="term"><div class="term-name">NULL</div><div class="term-def">Valor vacío o desconocido. No es cero ni espacio en blanco. Es la ausencia de información. Hay que tratarlo con cuidado en los cálculos.</div></div>
+<div class="term"><div class="term-name">Índice</div><div class="term-def">Estructura que acelera las búsquedas en una tabla, como el índice de un libro. Mejora el rendimiento pero ocupa espacio.</div></div>
+
+<div class="cat-header">🏢 Arquitectura de datos</div>
+
+<div class="term"><div class="term-name">Data Warehouse</div><div class="term-def">Almacén centralizado de datos históricos, optimizado para análisis. Diferente de una base de datos operacional: está diseñado para preguntas de negocio, no para transacciones diarias.</div></div>
+<div class="term"><div class="term-name">Data Lake</div><div class="term-def">Almacén de datos en bruto, sin estructurar, en su formato original. Más barato que un DW pero más difícil de analizar sin procesarlo antes.</div></div>
+<div class="term"><div class="term-name">Data Lakehouse</div><div class="term-def">Combinación de Data Lake y Data Warehouse. Almacena datos crudos pero con capacidades de análisis estructurado. Tecnologías: Delta Lake, Apache Iceberg.</div></div>
+<div class="term"><div class="term-name">ETL</div><div class="term-def"><em>Extract, Transform, Load</em>. El proceso de sacar datos de una fuente, transformarlos y cargarlos en otro sistema. El trabajo diario de un Data Engineer.</div></div>
+<div class="term"><div class="term-name">ELT</div><div class="term-def">Como ETL pero al revés: primero cargas los datos crudos y luego los transformas. Más moderno gracias al bajo coste del almacenamiento en cloud.</div></div>
+<div class="term"><div class="term-name">Pipeline</div><div class="term-def">Secuencia automatizada de pasos que mueven y transforman datos de A a B. Como una cadena de montaje para los datos.</div></div>
+<div class="term"><div class="term-name">Esquema estrella</div><div class="term-def">Diseño de Data Warehouse con una tabla central de hechos rodeada de tablas de dimensiones. El modelo más común en Business Intelligence.</div></div>
+<div class="term"><div class="term-name">Tabla de hechos</div><div class="term-def">Tabla central en un DW que contiene las métricas del negocio (ventas, clicks, pedidos). Tiene muchas filas y apunta a tablas de dimensiones.</div></div>
+<div class="term"><div class="term-name">Tabla de dimensiones</div><div class="term-def">Tablas que describen el contexto de los hechos: ¿quién? ¿cuándo? ¿dónde? Ejemplos: dim_clientes, dim_producto, dim_tiempo.</div></div>
+
+<div class="cat-header">👩‍💼 Roles y profesiones</div>
+
+<div class="term"><div class="term-name">Data Analyst</div><div class="term-def">Analiza datos existentes para responder preguntas de negocio. Usa SQL, Excel y herramientas de visualización. El rol más accesible para entrar al sector.</div></div>
+<div class="term"><div class="term-name">Data Engineer</div><div class="term-def">Construye y mantiene los pipelines que mueven y transforman datos. Trabaja con Python, SQL, herramientas de orquestación y plataformas cloud.</div></div>
+<div class="term"><div class="term-name">Data Scientist</div><div class="term-def">Aplica estadística y machine learning para extraer insights y predecir comportamientos. Necesita Python, estadística y conocimiento del negocio.</div></div>
+<div class="term"><div class="term-name">BI Developer</div><div class="term-def">Crea dashboards e informes en herramientas como Power BI o Tableau. Se enfoca en visualización y en hacer los datos comprensibles para el negocio.</div></div>
+<div class="term"><div class="term-name">Analytics Engineer</div><div class="term-def">Perfil híbrido entre Data Engineer y Data Analyst. Transforma los datos crudos en modelos limpios y listos para analizar. Usa mucho dbt.</div></div>
+<div class="term"><div class="term-name">Data Steward</div><div class="term-def">Responsable de la calidad y gobernanza de los datos en una organización. Define reglas, estándares y quién puede acceder a qué datos.</div></div>
+
+<div class="cat-header">📈 Business Intelligence (BI)</div>
+
+<div class="term"><div class="term-name">Dashboard</div><div class="term-def">Panel visual con métricas e indicadores clave del negocio, actualizado en tiempo real o periódicamente. La herramienta más usada por directivos para tomar decisiones.</div></div>
+<div class="term"><div class="term-name">KPI</div><div class="term-def"><em>Key Performance Indicator</em>. Métrica clave para medir el rendimiento. Ejemplos: tasa de conversión, churn rate, NPS, margen bruto.</div></div>
+<div class="term"><div class="term-name">Métrica</div><div class="term-def">Cualquier valor medible. Los KPIs son un subconjunto especial de métricas: las más importantes para el negocio.</div></div>
+<div class="term"><div class="term-name">DAX</div><div class="term-def">Lenguaje de fórmulas de Power BI. Similar a las fórmulas de Excel pero mucho más potente. Se usa para crear medidas calculadas en los modelos de datos.</div></div>
+<div class="term"><div class="term-name">Drill-down</div><div class="term-def">Navegar desde una vista resumida a un nivel más detallado. Ejemplo: clic en "Ventas Q1" → ver ventas por mes → ver ventas por semana.</div></div>
+<div class="term"><div class="term-name">Slice and dice</div><div class="term-def">Filtrar y segmentar los datos desde múltiples ángulos. Ejemplo: ventas por producto, por región, por canal de venta, combinando filtros.</div></div>
+
+<div class="cat-header">☁️ Cloud y herramientas modernas</div>
+
+<div class="term"><div class="term-name">BigQuery</div><div class="term-def">Data Warehouse serverless de Google Cloud. Se paga por los datos consultados. Muy potente para análisis de grandes volúmenes.</div></div>
+<div class="term"><div class="term-name">Snowflake</div><div class="term-def">Data Warehouse en cloud multi-proveedor (AWS, Azure, GCP). Separa almacenamiento y cómputo, lo que lo hace muy escalable.</div></div>
+<div class="term"><div class="term-name">dbt</div><div class="term-def"><em>data build tool</em>. Herramienta open source para transformar datos dentro del Data Warehouse usando SQL. El estándar moderno para Analytics Engineering.</div></div>
+<div class="term"><div class="term-name">Apache Airflow</div><div class="term-def">Orquestador de pipelines de datos. Permite programar y monitorizar flujos de trabajo complejos. El estándar del sector para Data Engineering.</div></div>
+<div class="term"><div class="term-name">Kafka</div><div class="term-def">Plataforma de streaming de datos en tiempo real. Permite procesar millones de eventos por segundo. Muy usado en arquitecturas de datos modernos.</div></div>
+<div class="term"><div class="term-name">Spark</div><div class="term-def">Motor de procesamiento distribuido para grandes volúmenes de datos. Mucho más rápido que MapReduce. Se programa en Python (PySpark), Scala o Java.</div></div>
+<div class="term"><div class="term-name">Parquet</div><div class="term-def">Formato de archivo columnar para datos. Mucho más eficiente que CSV para análisis. Es el formato preferido en ecosistemas cloud y Spark.</div></div>
+
+<div class="cat-header">🔍 Calidad y gobernanza</div>
+
+<div class="term"><div class="term-name">Data Quality</div><div class="term-def">Conjunto de procesos para asegurar que los datos son correctos, completos, consistentes y actualizados. Mal dato = mala decisión.</div></div>
+<div class="term"><div class="term-name">Data Governance</div><div class="term-def">Marco de políticas y procesos que define cómo se gestionan, protegen y usan los datos en una organización.</div></div>
+<div class="term"><div class="term-name">Linaje de datos</div><div class="term-def">Rastro del recorrido de un dato desde su origen hasta su destino. Permite responder: ¿de dónde viene este número? ¿cómo se calculó?</div></div>
+<div class="term"><div class="term-name">Deduplicación</div><div class="term-def">Proceso de eliminar registros duplicados en un dataset. Uno de los problemas más comunes en proyectos de datos reales.</div></div>
+<div class="term"><div class="term-name">SLA</div><div class="term-def"><em>Service Level Agreement</em>. Acuerdo sobre el tiempo máximo que puede tardar un proceso o el porcentaje de disponibilidad garantizado. "Los datos deben estar listos antes de las 8:00".</div></div>
+
+<div class="cat-header">🤖 Analytics avanzado</div>
+
+<div class="term"><div class="term-name">Machine Learning</div><div class="term-def">Rama de la IA donde los algoritmos aprenden patrones de los datos sin ser programados explícitamente. Ejemplo: recomendaciones de Netflix.</div></div>
+<div class="term"><div class="term-name">Modelo predictivo</div><div class="term-def">Algoritmo entrenado para predecir un resultado futuro basándose en datos históricos. Ejemplo: predecir si un cliente va a cancelar su suscripción.</div></div>
+<div class="term"><div class="term-name">Feature engineering</div><div class="term-def">Proceso de crear o transformar variables (features) para mejorar el rendimiento de un modelo de ML. Uno de los trabajos más importantes del Data Scientist.</div></div>
+<div class="term"><div class="term-name">A/B Testing</div><div class="term-def">Experimento controlado que compara dos versiones (A y B) para ver cuál funciona mejor. Muy usado en producto y marketing digital.</div></div>
+<div class="term"><div class="term-name">Sesgo (Bias)</div><div class="term-def">Error sistemático en los datos o en el modelo que produce resultados incorrectos o injustos. Un modelo con sesgo puede tomar decisiones discriminatorias.</div></div>
+<div class="term"><div class="term-name">Overfitting</div><div class="term-def">Cuando un modelo aprende demasiado bien los datos de entrenamiento y falla con datos nuevos. Es como memorizar las preguntas del examen en vez de entender el tema.</div></div>
+<div class="term"><div class="term-name">Feature Store</div><div class="term-def">Repositorio centralizado de features reutilizables para modelos de ML. Evita que cada equipo calcule las mismas variables de manera diferente.</div></div>
+<div class="term"><div class="term-name">LLM</div><div class="term-def"><em>Large Language Model</em>. Modelos de IA entrenados con enormes cantidades de texto. Ejemplos: GPT-4, Claude, Gemini. Están transformando el análisis de datos no estructurados.</div></div>
+
+<div class="tip">¿Te falta algún término? Escríbeme a través de ready4data.com y lo añado a la siguiente versión.</div>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

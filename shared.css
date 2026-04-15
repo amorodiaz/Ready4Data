@@ -1,0 +1,229 @@
+/* ═══════════════════════════════════════════════════════════
+   Ready4Data — Shared Scroll & Navigation Experience
+   Inspired by lens.google.com interactive design
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #16a34a, #f59e0b, #16a34a);
+  background-size: 200% 100%;
+  animation: progressShimmer 2s linear infinite;
+  z-index: 9999;
+  transition: width .1s linear;
+  transform-origin: left;
+}
+@keyframes progressShimmer {
+  0%   { background-position: 200% 0 }
+  100% { background-position: 0% 0 }
+}
+
+/* ── HEADER HIDE/SHOW ON SCROLL (Google Lens style) ── */
+#main-header {
+  transition: transform .35s cubic-bezier(.4,0,.2,1),
+              background .35s cubic-bezier(.4,0,.2,1),
+              box-shadow .35s cubic-bezier(.4,0,.2,1),
+              padding .35s cubic-bezier(.4,0,.2,1) !important;
+}
+#main-header.header-hidden {
+  transform: translateY(-110%);
+}
+#main-header.header-peek {
+  transform: translateY(0);
+}
+
+/* ── NAV ACTIVE LINK ── */
+#main-nav a.active {
+  color: #16a34a !important;
+  font-weight: 700 !important;
+}
+#main-header:not(.scrolled) #main-nav a.active {
+  color: #fff !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ── REVEAL ANIMATIONS ── */
+/* Base: fade + slide up (default .rv) */
+.rv {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .6s cubic-bezier(.4,0,.2,1),
+              transform .6s cubic-bezier(.4,0,.2,1);
+}
+.rv.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide from left */
+.rv-left {
+  opacity: 0;
+  transform: translateX(-48px);
+  transition: opacity .65s cubic-bezier(.4,0,.2,1),
+              transform .65s cubic-bezier(.4,0,.2,1);
+}
+.rv-left.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.rv-right {
+  opacity: 0;
+  transform: translateX(48px);
+  transition: opacity .65s cubic-bezier(.4,0,.2,1),
+              transform .65s cubic-bezier(.4,0,.2,1);
+}
+.rv-right.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale in */
+.rv-scale {
+  opacity: 0;
+  transform: scale(.92);
+  transition: opacity .6s cubic-bezier(.4,0,.2,1),
+              transform .6s cubic-bezier(.4,0,.2,1);
+}
+.rv-scale.in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delays */
+.rv.d1,.rv-left.d1,.rv-right.d1,.rv-scale.d1 { transition-delay: .10s }
+.rv.d2,.rv-left.d2,.rv-right.d2,.rv-scale.d2 { transition-delay: .20s }
+.rv.d3,.rv-left.d3,.rv-right.d3,.rv-scale.d3 { transition-delay: .30s }
+.rv.d4,.rv-left.d4,.rv-right.d4,.rv-scale.d4 { transition-delay: .40s }
+.rv.d5,.rv-left.d5,.rv-right.d5,.rv-scale.d5 { transition-delay: .50s }
+
+/* Image parallax zoom */
+.iz img {
+  transform: scale(1.06);
+  transition: transform .9s cubic-bezier(.4,0,.2,1);
+}
+.iz.iz-in img {
+  transform: scale(1);
+}
+
+/* ── SECTION FRAME (Google Lens-style section highlight border) ── */
+.sec-frame {
+  position: relative;
+  overflow: hidden;
+}
+.sec-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #16a34a, #f59e0b);
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+.sec-frame.in::after {
+  width: 100%;
+}
+
+/* ── HERO PARALLAX ── */
+.hero-bg, .page-hero-bg {
+  will-change: transform;
+  transition: none;
+}
+
+/* ── SCROLL-TO-TOP BUTTON ── */
+#scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(16px) scale(.85);
+  transition: opacity .3s ease, transform .3s ease, box-shadow .3s ease;
+  box-shadow: 0 4px 20px rgba(22,163,74,.3);
+  pointer-events: none;
+}
+#scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+#scroll-top:hover {
+  box-shadow: 0 8px 28px rgba(22,163,74,.5);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* ── MOBILE NAV OPEN ANIMATION ── */
+#mob-nav {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+#mob-nav.open {
+  opacity: 1;
+}
+
+/* ── HAMBURGER MORPHS TO X ── */
+.hmbg.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hmbg.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hmbg.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.hmbg span {
+  transition: transform .3s ease, opacity .3s ease !important;
+}
+
+/* ── CARD HOVER LIFT (consistent across pages) ── */
+.pc, .bc, .feat-card, .path-c, .level-card {
+  transition: transform .3s cubic-bezier(.4,0,.2,1),
+              box-shadow .3s cubic-bezier(.4,0,.2,1),
+              border-color .3s ease !important;
+}
+
+/* ── FEAT CARDS STAGGERED REVEAL ── */
+.feat-card {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.feat-card.vis {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .5s ease, transform .5s ease,
+              box-shadow .3s, border-color .3s !important;
+}
+
+/* ── SECTION HEADING UNDERLINE ANIMATION ── */
+.sec-ttl {
+  position: relative;
+  display: inline-block;
+}
+
+/* ── TICKER (ensure smooth loop) ── */
+.ticker-t, .ticker-list {
+  animation-play-state: running;
+}
+body:hover .ticker-t,
+body:hover .ticker-list {
+  animation-play-state: running;
+}

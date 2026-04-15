@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Qué es un Data Warehouse — Ready4Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#1a2e1a;line-height:1.75;max-width:780px;margin:0 auto;padding:40px 32px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:10px 0;margin:-40px -32px 32px;padding-left:32px;display:flex;align-items:center;gap:16px}
+  .topnav a{font-size:.82rem;font-weight:600;color:#16a34a;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+  .topnav a:hover{opacity:.7}
+  .topnav-sep{color:#d1d5db;font-size:.8rem}
+  .topnav-current{font-size:.82rem;color:#9ca3af}
+  .cover{text-align:center;padding:48px 0 40px;border-bottom:3px solid #16a34a;margin-bottom:40px}
+  .cover-badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+  .cover h1{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:#1a2e1a;margin-bottom:8px}
+  .cover p{color:#6b7280;font-size:1rem}
+  .cover-meta{margin-top:16px;font-size:.82rem;color:#9ca3af}
+  .email-card{border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin:28px 0}
+  .email-head{background:#1a2e1a;color:#fff;padding:16px 24px;display:flex;align-items:center;gap:12px}
+  .email-num{width:32px;height:32px;background:rgba(22,163,74,.3);border:1px solid #4ade80;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#4ade80;flex-shrink:0}
+  .email-subject{font-weight:700;font-size:1rem}
+  .email-body{padding:24px 28px}
+  p{margin-bottom:16px;color:#374151;font-size:.95rem}
+  .highlight{background:#f0fdf4;border-left:4px solid #16a34a;padding:14px 20px;border-radius:0 8px 8px 0;margin:20px 0}
+  .highlight p{margin:0;color:#166534;font-size:.9rem}
+  .analogy{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:16px 20px;margin:20px 0}
+  .analogy-title{font-weight:700;color:#92400e;margin-bottom:8px;font-size:.9rem}
+  .analogy p{margin:0;font-size:.9rem;color:#374151}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
+  th{background:#1a2e1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+  td{padding:9px 14px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+  tr:nth-child(even) td{background:#f9fafb}
+  ul{margin:12px 0 16px 20px;color:#374151;font-size:.92rem}
+  li{margin-bottom:8px}
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e7eb;text-align:center;font-size:.82rem;color:#9ca3af}
+  @media print{body{padding:20px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../index.html">🏠 Inicio</a>
+  <span class="topnav-sep">/</span>
+  <a href="../recursos.html">← Recursos</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-current">Qué es un Data Warehouse</span>
+</nav>
+
+<div class="cover">
+  <div class="cover-badge">Mini-curso · 5 lecciones · Nivel 1</div>
+  <h1>Qué es un<br>Data Warehouse</h1>
+  <p>El almacén de datos explicado en 5 lecciones simples, sin tecnicismos.</p>
+  <div class="cover-meta">Ready4Data · Por Antonio, Data Engineer con 20+ años construyendo Data Warehouses</div>
+</div>
+
+<!-- LECCION 1 -->
+<div class="email-card">
+  <div class="email-head">
+    <div class="email-num">1</div>
+    <div class="email-subject">El problema: cuando los datos están por todas partes</div>
+  </div>
+  <div class="email-body">
+    <p>Imagina una empresa mediana. Tiene ventas en Shopify, clientes en Salesforce, contabilidad en SAP, soporte en Zendesk y métricas de marketing en Google Analytics.</p>
+    <p>El director comercial quiere saber: <em>"¿Cuánto hemos vendido este mes a clientes que vinieron por Google Ads y que también han abierto un ticket de soporte?"</em></p>
+    <p>Imposible responder sin juntar datos de 4 sistemas distintos. Cada uno tiene su propio formato, su propia forma de identificar a los clientes, sus propios tiempos de actualización.</p>
+    <div class="analogy">
+      <div class="analogy-title">🏠 La analogía del armario</div>
+      <p>Imagina que tu ropa está repartida entre el armario del dormitorio, el trastero, la lavandería y casa de tu madre. Cada vez que quieres vestirte, tienes que buscarlo todo. Un Data Warehouse es el armario central donde está todo organizado.</p>
+    </div>
+    <p>Eso es exactamente el problema que resuelve un <strong>Data Warehouse (DW)</strong>: concentrar todos los datos de la empresa en un único lugar, limpio, organizado y optimizado para responder preguntas de negocio.</p>
+  </div>
+</div>
+
+<!-- LECCION 2 -->
+<div class="email-card">
+  <div class="email-head">
+    <div class="email-num">2</div>
+    <div class="email-subject">La solución: qué es exactamente un Data Warehouse</div>
+  </div>
+  <div class="email-body">
+    <p>Un <strong>Data Warehouse</strong> es una base de datos especial diseñada para análisis. A diferencia de las bases de datos operacionales (que están optimizadas para transacciones rápidas como registrar un pedido), un DW está optimizado para <em>leer grandes cantidades de datos históricos</em> y responder preguntas complejas.</p>
+    <div class="highlight"><p><strong>Definición simple:</strong> Un Data Warehouse es el almacén centralizado donde se guardan y organizan todos los datos históricos de una empresa, listos para ser analizados.</p></div>
+    <p><strong>Características clave:</strong></p>
+    <ul>
+      <li><strong>Orientado al tema:</strong> organizado por áreas de negocio (ventas, RRHH, finanzas), no por aplicación</li>
+      <li><strong>Integrado:</strong> datos de múltiples fuentes unificados con las mismas definiciones</li>
+      <li><strong>No volátil:</strong> los datos no se borran ni modifican, solo se añaden</li>
+      <li><strong>Variable en el tiempo:</strong> guarda historia. Puedes ver cómo era un cliente hace 2 años.</li>
+    </ul>
+    <table>
+      <tr><th>Base de datos operacional (OLTP)</th><th>Data Warehouse (OLAP)</th></tr>
+      <tr><td>Registrar pedidos en tiempo real</td><td>Analizar tendencias de ventas del año</td></tr>
+      <tr><td>Miles de transacciones por segundo</td><td>Pocas consultas, muy complejas</td></tr>
+      <tr><td>Datos actuales</td><td>Datos históricos (meses/años)</td></tr>
+      <tr><td>Normalizada (sin duplicados)</td><td>Desnormalizada (optimizada para lectura)</td></tr>
+      <tr><td>MySQL, PostgreSQL, Oracle</td><td>BigQuery, Snowflake, Redshift</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- LECCION 3 -->
+<div class="email-card">
+  <div class="email-head">
+    <div class="email-num">3</div>
+    <div class="email-subject">Cómo llegan los datos: el proceso ETL</div>
+  </div>
+  <div class="email-body">
+    <p>Los datos no aparecen solos en el Data Warehouse. Hay un proceso llamado <strong>ETL</strong> (Extract, Transform, Load) que los mueve desde los sistemas fuente.</p>
+    <ul>
+      <li><strong>Extract (Extraer):</strong> sacar los datos de las fuentes (Salesforce, MySQL, archivos CSV, APIs…)</li>
+      <li><strong>Transform (Transformar):</strong> limpiarlos, unificarlos, darles el formato correcto</li>
+      <li><strong>Load (Cargar):</strong> meterlos en el Data Warehouse</li>
+    </ul>
+    <div class="analogy">
+      <div class="analogy-title">🏭 La analogía de la fábrica</div>
+      <p>Imagina una fábrica de zumos. La materia prima (naranjas de distintos proveedores) llega sucia y en distintos tamaños. Se lava, se procesa y se embotella de forma estándar. El producto final (zumo en botella) es el Data Warehouse: limpio, estandarizado, listo para consumir.</p>
+    </div>
+    <p>En las arquitecturas modernas se habla más de <strong>ELT</strong>: primero cargas los datos crudos (Extract + Load) y luego los transformas dentro del propio Data Warehouse. Esto es posible gracias al bajo coste del almacenamiento en cloud y herramientas como <strong>dbt</strong>.</p>
+  </div>
+</div>
+
+<!-- LECCION 4 -->
+<div class="email-card">
+  <div class="email-head">
+    <div class="email-num">4</div>
+    <div class="email-subject">Cómo se organiza: el modelo dimensional</div>
+  </div>
+  <div class="email-body">
+    <p>Los datos en un DW no se organizan igual que en una base de datos transaccional. El modelo más común es el <strong>esquema estrella</strong>, que tiene:</p>
+    <ul>
+      <li><strong>Tabla de hechos (fact table):</strong> contiene las métricas del negocio. Ejemplo: tabla de ventas con columnas importe, cantidad, fecha_id, cliente_id, producto_id.</li>
+      <li><strong>Tablas de dimensiones (dim tables):</strong> describen el contexto. Ejemplo: dim_cliente (nombre, ciudad, segmento), dim_producto (nombre, categoría, precio), dim_tiempo (fecha, mes, año, trimestre).</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>Regla de oro:</strong> La tabla de hechos tiene los números. Las dimensiones tienen el contexto. Para responder "¿cuánto (hecho) vendimos en Madrid (dimensión) en enero (dimensión)?", haces un JOIN entre las tres.</p>
+    </div>
+    <p>Este diseño permite responder cualquier pregunta de negocio combinando la tabla de hechos con las dimensiones que necesitas.</p>
+  </div>
+</div>
+
+<!-- LECCION 5 -->
+<div class="email-card">
+  <div class="email-head">
+    <div class="email-num">5</div>
+    <div class="email-subject">El ecosistema moderno: Data Warehouse en la nube</div>
+  </div>
+  <div class="email-body">
+    <p>Los Data Warehouses tradicionales (Oracle, Teradata) eran caros y complejos. La revolución cloud cambió todo. Hoy las opciones más usadas son:</p>
+    <table>
+      <tr><th>Herramienta</th><th>Proveedor</th><th>Característica</th></tr>
+      <tr><td><strong>BigQuery</strong></td><td>Google Cloud</td><td>Serverless, pago por consulta. El más usado en startups.</td></tr>
+      <tr><td><strong>Snowflake</strong></td><td>Multi-cloud</td><td>Separa cómputo y almacenamiento. Muy escalable.</td></tr>
+      <tr><td><strong>Redshift</strong></td><td>Amazon AWS</td><td>Integrado con el ecosistema AWS.</td></tr>
+      <tr><td><strong>Azure Synapse</strong></td><td>Microsoft</td><td>Integrado con Power BI y el mundo Microsoft.</td></tr>
+      <tr><td><strong>Databricks</strong></td><td>Multi-cloud</td><td>Lakehouse: combina DW y Data Lake.</td></tr>
+    </table>
+    <p>El stack moderno más común para empresas medianas es: <strong>Fuentes → Fivetran/Airbyte (extracción) → Snowflake/BigQuery (almacén) → dbt (transformación) → Power BI/Tableau (visualización)</strong>.</p>
+    <div class="highlight"><p><strong>Para recordar:</strong> El Data Warehouse no es el destino final, es el puente entre los datos crudos y las decisiones de negocio. Su valor se mide en preguntas que antes no podías responder y ahora sí.</p></div>
+  </div>
+</div>
+
+<div class="footer">
+  Ready4Data — Aprende datos desde cero, sin miedo, paso a paso<br>
+  Este recurso es gratuito. Compártelo con quien lo necesite.
+</div>
+</body>
+</html>

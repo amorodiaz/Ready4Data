@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herramientas de Datos & IA — Ready4Data</title>
+  <meta name="description" content="Directorio completo de herramientas de datos e inteligencia artificial: BI, SQL, ETL, notebooks, Python, cloud y más. 100 herramientas seleccionadas para analistas y data engineers.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a3a2a' rx='12'/><line x1='50' y1='92' x2='50' y2='46' stroke='white' stroke-width='6' stroke-linecap='round' opacity='.8'/><path d='M50 62 C34 54 22 38 30 26 C38 14 50 26 50 46' fill='white' opacity='.7'/><path d='M50 56 C66 48 80 34 72 22 C64 10 50 22 50 42' fill='white' opacity='.55'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    :root{
+      --bg:#ffffff;--bg2:#f8f8f6;--bg3:#f0f0ec;
+      --t:#0a0a0a;--t2:#4a4a4a;--t3:#9a9a9a;
+      --ac:#1a3a2a;--ac2:#14532d;
+      --hl:#16a34a;--hl2:#f59e0b;
+      --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
+      --r:4px;
+      --s:0 2px 12px rgba(0,0,0,.06);
+      --s2:0 8px 32px rgba(0,0,0,.11);
+      --fb:'Inter','Segoe UI',system-ui,sans-serif;
+      --fe:'Playfair Display',Georgia,serif;
+      --fd:'Syne','Arial Black',sans-serif
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--fb);color:var(--t);background:var(--bg);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    #scroll-progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);z-index:9999;transition:width .1s linear}
+
+    /* ── HEADER ── */
+    #main-header{position:fixed;top:3px;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled{background:rgba(253,252,249,.97);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(0,0,0,.08)}
+    .logo-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;display:flex;align-items:center;gap:2px;text-decoration:none}
+    .logo-r{color:#fff;transition:color .3s}
+    #main-header.scrolled .logo-r{color:#1a3a2a}
+    .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #main-nav{display:flex;align-items:center;gap:28px}
+    #main-nav a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:color .2s;text-decoration:none}
+    #main-nav a:hover,#main-nav a.active{color:#fff}
+    #main-header.scrolled #main-nav a{color:#374151}
+    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#16a34a}
+    .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
+    .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hmbg span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled .hmbg span{background:#374151}
+    #mob-nav{display:none;position:fixed;inset:0;background:rgba(13,37,24,.98);z-index:998;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    #mob-nav.open{display:flex}
+    #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;text-decoration:none}
+    #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
+
+    /* ── PAGE HERO ── */
+    .page-hero{
+      height:340px;
+      display:flex;align-items:center;
+      background:linear-gradient(135deg,#0d2518 0%,#1a3a2a 60%,#14532d 100%);
+      margin-top:67px;
+      position:relative;
+      overflow:hidden;
+    }
+    .page-hero::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 70% 50%,rgba(22,163,74,.15) 0%,transparent 60%);
+    }
+    .page-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;width:100%}
+    .page-hero-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .page-hero-label::before{content:'';display:block;width:24px;height:2px;background:var(--hl2)}
+    .page-hero-title{font-family:var(--fe);font-size:clamp(2rem,4.5vw,3rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:.75rem}
+    .page-hero-sub{font-size:.95rem;color:rgba(255,255,255,.72);max-width:520px;line-height:1.7;margin-bottom:1.75rem}
+    .hero-stats{display:flex;gap:2rem;flex-wrap:wrap}
+    .hero-stat{text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:.75rem 1.4rem;backdrop-filter:blur(4px)}
+    .hero-stat-num{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:#fff;line-height:1}
+    .hero-stat-lbl{font-size:.72rem;color:rgba(255,255,255,.6);margin-top:.2rem;letter-spacing:.05em}
+
+    /* ── PRICE LEGEND BAR ── */
+    .ia-legend{
+      background:#fff;border-bottom:1px solid var(--bd);
+      padding:.55rem 2rem;
+      display:flex;align-items:center;justify-content:flex-end;gap:1.5rem;
+      font-size:.75rem;color:var(--t2);
+    }
+    .ia-legend-inner{display:flex;align-items:center;gap:1.5rem;max-width:1200px;margin:0 auto;width:100%}
+    .leg-item{display:flex;align-items:center;gap:.4rem}
+    .leg-dot{width:10px;height:10px;border-radius:50%}
+    .leg-dot.free{background:#16a34a}
+    .leg-dot.freemium{background:#f59e0b}
+    .leg-dot.paid{background:#94a3b8}
+
+    /* ── STICKY TOOLBAR ── */
+    .ia-toolbar-wrap{
+      position:sticky;top:64px;z-index:200;
+      background:#fff;border-bottom:1px solid var(--bd);
+      box-shadow:0 2px 8px rgba(0,0,0,.05);
+    }
+    .ia-toolbar{
+      max-width:1200px;margin:0 auto;
+      padding:.65rem 2rem;
+      display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+    }
+    .tb-search{
+      display:flex;align-items:center;gap:.5rem;
+      background:var(--bg2);border:1px solid var(--bd);border-radius:6px;
+      padding:.42rem .8rem;flex:1;min-width:180px;max-width:320px;
+    }
+    .tb-search svg{flex-shrink:0;color:var(--t3)}
+    .tb-search input{
+      border:none;background:transparent;font-family:var(--fb);font-size:.85rem;
+      color:var(--t);outline:none;width:100%;
+    }
+    .tb-search input::placeholder{color:var(--t3)}
+    .tb-sep{width:1px;height:26px;background:var(--bd);flex-shrink:0}
+    .tb-price-btns{display:flex;align-items:center;gap:.4rem}
+    .tb-price-btn{
+      font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:.04em;
+      padding:.3rem .8rem;border-radius:20px;border:1px solid var(--bd);
+      background:transparent;color:var(--t2);cursor:pointer;transition:all .18s;
+    }
+    .tb-price-btn:hover{border-color:var(--hl);color:var(--hl)}
+    .tb-price-btn.active.btn-free{background:#dcfce7;border-color:#86efac;color:#166534}
+    .tb-price-btn.active.btn-freemium{background:#fef3c7;border-color:#fcd34d;color:#92400e}
+    .tb-price-btn.active.btn-paid{background:#f1f5f9;border-color:#94a3b8;color:#475569}
+    .tb-count{font-family:var(--fd);font-size:.75rem;font-weight:700;color:var(--t3);margin-left:auto;white-space:nowrap}
+
+    /* ── BODY LAYOUT ── */
+    .tools-layout{
+      display:grid;
+      grid-template-columns:240px 1fr;
+      gap:2rem;
+      max-width:1200px;
+      margin:0 auto;
+      padding:2.5rem 2rem 5rem;
+      align-items:start;
+    }
+
+    /* ── SIDEBAR ── */
+    .tools-sidebar{
+      position:sticky;top:130px;
+      max-height:calc(100vh - 140px);
+      overflow-y:auto;
+      background:#fff;
+      border:1px solid var(--bd);
+      border-radius:8px;
+      padding:1rem 0;
+    }
+    .tools-sidebar::-webkit-scrollbar{width:4px}
+    .tools-sidebar::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+    .sidebar-title{
+      font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--t3);padding:.25rem 1rem .75rem;
+      border-bottom:1px solid var(--bd);margin-bottom:.5rem;
+    }
+    .sidebar-cats{list-style:none}
+    .sidebar-cats li{
+      padding:0;
+    }
+    .sidebar-cats li a{
+      display:flex;align-items:center;gap:.6rem;
+      padding:.55rem 1rem;
+      font-size:.82rem;font-weight:500;color:var(--t2);
+      text-decoration:none;transition:all .18s;
+      border-left:3px solid transparent;
+    }
+    .sidebar-cats li a:hover{color:var(--hl);background:var(--bg2)}
+    .sidebar-cats li a.active{
+      color:#fff;background:var(--hl);border-left-color:var(--ac);
+      font-weight:600;
+    }
+    .sidebar-cats li a .cat-emoji{font-size:.95rem;flex-shrink:0}
+    .sidebar-cats li a .cat-label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sidebar-cats li a .cat-count{
+      font-family:var(--fd);font-size:.65rem;font-weight:700;
+      background:rgba(0,0,0,.08);padding:.12rem .45rem;border-radius:10px;
+      color:inherit;flex-shrink:0;
+    }
+    .sidebar-cats li a.active .cat-count{background:rgba(255,255,255,.25)}
+
+    /* ── MAIN CONTENT ── */
+    .tools-main{display:flex;flex-direction:column;gap:2rem}
+
+    /* ── CATEGORY BLOCK ── */
+    .cat-block{background:#fff;border:1px solid var(--bd);border-radius:8px;overflow:hidden}
+    .cat-block.hidden{display:none}
+    .cat-block-head{
+      display:flex;align-items:center;gap:.8rem;
+      padding:.9rem 1.25rem;
+      background:var(--bg2);
+      border-bottom:1px solid var(--bd);
+      border-left:4px solid var(--cat-color,#16a34a);
+    }
+    .cat-head-emoji{font-size:1.3rem;line-height:1}
+    .cat-head-name{font-family:var(--fd);font-size:.88rem;font-weight:700;color:var(--t);flex:1}
+    .cat-head-count{
+      font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.05em;
+      background:rgba(0,0,0,.08);padding:.2rem .55rem;border-radius:20px;color:var(--t2);
+    }
+
+    /* ── TOOL GRID ── */
+    .tool-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+      gap:1px;
+      background:var(--bd);
+    }
+    .tool-item{
+      background:#fff;
+      padding:1.25rem .75rem .9rem;
+      display:flex;flex-direction:column;align-items:center;gap:.55rem;
+      text-decoration:none;color:inherit;
+      transition:background .15s;
+      position:relative;
+      cursor:pointer;
+    }
+    .tool-item:hover{background:#f0fdf4}
+    .tool-item.hidden{display:none !important}
+    .tool-icon-wrap{
+      width:48px;height:48px;border-radius:12px;
+      background:var(--bg2);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.6rem;line-height:1;
+      flex-shrink:0;
+    }
+    .tool-name{
+      font-family:var(--fd);font-size:.72rem;font-weight:700;
+      color:var(--t);text-align:center;line-height:1.25;
+    }
+    .tool-tag{
+      font-family:var(--fd);font-size:.58rem;font-weight:700;letter-spacing:.06em;
+      text-transform:uppercase;background:var(--hl);color:#fff;
+      padding:.1rem .4rem;border-radius:3px;
+    }
+
+    /* ── PRICE BADGES ── */
+    .tbadge{font-family:var(--fd);font-size:.62rem;font-weight:700;padding:.15rem .45rem;border-radius:10px;letter-spacing:.04em;text-transform:uppercase}
+    .tbadge-free{background:#dcfce7;color:#166534;border:1px solid #86efac}
+    .tbadge-freemium{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+    .tbadge-paid{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1}
+
+    /* ── TOOLTIP ── */
+    .tool-item[data-tip]{overflow:visible}
+    .tool-item[data-tip]::after{
+      content:attr(data-tip);
+      position:absolute;
+      bottom:calc(100% + 8px);
+      left:50%;transform:translateX(-50%);
+      background:#0d2518;color:rgba(255,255,255,.9);
+      font-family:var(--fb);font-size:.75rem;line-height:1.5;
+      padding:.55rem .75rem;border-radius:6px;
+      white-space:normal;width:200px;text-align:left;
+      box-shadow:0 4px 16px rgba(0,0,0,.25);
+      z-index:500;
+      opacity:0;pointer-events:none;
+      transition:opacity .15s ease;
+    }
+    .tool-item[data-tip]:hover::after{opacity:1}
+
+    /* ── NO RESULTS ── */
+    .no-results{
+      display:none;text-align:center;padding:4rem 2rem;
+      font-size:1rem;color:var(--t3);max-width:1200px;margin:0 auto;
+    }
+    .no-results.show{display:block}
+
+    /* ── FOOTER ── */
+    #main-footer{background:#0d2518;color:rgba(255,255,255,.7);padding:60px 32px 32px}
+    .ft-in{max-width:1200px;margin:0 auto}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+    .ft-brand{color:rgba(255,255,255,.7)}
+    .ft-tagline{font-size:.88rem;line-height:1.6;margin-top:12px;max-width:280px;color:rgba(255,255,255,.55)}
+    .ft-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:rgba(255,255,255,.9);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
+    .ft-col ul{list-style:none}
+    .ft-col ul li{margin-bottom:10px}
+    .ft-col ul li a{color:rgba(255,255,255,.6);font-size:.88rem;transition:color .2s;text-decoration:none}
+    .ft-col ul li a:hover{color:#4ade80}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+
+    /* ── ANIMATIONS ── */
+    .rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+    .rv.in{opacity:1;transform:translateY(0)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px){
+      .ft-top{grid-template-columns:1fr 1fr}
+      .ft-brand{grid-column:span 2}
+    }
+    @media(max-width:768px){
+      .hmbg{display:flex}
+      #main-nav{display:none}
+      .tools-layout{
+        grid-template-columns:1fr;
+        padding:1rem 1rem 4rem;
+        gap:1rem;
+      }
+      .tools-sidebar{
+        position:static;
+        max-height:none;
+        overflow:visible;
+        border-radius:8px;
+        padding:.75rem 0;
+      }
+      .sidebar-title{display:none}
+      .sidebar-cats{
+        display:flex;overflow-x:auto;gap:.4rem;padding:.25rem .75rem;
+        scrollbar-width:none;
+      }
+      .sidebar-cats::-webkit-scrollbar{display:none}
+      .sidebar-cats li{flex-shrink:0}
+      .sidebar-cats li a{
+        border-left:none;border-radius:20px;padding:.35rem .85rem;
+        white-space:nowrap;background:var(--bg2);border:1px solid var(--bd);
+        font-size:.78rem;gap:.35rem;
+      }
+      .sidebar-cats li a.active{background:var(--hl);color:#fff;border-color:var(--hl)}
+      .sidebar-cats li a .cat-count{display:none}
+      .cat-head-name{font-size:.8rem}
+      .tool-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+      .ft-top{grid-template-columns:1fr}
+      .ft-brand{grid-column:span 1}
+      .ft-bot{flex-direction:column;gap:12px;text-align:center}
+      .ia-toolbar{gap:.5rem}
+      .tb-search{max-width:none;flex:1}
+      .tb-sep{display:none}
+      .hero-stats{gap:1rem}
+      .hero-stat{padding:.6rem 1rem}
+      .hero-stat-num{font-size:1.3rem}
+    }
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<div id="mob-nav">
+  <button id="mob-close">&#10005;</button>
+  <a href="index.html">Inicio</a>
+  <a href="recursos.html">Recursos</a>
+  <a href="blog.html">Blog</a>
+  <a href="videos.html">Vídeos</a>
+  <a href="herramientas-datos.html" class="active">Herramientas</a>
+  <a href="sobre-mi.html">Sobre mí</a>
+  <a href="contacto.html" class="btn-p" style="font-size:1rem;padding:10px 24px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border-radius:50px;font-weight:600">Contacto</a>
+</div>
+
+<header id="main-header">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo-r">Ready</span><span class="logo-g">4Data</span>
+  </a>
+  <nav id="main-nav">
+    <a href="index.html">Inicio</a>
+    <a href="recursos.html">Recursos</a>
+    <a href="blog.html">Blog</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="herramientas-datos.html" class="active">Herramientas</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="contacto.html" class="nav-cta-btn">Contacto</a>
+  </nav>
+  <button class="hmbg" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-hero-label">Directorio</div>
+    <h1 class="page-hero-title">Herramientas de Datos & IA</h1>
+    <p class="page-hero-sub">Las mejores herramientas para analistas, data engineers e ingenieros de datos. Filtradas y curadas.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">100</div>
+        <div class="hero-stat-lbl">Herramientas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">10</div>
+        <div class="hero-stat-lbl">Categorías</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">52%</div>
+        <div class="hero-stat-lbl">Gratuitas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE LEGEND BAR -->
+<div class="ia-legend">
+  <div class="ia-legend-inner">
+    <span style="font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)">Precio:</span>
+    <span class="leg-item"><span class="leg-dot free"></span>Gratis</span>
+    <span class="leg-item"><span class="leg-dot freemium"></span>Freemium</span>
+    <span class="leg-item"><span class="leg-dot paid"></span>De pago</span>
+  </div>
+</div>
+
+<!-- STICKY TOOLBAR -->
+<div class="ia-toolbar-wrap">
+  <div class="ia-toolbar">
+    <div class="tb-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Buscar herramienta…" autocomplete="off">
+    </div>
+    <div class="tb-sep"></div>
+    <div class="tb-price-btns">
+      <button class="tb-price-btn btn-free"     data-price="free"     onclick="togglePrice(this)">Gratis</button>
+      <button class="tb-price-btn btn-freemium" data-price="freemium" onclick="togglePrice(this)">Freemium</button>
+      <button class="tb-price-btn btn-paid"     data-price="paid"     onclick="togglePrice(this)">De pago</button>
+    </div>
+    <div class="tb-sep"></div>
+    <span class="tb-count" id="toolCount">100 herramientas</span>
+  </div>
+</div>
+
+<!-- BODY: sidebar + main -->
+<div class="tools-layout">
+  <aside class="tools-sidebar" id="toolsSidebar">
+    <div class="sidebar-title">Categorías</div>
+    <ul class="sidebar-cats" id="sidebarCats">
+      <!-- rendered by JS -->
+    </ul>
+  </aside>
+  <main class="tools-main" id="toolsMain">
+    <!-- rendered by JS -->
+  </main>
+</div>
+
+<div class="no-results" id="noResults">
+  😕 Ninguna herramienta coincide con tu búsqueda. Prueba con otro término o quita algún filtro.
+</div>
+
+<!-- FOOTER -->
+<footer id="main-footer">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo-wrap" style="margin-bottom:4px">
+          <span class="logo-r" style="color:rgba(255,255,255,.9)">Ready</span><span class="logo-g">4Data</span>
+        </a>
+        <p class="ft-tagline">Aprende datos desde cero, sin miedo, sin código. El sitio donde los datos dejan de darte miedo.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Contenido</h4>
+        <ul>
+          <li><a href="recursos.html">Recursos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="videos.html">Vídeos</a></li>
+          <li><a href="herramientas-datos.html">Herramientas</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Más</h4>
+        <ul>
+          <li><a href="sobre-mi.html">Sobre mí</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Ready4Data · Hecho con &#128154; para los curiosos de los datos</span>
+      <span style="color:rgba(255,255,255,.4)">Sin código. Sin miedo. Paso a paso.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="scroll.js"></script>
+<script>
+const DATA = [
+  { id:"asistentes-ia", label:"Asistentes IA para Datos", emoji:"🤖", color:"#16a34a", tools:[
+    { name:"ChatGPT",        url:"https://chat.openai.com",              icon:"🤖", tag:"Top",  price:"freemium", tip:"Analiza datos, escribe SQL, interpreta resultados y explica conceptos con lenguaje natural." },
+    { name:"Claude",         url:"https://claude.ai",                   icon:"☁️", tag:"Top",  price:"freemium", tip:"Excelente para leer documentos técnicos, revisar código SQL/Python y generar explicaciones claras." },
+    { name:"Gemini",         url:"https://gemini.google.com",           icon:"✨", tag:"Top",  price:"freemium", tip:"Integrado con Google Sheets, Looker Studio y BigQuery. Análisis con lenguaje natural." },
+    { name:"Copilot",        url:"https://copilot.microsoft.com",       icon:"🪟",             price:"free",     tip:"Integrado en Excel y Power BI. Genera fórmulas, DAX y análisis con lenguaje natural." },
+    { name:"Julius AI",      url:"https://julius.ai",                   icon:"📈", tag:"Top",  price:"freemium", tip:"Sube un CSV y analiza con IA. Genera gráficos y estadísticas sin escribir código." },
+    { name:"Perplexity",     url:"https://www.perplexity.ai",           icon:"🔭",             price:"freemium", tip:"Búsqueda con IA en tiempo real. Ideal para investigar herramientas y conceptos de datos." },
+    { name:"DeepSeek",       url:"https://chat.deepseek.com",           icon:"🔵",             price:"free",     tip:"Modelo de alto rendimiento para generar y depurar código SQL, Python y dbt." },
+    { name:"NotebookLM",     url:"https://notebooklm.google.com",       icon:"📓",             price:"free",     tip:"Analiza y resume documentos técnicos. Perfecto para documentación de proyectos de datos." },
+    { name:"Poe",            url:"https://poe.com",                     icon:"🎭",             price:"freemium", tip:"Acceso a ChatGPT, Claude, Gemini y otros modelos desde un solo sitio." },
+    { name:"HuggingChat",    url:"https://huggingface.co/chat",         icon:"🤗",             price:"free",     tip:"Acceso gratuito a modelos open-source: Llama, Mistral, Mixtral y más." },
+  ]},
+  { id:"bi-visualizacion", label:"Business Intelligence & Visualización", emoji:"📊", color:"#2563eb", tools:[
+    { name:"Power BI",       url:"https://powerbi.microsoft.com",       icon:"🔵", tag:"Top",  price:"freemium", tip:"La herramienta BI más usada en España. Desktop gratis; Copilot integrado en Pro." },
+    { name:"Tableau",        url:"https://www.tableau.com",             icon:"📊", tag:"Top",  price:"paid",     tip:"Estándar en grandes corporaciones. Visualizaciones muy avanzadas. Einstein AI integrado." },
+    { name:"Looker Studio",  url:"https://lookerstudio.google.com",     icon:"🟡", tag:"Top",  price:"free",     tip:"100% gratis de Google. Conecta con GA4, Sheets, BigQuery y 600+ fuentes." },
+    { name:"Metabase",       url:"https://www.metabase.com",            icon:"📉",             price:"freemium", tip:"BI open-source con preguntas en lenguaje natural. Self-hosted gratis siempre." },
+    { name:"Apache Superset",url:"https://superset.apache.org",         icon:"🚀",             price:"free",     tip:"BI open-source de la Fundación Apache. Potente, con muchos tipos de gráfico." },
+    { name:"Redash",         url:"https://redash.io",                   icon:"📋",             price:"free",     tip:"Queries y dashboards compartidos. Sencillo y open-source. Ideal para equipos pequeños." },
+    { name:"Lightdash",      url:"https://www.lightdash.com",           icon:"💡",             price:"freemium", tip:"BI construido sobre dbt. Las métricas se definen en código, no en clics." },
+    { name:"Grafana",        url:"https://grafana.com",                 icon:"📡",             price:"freemium", tip:"Visualización de métricas y logs en tiempo real. Open-source y muy extensible." },
+    { name:"Sigma",          url:"https://www.sigmacomputing.com",      icon:"Σ",              price:"paid",     tip:"BI cloud con interfaz tipo hoja de cálculo. Muy potente para usuarios de negocio." },
+    { name:"Qlik Sense",     url:"https://www.qlik.com",                icon:"🟢",             price:"paid",     tip:"BI con motor de análisis asociativo. Alternativa sólida a Power BI y Tableau." },
+  ]},
+  { id:"sql-bbdd", label:"SQL & Bases de Datos", emoji:"🗄️", color:"#0f766e", tools:[
+    { name:"DBeaver",        url:"https://dbeaver.io",                  icon:"🦫", tag:"Top",  price:"free",     tip:"Cliente SQL universal compatible con 80+ bases de datos. Open-source y gratis." },
+    { name:"BigQuery",       url:"https://cloud.google.com/bigquery",   icon:"🔷", tag:"Top",  price:"freemium", tip:"Data warehouse serverless de Google. 1 TB de consultas y 10 GB de almacenamiento gratis/mes." },
+    { name:"PostgreSQL",     url:"https://www.postgresql.org",          icon:"🐘", tag:"Top",  price:"free",     tip:"Base de datos relacional open-source estándar del sector. Robusta y extensible." },
+    { name:"SQLiteOnline",   url:"https://sqliteonline.com",            icon:"🌐",             price:"free",     tip:"Practica SQL en el navegador sin instalar nada. Ideal para aprender desde cero." },
+    { name:"DuckDB",         url:"https://duckdb.org",                  icon:"🦆",             price:"free",     tip:"Análisis SQL en local ultrarrápido. Lee Parquet, CSV, JSON. Open-source y sin servidor." },
+    { name:"Snowflake",      url:"https://www.snowflake.com",           icon:"❄️",             price:"freemium", tip:"Data warehouse multi-cloud líder. Trial de 30 días con $400 en créditos." },
+    { name:"Mode",           url:"https://mode.com",                    icon:"📐",             price:"freemium", tip:"Plataforma de análisis SQL colaborativa con visualizaciones integradas." },
+    { name:"DataGrip",       url:"https://www.jetbrains.com/datagrip",  icon:"🔧",             price:"paid",     tip:"IDE SQL de JetBrains. Autocompletado inteligente para SQL en múltiples bases de datos." },
+    { name:"SQL Fiddle",     url:"http://sqlfiddle.com",                icon:"🎻",             price:"free",     tip:"Prueba y comparte consultas SQL en el navegador. Soporta MySQL, PostgreSQL y SQLite." },
+    { name:"TablePlus",      url:"https://tableplus.com",               icon:"🟩",             price:"freemium", tip:"Cliente de base de datos moderno con UI muy limpia. Free tier con 2 conexiones." },
+  ]},
+  { id:"etl-ingesta", label:"ETL & Ingesta de Datos", emoji:"🔄", color:"#7c3aed", tools:[
+    { name:"Fivetran",       url:"https://www.fivetran.com",            icon:"🔗", tag:"Top",  price:"paid",     tip:"Conectores ELT automatizados para 500+ fuentes. Líder del mercado enterprise." },
+    { name:"Airbyte",        url:"https://airbyte.com",                 icon:"🔌", tag:"Top",  price:"freemium", tip:"ELT open-source con 350+ conectores. Cloud free tier disponible." },
+    { name:"dlt",            url:"https://dlthub.com",                  icon:"🔄",             price:"free",     tip:"Data Load Tool: pipelines Python en minutos. Open-source, sin infraestructura." },
+    { name:"Stitch",         url:"https://www.stitchdata.com",          icon:"🧵",             price:"freemium", tip:"ELT simple y económico. Plan gratuito con límite mensual de filas." },
+    { name:"Hevo Data",      url:"https://hevodata.com",                icon:"💠",             price:"freemium", tip:"ELT sin código con 150+ conectores. Fácil de configurar." },
+    { name:"Meltano",        url:"https://meltano.com",                 icon:"🎵",             price:"free",     tip:"CLI open-source basado en Singer para ELT. Muy popular en la comunidad." },
+    { name:"Kafka",          url:"https://kafka.apache.org",            icon:"📨",             price:"free",     tip:"Streaming de datos en tiempo real. Open-source de Apache. Estándar para eventos." },
+    { name:"Debezium",       url:"https://debezium.io",                 icon:"🐛",             price:"free",     tip:"Change Data Capture (CDC) open-source. Captura cambios de base de datos en tiempo real." },
+    { name:"Spark",          url:"https://spark.apache.org",            icon:"⚡",             price:"free",     tip:"Procesamiento de datos a gran escala. Open-source. API en Python (PySpark), SQL y Scala." },
+    { name:"Flink",          url:"https://flink.apache.org",            icon:"🏄",             price:"free",     tip:"Procesamiento de streams en tiempo real. Alternativa a Spark Streaming. Open-source." },
+  ]},
+  { id:"orquestacion", label:"Orquestación & Transformación", emoji:"⚙️", color:"#c2410c", tools:[
+    { name:"Apache Airflow", url:"https://airflow.apache.org",          icon:"🌪️", tag:"Top", price:"free",     tip:"Orquestación de pipelines estándar del sector. Escribe DAGs en Python. Open-source." },
+    { name:"dbt Core",       url:"https://docs.getdbt.com",             icon:"⚡", tag:"Top",  price:"free",     tip:"Transformaciones SQL versionadas con tests y documentación. El estándar del analytics eng." },
+    { name:"dbt Cloud",      url:"https://www.getdbt.com",              icon:"☁️", tag:"Top",  price:"freemium", tip:"dbt con IDE en cloud, CI/CD, documentación y alertas. Developer plan gratis." },
+    { name:"Prefect",        url:"https://www.prefect.io",              icon:"🌊",             price:"freemium", tip:"Orquestación moderna con observabilidad. Cloud free tier. Alternativa más sencilla a Airflow." },
+    { name:"Dagster",        url:"https://dagster.io",                  icon:"💎",             price:"freemium", tip:"Orquestación con linaje de datos. OSS gratuito + Cloud gestionado." },
+    { name:"Mage AI",        url:"https://www.mage.ai",                 icon:"🧙",             price:"free",     tip:"Alternativa visual a Airflow con interfaz gráfica. Open-source." },
+    { name:"Great Expectations",url:"https://greatexpectations.io",     icon:"✅",             price:"freemium", tip:"Validación y calidad de datos. Define expectativas sobre tus datos. Open-source." },
+    { name:"Monte Carlo",    url:"https://www.montecarlodata.com",      icon:"🎰",             price:"paid",     tip:"Data observability: detecta anomalías y roturas en tus pipelines automáticamente." },
+    { name:"Elementary",     url:"https://www.elementary-data.com",     icon:"🔬",             price:"freemium", tip:"Monitorización de calidad de datos sobre dbt. Open-source con alertas Slack." },
+    { name:"Luigi",          url:"https://github.com/spotify/luigi",    icon:"🍄",             price:"free",     tip:"Pipeline de Python de Spotify. Simple y battle-tested. Open-source." },
+  ]},
+  { id:"notebooks", label:"Notebooks & Análisis Exploratorio", emoji:"📓", color:"#0369a1", tools:[
+    { name:"Jupyter",        url:"https://jupyter.org",                 icon:"🟠", tag:"Top",  price:"free",     tip:"Notebooks interactivos estándar para análisis de datos en Python, R y Julia." },
+    { name:"Google Colab",   url:"https://colab.research.google.com",   icon:"🟡", tag:"Top",  price:"free",     tip:"Jupyter en la nube con GPU gratuita de Google. Sin instalación, listo en segundos." },
+    { name:"Hex",            url:"https://hex.tech",                    icon:"⬡",              price:"freemium", tip:"Notebooks colaborativos con IA integrada y publicación de apps de datos." },
+    { name:"Deepnote",       url:"https://deepnote.com",                icon:"📒",             price:"freemium", tip:"Notebooks en cloud con colaboración en tiempo real. Free para individuos." },
+    { name:"Observable",     url:"https://observablehq.com",            icon:"👁️",             price:"freemium", tip:"Notebooks JavaScript para visualización de datos interactiva. Muy visual." },
+    { name:"Marimo",         url:"https://marimo.io",                   icon:"🌀",             price:"free",     tip:"Notebooks Python reactivos de nueva generación. Open-source." },
+    { name:"VS Code",        url:"https://code.visualstudio.com",       icon:"💙",             price:"free",     tip:"Editor con extensiones para Python, SQL, dbt, Jupyter y Git. El más usado." },
+    { name:"Streamlit",      url:"https://streamlit.io",                icon:"🎈",             price:"freemium", tip:"Apps de datos en Python en minutos. Open-source. Cloud gratis para proyectos públicos." },
+    { name:"Gradio",         url:"https://www.gradio.app",              icon:"🎨",             price:"free",     tip:"Interfaces web para modelos ML en Python. Open-source de Hugging Face." },
+    { name:"Evidence",       url:"https://evidence.dev",                icon:"📄",             price:"freemium", tip:"Informes de datos como código usando Markdown y SQL. Open-source." },
+  ]},
+  { id:"python-data", label:"Python para Datos", emoji:"🐍", color:"#15803d", tools:[
+    { name:"Pandas",         url:"https://pandas.pydata.org",           icon:"🐼", tag:"Top",  price:"free",     tip:"La librería de análisis de datos más usada en Python. DataFrames, limpieza y transformación." },
+    { name:"Polars",         url:"https://pola.rs",                     icon:"🐻‍❄️",           price:"free",     tip:"Alternativa a Pandas 10-100x más rápida escrita en Rust. Sintaxis moderna." },
+    { name:"NumPy",          url:"https://numpy.org",                   icon:"🔢",             price:"free",     tip:"Computación numérica arrays N-dimensionales. Base de todo el ecosistema científico Python." },
+    { name:"Plotly",         url:"https://plotly.com",                  icon:"📈",             price:"free",     tip:"Gráficos interactivos en Python y JavaScript. Perfecto para dashboards Dash." },
+    { name:"Matplotlib",     url:"https://matplotlib.org",              icon:"📉",             price:"free",     tip:"Gráficos estáticos en Python. La base de la visualización científica." },
+    { name:"Seaborn",        url:"https://seaborn.pydata.org",          icon:"🌊",             price:"free",     tip:"Gráficos estadísticos sobre Matplotlib. Más fácil y bonito para análisis exploratorio." },
+    { name:"SQLAlchemy",     url:"https://www.sqlalchemy.org",          icon:"🔗",             price:"free",     tip:"ORM y conexión a bases de datos SQL desde Python. Estándar del ecosistema." },
+    { name:"PySpark",        url:"https://spark.apache.org/docs/latest/api/python", icon:"⚡", price:"free",     tip:"API Python de Apache Spark. Procesa datasets de millones de filas en paralelo." },
+    { name:"Dask",           url:"https://www.dask.org",                icon:"⚙️",             price:"free",     tip:"Paralelización de Pandas y NumPy en múltiples núcleos o clusters. Open-source." },
+    { name:"Great Tables",   url:"https://posit-dev.github.io/great-tables", icon:"📋",       price:"free",     tip:"Tablas bonitas y publicables desde Pandas en Python. Inspirado en gt de R." },
+  ]},
+  { id:"cloud-storage", label:"Plataformas Cloud & Almacenamiento", emoji:"☁️", color:"#0f4c81", tools:[
+    { name:"BigQuery",       url:"https://cloud.google.com/bigquery",   icon:"🔷", tag:"Top",  price:"freemium", tip:"Data warehouse serverless de Google. 1 TB gratis/mes en consultas." },
+    { name:"Snowflake",      url:"https://www.snowflake.com",           icon:"❄️", tag:"Top",  price:"freemium", tip:"Data warehouse multi-cloud líder. Separa cómputo y almacenamiento." },
+    { name:"Databricks",     url:"https://www.databricks.com",          icon:"🔥", tag:"Top",  price:"freemium", tip:"Lakehouse sobre Spark con IA integrada. Community Edition gratuita." },
+    { name:"AWS Redshift",   url:"https://aws.amazon.com/redshift",     icon:"🟠",             price:"paid",     tip:"Data warehouse de Amazon AWS. Muy integrado con el ecosistema AWS." },
+    { name:"Azure Synapse",  url:"https://azure.microsoft.com/synapse", icon:"🔷",             price:"paid",     tip:"Data warehouse + Spark de Microsoft. Integrado con Power BI y Azure." },
+    { name:"Delta Lake",     url:"https://delta.io",                    icon:"△",              price:"free",     tip:"Formato de almacenamiento ACID open-source. Estándar en Databricks y Spark." },
+    { name:"Apache Iceberg", url:"https://iceberg.apache.org",          icon:"🧊",             price:"free",     tip:"Formato de tabla open-source para datasets masivos. Alternativa a Delta Lake." },
+    { name:"MinIO",          url:"https://min.io",                      icon:"🪣",             price:"free",     tip:"Object storage compatible con S3. Self-hosted y open-source para datos en local." },
+    { name:"Apache Parquet", url:"https://parquet.apache.org",          icon:"📦",             price:"free",     tip:"Formato columnar open-source para almacenar datos de forma eficiente." },
+    { name:"DuckDB",         url:"https://duckdb.org",                  icon:"🦆",             price:"free",     tip:"Análisis SQL en local sin servidor. Lee Parquet, CSV, JSON. Alternativa a Spark ligero." },
+  ]},
+  { id:"ml-automl", label:"Machine Learning & AutoML", emoji:"🧠", color:"#86198f", tools:[
+    { name:"scikit-learn",   url:"https://scikit-learn.org",            icon:"🔬", tag:"Top",  price:"free",     tip:"La librería ML de referencia en Python. Clasificación, regresión, clustering y más." },
+    { name:"H2O.ai",         url:"https://h2o.ai",                      icon:"💧",             price:"freemium", tip:"AutoML open-source muy potente. Community gratis; Enterprise bajo suscripción." },
+    { name:"MLflow",         url:"https://mlflow.org",                  icon:"📊",             price:"free",     tip:"Tracking de experimentos, versiones de modelos y despliegue. Open-source." },
+    { name:"Obviously AI",   url:"https://www.obviously.ai",            icon:"🔮",             price:"freemium", tip:"Predicciones ML en 1 clic sin código. Prueba gratuita disponible." },
+    { name:"Vertex AI",      url:"https://cloud.google.com/vertex-ai",  icon:"✨",             price:"freemium", tip:"ML platform de Google Cloud. AutoML + entrenamiento custom. Free tier." },
+    { name:"Azure ML",       url:"https://azure.microsoft.com/ml",      icon:"🔷",             price:"freemium", tip:"ML platform de Microsoft. Integrado con Power BI y Azure Synapse." },
+    { name:"SageMaker",      url:"https://aws.amazon.com/sagemaker",    icon:"🟠",             price:"freemium", tip:"ML platform de AWS. Notebooks gestionados y despliegue de modelos." },
+    { name:"Weights & Biases",url:"https://wandb.ai",                   icon:"🪄",             price:"freemium", tip:"Tracking de experimentos ML y visualización. Free tier muy generoso." },
+    { name:"DataRobot",      url:"https://www.datarobot.com",           icon:"🤖",             price:"paid",     tip:"AutoML enterprise. Modelos predictivos sin código. Precio bajo solicitud." },
+    { name:"SHAP",           url:"https://shap.readthedocs.io",         icon:"🔍",             price:"free",     tip:"Explainability de modelos ML. Entiende por qué el modelo predice lo que predice." },
+  ]},
+  { id:"aprendizaje", label:"Aprendizaje & Comunidad", emoji:"📚", color:"#b45309", tools:[
+    { name:"Kaggle",         url:"https://www.kaggle.com",              icon:"🏆", tag:"Top",  price:"free",     tip:"Competencias, notebooks gratuitos, datasets y cursos. La comunidad de datos más grande." },
+    { name:"Google Colab",   url:"https://colab.research.google.com",   icon:"🟡",             price:"free",     tip:"Practica Python para datos en el navegador con GPU gratuita." },
+    { name:"DataCamp",       url:"https://www.datacamp.com",            icon:"📡",             price:"freemium", tip:"Cursos interactivos de SQL, Python, R, Power BI y más. 80+ cursos gratuitos." },
+    { name:"SQLZoo",         url:"https://sqlzoo.net",                  icon:"🐘",             price:"free",     tip:"Aprende SQL con ejercicios interactivos progresivos. Completamente gratuito." },
+    { name:"Mode SQL",       url:"https://mode.com/sql-tutorial",       icon:"📐",             price:"free",     tip:"Tutorial SQL interactivo muy completo. Desde básico hasta window functions." },
+    { name:"dbt Learn",      url:"https://learn.getdbt.com",            icon:"⚡",             price:"free",     tip:"Cursos oficiales de dbt. Completamente gratuitos y muy bien estructurados." },
+    { name:"DataTalks.Club", url:"https://datatalks.club",              icon:"💬",             price:"free",     tip:"Comunidad de data engineering con cursos gratuitos de Zoomcamp muy valorados." },
+    { name:"LeetCode SQL",   url:"https://leetcode.com/problemset/database", icon:"💻",       price:"freemium", tip:"Problemas SQL para preparar entrevistas técnicas en empresas tech." },
+    { name:"Coursera Data",  url:"https://www.coursera.org/browse/data-science", icon:"🎓",   price:"freemium", tip:"Cursos de Google, IBM, Meta y DeepLearning.AI. Auditoría gratuita." },
+    { name:"Roadmap.sh",     url:"https://roadmap.sh/data-analyst",     icon:"🗺️",             price:"free",     tip:"Rutas de aprendizaje visuales para Data Analyst, Engineer y más. Gratis." },
+  ]},
+];
+
+// ── STATE ──
+let activePrices = new Set(); // empty = show all
+
+// ── RENDER ──
+function render() {
+  const sidebar = document.getElementById('sidebarCats');
+  const main    = document.getElementById('toolsMain');
+  sidebar.innerHTML = '';
+  main.innerHTML    = '';
+
+  DATA.forEach(cat => {
+    // Sidebar item
+    const li = document.createElement('li');
+    const a  = document.createElement('a');
+    a.href = '#' + cat.id;
+    a.innerHTML = `<span class="cat-emoji">${cat.emoji}</span><span class="cat-label">${cat.label}</span><span class="cat-count">${cat.tools.length}</span>`;
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById(cat.id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+    li.appendChild(a);
+    sidebar.appendChild(li);
+
+    // Category block
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    block.id = cat.id;
+    block.style.setProperty('--cat-color', cat.color);
+
+    const head = document.createElement('div');
+    head.className = 'cat-block-head';
+    head.innerHTML = `<span class="cat-head-emoji">${cat.emoji}</span><span class="cat-head-name">${cat.label}</span><span class="cat-head-count">${cat.tools.length} tools</span>`;
+    block.appendChild(head);
+
+    const grid = document.createElement('div');
+    grid.className = 'tool-grid';
+
+    cat.tools.forEach(tool => {
+      const item = document.createElement('a');
+      item.className = 'tool-item';
+      item.href = tool.url;
+      item.target = '_blank';
+      item.rel = 'noopener';
+      item.dataset.price = tool.price;
+      item.dataset.name  = tool.name.toLowerCase();
+      item.dataset.tip   = tool.tip;
+      item.setAttribute('data-tip', tool.tip);
+
+      const priceClass = tool.price === 'free' ? 'tbadge-free' : tool.price === 'freemium' ? 'tbadge-freemium' : 'tbadge-paid';
+      const priceLabel = tool.price === 'free' ? 'Gratis' : tool.price === 'freemium' ? 'Freemium' : 'De pago';
+      const tagHtml    = tool.tag ? `<span class="tool-tag">${tool.tag}</span>` : '';
+
+      item.innerHTML = `
+        <div class="tool-icon-wrap">${tool.icon}</div>
+        <div class="tool-name">${tool.name}</div>
+        ${tagHtml}
+        <span class="tbadge ${priceClass}">${priceLabel}</span>
+      `;
+      grid.appendChild(item);
+    });
+
+    block.appendChild(grid);
+    main.appendChild(block);
+  });
+}
+
+// ── FILTER ──
+function filterAll() {
+  const query  = document.getElementById('searchInput').value.toLowerCase().trim();
+  let visible  = 0;
+
+  document.querySelectorAll('.cat-block').forEach(block => {
+    let blockVisible = 0;
+    block.querySelectorAll('.tool-item').forEach(item => {
+      const nameMatch  = item.dataset.name.includes(query);
+      const priceMatch = activePrices.size === 0 || activePrices.has(item.dataset.price);
+      const show = nameMatch && priceMatch;
+      item.classList.toggle('hidden', !show);
+      if (show) { blockVisible++; visible++; }
+    });
+    block.classList.toggle('hidden', blockVisible === 0);
+  });
+
+  const countEl = document.getElementById('toolCount');
+  countEl.textContent = visible === 100 ? '100 herramientas' : `${visible} herramienta${visible !== 1 ? 's' : ''}`;
+
+  const noRes = document.getElementById('noResults');
+  noRes.classList.toggle('show', visible === 0);
+}
+
+function togglePrice(btn) {
+  const price = btn.dataset.price;
+  if (activePrices.has(price)) {
+    activePrices.delete(price);
+    btn.classList.remove('active');
+  } else {
+    activePrices.add(price);
+    btn.classList.add('active');
+  }
+  filterAll();
+}
+
+// ── INTERSECTION OBSERVER (sidebar highlight) ──
+function setupObserver() {
+  const sidebarLinks = document.querySelectorAll('#sidebarCats li a');
+  const linkMap = {};
+  sidebarLinks.forEach(a => {
+    const id = a.getAttribute('href').replace('#','');
+    linkMap[id] = a;
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(a => a.classList.remove('active'));
+        const link = linkMap[entry.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.cat-block').forEach(block => observer.observe(block));
+}
+
+// ── SEARCH INPUT ──
+document.getElementById('searchInput').addEventListener('input', filterAll);
+
+// ── INIT ──
+render();
+setupObserver();
+</script>
+</body>
+</html>

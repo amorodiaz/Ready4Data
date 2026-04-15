@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recursos gratuitos — Ready4Data</title>
+  <meta name="description" content="Descarga gratis SQL cheatsheets, glosarios, plantillas y guías para empezar en el mundo de los datos desde cero.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a3a2a' rx='12'/><line x1='50' y1='92' x2='50' y2='46' stroke='white' stroke-width='6' stroke-linecap='round' opacity='.8'/><path d='M50 62 C34 54 22 38 30 26 C38 14 50 26 50 46' fill='white' opacity='.7'/><path d='M50 56 C66 48 80 34 72 22 C64 10 50 22 50 42' fill='white' opacity='.55'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    :root{
+      --bg:#ffffff;--bg2:#f8f8f6;--bg3:#f0f0ec;
+      --t:#0a0a0a;--t2:#4a4a4a;--t3:#9a9a9a;
+      --ac:#1a3a2a;--ac2:#14532d;
+      --hl:#16a34a;--hl2:#f59e0b;
+      --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
+      --r:4px;
+      --s:0 2px 12px rgba(0,0,0,.06);
+      --s2:0 8px 32px rgba(0,0,0,.11);
+      --fb:'Inter','Segoe UI',system-ui,sans-serif;
+      --fe:'Playfair Display',Georgia,serif;
+      --fd:'Syne','Arial Black',sans-serif
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--fb);color:var(--t);background:var(--bg);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;height:auto;display:block}
+
+    #scroll-progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#16a34a,#f59e0b);z-index:9999;transition:width .1s linear}
+
+    #main-header{position:fixed;top:3px;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled{background:rgba(253,252,249,.97);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(0,0,0,.08)}
+    .logo-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;display:flex;align-items:center;gap:2px;text-decoration:none}
+    .logo-r{color:#fff;transition:color .3s}
+    #main-header.scrolled .logo-r{color:#1a3a2a}
+    .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #main-nav{display:flex;align-items:center;gap:28px}
+    #main-nav a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:color .2s;text-decoration:none}
+    #main-nav a:hover,#main-nav a.active{color:#fff}
+    #main-header.scrolled #main-nav a{color:#374151}
+    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#16a34a}
+    .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
+    .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hmbg span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    #main-header.scrolled .hmbg span{background:#374151}
+    #mob-nav{display:none;position:fixed;inset:0;background:rgba(13,37,24,.98);z-index:998;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    #mob-nav.open{display:flex}
+    #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;text-decoration:none}
+    #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
+
+    /* PAGE HERO */
+    .page-hero{position:relative;height:380px;display:flex;align-items:center;overflow:hidden;margin-top:0}
+    .page-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1400&auto=format&fit=crop&q=80');background-size:cover;background-position:center}
+    .page-hero-overlay{position:absolute;inset:0;background:rgba(10,28,18,.80)}
+    .page-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;padding-top:5rem;width:100%}
+    .page-hero-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .page-hero-label::before{content:'';display:block;width:24px;height:2px;background:var(--hl2)}
+    .page-hero-title{font-family:var(--fe);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:.85rem}
+    .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.78);max-width:520px;line-height:1.7}
+
+    /* SECTIONS */
+    .sec-white{padding:90px 0;background:var(--bg)}
+    .sec-gray{padding:90px 0;background:var(--bg2)}
+    .cnt{max-width:1200px;margin:0 auto;padding:0 2rem}
+    .sec-header{margin-bottom:3rem}
+    .sec-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hl);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}
+    .sec-label::before{content:'';display:block;width:20px;height:2px;background:var(--hl)}
+    .sec-title{font-family:var(--fe);font-size:clamp(1.9rem,4vw,2.7rem);font-weight:800;color:var(--t);line-height:1.15;margin-bottom:.85rem}
+    .sec-sub{font-size:1rem;color:var(--t2);max-width:580px;line-height:1.75}
+
+    /* RESOURCE GRID */
+    .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .pc{background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:all .3s}
+    .pc:hover{box-shadow:var(--s2);transform:translateY(-4px);border-color:var(--hl)}
+    .pc-head{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem .5rem}
+    .pc-cat{font-family:var(--fd);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hl)}
+    .pc-badge.free{background:#dcfce7;color:#166534;border:1px solid #86efac;font-family:var(--fd);font-size:.6rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
+    .pc-icon{font-size:2.4rem;padding:.75rem 1.5rem .25rem;line-height:1}
+    .pc-body{padding:.5rem 1.5rem 1rem;flex:1}
+    .pc-title{font-family:var(--fe);font-size:1.05rem;font-weight:700;color:var(--t);margin-bottom:.5rem;line-height:1.3}
+    .pc-desc{font-size:.85rem;color:var(--t2);line-height:1.65;margin-bottom:.85rem}
+    .pc-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+    .pc-tag{font-family:var(--fd);font-size:.62rem;font-weight:600;background:var(--bg2);border:1px solid var(--bd);padding:.18rem .55rem;border-radius:20px;color:var(--t3)}
+    .pc-foot{padding:1rem 1.5rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+    .pc-level{font-family:var(--fd);font-size:.68rem;font-weight:700;color:var(--ac);letter-spacing:.06em}
+    .btn-dl{display:inline-block;background:var(--ac);color:#fff;padding:.42rem 1rem;border-radius:var(--r);font-family:var(--fd);font-size:.72rem;font-weight:700;letter-spacing:.04em;transition:background .2s}
+    .btn-dl:hover{background:var(--ac2)}
+
+    /* LEAD MAGNET BANNER */
+    .lm-card{grid-column:1/-1;background:linear-gradient(135deg,#0d2518,#1a3a2a);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:300px 1fr;margin-bottom:1.5rem;box-shadow:0 8px 40px rgba(0,0,0,.22)}
+    .lm-img-wrap{background:#091a10;display:flex;align-items:center;justify-content:center;padding:36px 28px;position:relative}
+    .lm-img-wrap::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(22,163,74,.18),transparent 70%)}
+    .lm-img{max-height:300px;width:auto;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.5);position:relative;z-index:1}
+    .lm-body{padding:44px 48px;display:flex;flex-direction:column;justify-content:center}
+    .lm-badges{display:flex;gap:8px;margin-bottom:14px}
+    .lm-badge{font-family:var(--fd);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+    .lm-badge.green{background:#16a34a;color:#fff}
+    .lm-badge.amber{background:#f59e0b;color:#fff}
+    .lm-title{font-family:var(--fe);font-size:clamp(1.9rem,3vw,2.6rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+    .lm-desc{font-size:.95rem;color:rgba(255,255,255,.72);line-height:1.78;margin-bottom:18px;max-width:480px}
+    .lm-bullets{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:24px}
+    .lm-bullets span{font-family:var(--fd);font-size:.76rem;font-weight:700;color:rgba(255,255,255,.85)}
+    .lm-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .lm-input{flex:1;min-width:200px;padding:.8rem 1rem;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.09);border-radius:var(--r);font-family:var(--fb);font-size:.9rem;color:#fff;outline:none;transition:border-color .2s}
+    .lm-input::placeholder{color:rgba(255,255,255,.38)}
+    .lm-input:focus{border-color:rgba(255,255,255,.55)}
+    .lm-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;padding:.8rem 1.4rem;border:none;border-radius:var(--r);font-family:var(--fd);font-size:.78rem;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .lm-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(22,163,74,.45)}
+    .lm-fine{font-size:.73rem;color:rgba(255,255,255,.4)}
+
+    /* NL CTA */
+    .nl-cta{padding:80px 0;background:linear-gradient(135deg,#1a3a2a,#14532d)}
+    .nl-cta-inner{max-width:600px;margin:0 auto;text-align:center;padding:0 2rem}
+    .nl-cta h2{font-family:var(--fe);font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:#fff;margin-bottom:.75rem;line-height:1.2}
+    .nl-cta p{font-size:.95rem;color:rgba(255,255,255,.72);margin-bottom:2rem;line-height:1.7}
+    .nl-form{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+    .nl-form input{flex:1;min-width:220px;padding:.82rem 1rem;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);border-radius:var(--r);font-family:var(--fb);font-size:.9rem;color:#fff;outline:none;transition:border-color .2s}
+    .nl-form input::placeholder{color:rgba(255,255,255,.5)}
+    .nl-form input:focus{border-color:rgba(255,255,255,.5)}
+    .btn-nl-sub{background:var(--hl2);color:#fff;padding:.82rem 1.5rem;border:none;border-radius:var(--r);font-family:var(--fd);font-size:.78rem;font-weight:700;letter-spacing:.04em;cursor:pointer;white-space:nowrap;transition:all .2s}
+    .btn-nl-sub:hover{background:#d97706;transform:translateY(-1px)}
+
+    /* FOOTER */
+    #main-footer{background:#0d2518;color:rgba(255,255,255,.7);padding:60px 32px 32px}
+    .ft-in{max-width:1200px;margin:0 auto}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+    .ft-brand{color:rgba(255,255,255,.7)}
+    .ft-tagline{font-size:.88rem;line-height:1.6;margin-top:12px;max-width:280px;color:rgba(255,255,255,.55)}
+    .ft-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:rgba(255,255,255,.9);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
+    .ft-col ul{list-style:none}
+    .ft-col ul li{margin-bottom:10px}
+    .ft-col ul li a{color:rgba(255,255,255,.6);font-size:.88rem;transition:color .2s;text-decoration:none}
+    .ft-col ul li a:hover{color:#4ade80}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+
+    /* ANIMATIONS */
+    .rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+    .rv.in{opacity:1;transform:translateY(0)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+    .iz img{transform:scale(1.05);transition:transform .8s ease}
+    .iz.iz-in img{transform:scale(1)}
+
+    @media(max-width:1024px){.pgrid{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr 1fr}.ft-brand{grid-column:span 2}}
+    @media(max-width:768px){.hmbg{display:flex}#main-nav{display:none}.pgrid{grid-template-columns:1fr}.nl-form{flex-direction:column}.btn-nl-sub{width:100%}.ft-top{grid-template-columns:1fr}.ft-brand{grid-column:span 1}.ft-bot{flex-direction:column;gap:12px;text-align:center}.lm-card{grid-template-columns:1fr}.lm-img-wrap{padding:24px;max-height:200px}.lm-img{max-height:160px}.lm-body{padding:28px 24px}}
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<div id="mob-nav">
+  <button id="mob-close">&#10005;</button>
+  <a href="index.html">Inicio</a>
+  <a href="recursos.html">Recursos</a>
+  <a href="blog.html">Blog</a>
+  <a href="videos.html">Vídeos</a>
+  <a href="herramientas-datos.html">Herramientas</a>
+  <a href="sobre-mi.html">Sobre mí</a>
+  <a href="contacto.html" class="btn-p" style="font-size:1rem;padding:10px 24px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border-radius:50px;font-weight:600">Contacto</a>
+</div>
+
+<header id="main-header">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo-r">Ready</span><span class="logo-g">4Data</span>
+  </a>
+  <nav id="main-nav">
+    <a href="index.html">Inicio</a>
+    <a href="recursos.html" class="active">Recursos</a>
+    <a href="blog.html">Blog</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="herramientas-datos.html">Herramientas</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="contacto.html" class="nav-cta-btn">Contacto</a>
+  </nav>
+  <button class="hmbg" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-label">Biblioteca</div>
+    <h1 class="page-hero-title">Recursos gratuitos</h1>
+    <p class="page-hero-sub">Todo lo que necesitas para empezar, sin pagar nada.</p>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section class="sec-white">
+  <div class="cnt">
+    <div class="sec-header">
+      <div class="sec-label rv">Descarga gratis</div>
+      <h2 class="sec-title rv d1">Todos los recursos</h2>
+      <p class="sec-sub rv d2">8 recursos descargables para empezar tu viaje en el mundo de los datos.</p>
+    </div>
+    <div class="pgrid">
+
+      <!-- LEAD MAGNET: Domina SQL -->
+      <div class="lm-card rv">
+        <div class="lm-img-wrap">
+          <img src="Domina SQL.png" alt="Domina SQL — Guía gratuita" class="lm-img">
+        </div>
+        <div class="lm-body">
+          <div class="lm-badges">
+            <span class="lm-badge green">Gratis</span>
+            <span class="lm-badge amber">Destacado</span>
+          </div>
+          <h2 class="lm-title">Domina SQL</h2>
+          <p class="lm-desc">La guía definitiva para aprender SQL desde cero. Ejemplos reales, los errores que debes evitar y los trucos que usan los profesionales. Deja tu email y te lo envío ahora mismo.</p>
+          <div class="lm-bullets">
+            <span>✅ SQL desde cero</span>
+            <span>✅ Ejercicios reales</span>
+            <span>✅ Sin tecnicismos</span>
+          </div>
+          <form class="lm-form" action="https://formspree.io/f/FORMSPREE_DATABYNU_AQUI" method="POST">
+            <input type="hidden" name="_subject" value="Solicitud: Domina SQL">
+            <input type="email" name="email" placeholder="tu@email.com" required autocomplete="email" class="lm-input">
+            <button type="submit" class="lm-btn">Quiero la guía gratis →</button>
+          </form>
+          <p class="lm-fine">Sin spam. Solo datos útiles. Puedes darte de baja cuando quieras.</p>
+        </div>
+      </div>
+
+      <div class="pc rv">
+        <div class="pc-head">
+          <span class="pc-cat">SQL</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">📄</div>
+        <div class="pc-body">
+          <div class="pc-title">SQL Cheatsheet para Principiantes</div>
+          <p class="pc-desc">Las 20 consultas que usarás el 80% del tiempo. Con ejemplos reales y explicaciones en castellano.</p>
+          <div class="pc-tags"><span class="pc-tag">SQL</span><span class="pc-tag">Principiante</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Nivel 2</span>
+          <a href="Recursos/sql-cheatsheet-principiantes.html" download="sql-cheatsheet-principiantes.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv d1">
+        <div class="pc-head">
+          <span class="pc-cat">Glosario</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">📖</div>
+        <div class="pc-body">
+          <div class="pc-title">Glosario de Datos</div>
+          <p class="pc-desc">50 términos del mundo de los datos explicados sin tecnicismos. Perfecto para guardar de referencia.</p>
+          <div class="pc-tags"><span class="pc-tag">Fundamentos</span><span class="pc-tag">Todos</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Nivel 0</span>
+          <a href="Recursos/glosario-datos.html" download="glosario-datos.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv d2">
+        <div class="pc-head">
+          <span class="pc-cat">Guía</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">🗺️</div>
+        <div class="pc-body">
+          <div class="pc-title">Tu primer día en el mundo de los datos</div>
+          <p class="pc-desc">10 páginas para orientarte sin instalar nada. El punto de partida ideal si no sabes por dónde empezar.</p>
+          <div class="pc-tags"><span class="pc-tag">Fundamentos</span><span class="pc-tag">Principiante</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Nivel 0</span>
+          <a href="Recursos/primer-dia-datos.html" download="primer-dia-datos.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv">
+        <div class="pc-head">
+          <span class="pc-cat">Plantilla</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">📊</div>
+        <div class="pc-body">
+          <div class="pc-title">Plantilla Excel → SQL</div>
+          <p class="pc-desc">Traduce tus fórmulas favoritas de Excel a SQL. SUMA, BUSCARV, SI... todas tienen su equivalente.</p>
+          <div class="pc-tags"><span class="pc-tag">Excel</span><span class="pc-tag">SQL</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Nivel 1</span>
+          <a href="Recursos/plantilla-excel-sql.html" download="plantilla-excel-sql.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv d1">
+        <div class="pc-head">
+          <span class="pc-cat">Ruta</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">🗺️</div>
+        <div class="pc-body">
+          <div class="pc-title">Rutas de aprendizaje (PDF)</div>
+          <p class="pc-desc">Qué aprender y en qué orden. 4 rutas para 4 niveles. Sin perder el tiempo en lo que no importa aún.</p>
+          <div class="pc-tags"><span class="pc-tag">Planificación</span><span class="pc-tag">Todos</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Todos</span>
+          <a href="Recursos/rutas-aprendizaje.html" download="rutas-aprendizaje.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv d2">
+        <div class="pc-head">
+          <span class="pc-cat">Checklist</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">✅</div>
+        <div class="pc-body">
+          <div class="pc-title">¿Estoy listo para el mundo de los datos?</div>
+          <p class="pc-desc">Autoevaluación honesta de 20 preguntas. Descubre en qué nivel estás y cuál es tu próximo paso.</p>
+          <div class="pc-tags"><span class="pc-tag">Evaluación</span><span class="pc-tag">Todos</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Todos</span>
+          <a href="Recursos/checklist-listo-datos.html" download="checklist-listo-datos.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv">
+        <div class="pc-head">
+          <span class="pc-cat">Mini-curso</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">📧</div>
+        <div class="pc-body">
+          <div class="pc-title">Qué es un Data Warehouse</div>
+          <p class="pc-desc">En 5 emails simples. Te explico qué es un almacén de datos, para qué sirve y cuándo lo necesitas.</p>
+          <div class="pc-tags"><span class="pc-tag">Fundamentos</span><span class="pc-tag">SQL</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Nivel 1</span>
+          <a href="Recursos/data-warehouse-guia.html" download="data-warehouse-guia.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+      <div class="pc rv d1">
+        <div class="pc-head">
+          <span class="pc-cat">Plantilla CV</span>
+          <span class="pc-badge free">Gratis</span>
+        </div>
+        <div class="pc-icon">📝</div>
+        <div class="pc-body">
+          <div class="pc-title">Plantilla de CV para roles de datos</div>
+          <p class="pc-desc">Cómo destacar lo que ya sabes aunque no tengas experiencia formal. Con ejemplos y consejos reales.</p>
+          <div class="pc-tags"><span class="pc-tag">Carrera</span><span class="pc-tag">Principiante</span></div>
+        </div>
+        <div class="pc-foot">
+          <span class="pc-level">Todos</span>
+          <a href="Recursos/plantilla-cv-datos.html" download="plantilla-cv-datos.html" class="btn-dl">Abrir recurso →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER CTA -->
+<section class="nl-cta">
+  <div class="nl-cta-inner">
+    <div class="rv">
+      <h2>¿Quieres más recursos cada semana?</h2>
+      <p>Suscríbete al newsletter y recibe nuevos recursos, guías y consejos directamente en tu email.</p>
+    </div>
+    <form class="nl-form rv d1" action="https://formspree.io/f/FORMSPREE_DATABYNU_AQUI" method="POST">
+      <input type="email" name="email" placeholder="tu@email.com" required autocomplete="email">
+      <button type="submit" class="btn-nl-sub">Suscribirme gratis →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="main-footer">
+  <div class="ft-in">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo-wrap" style="margin-bottom:4px">
+          <span class="logo-r" style="color:rgba(255,255,255,.9)">Ready</span><span class="logo-g">4Data</span>
+        </a>
+        <p class="ft-tagline">Aprende datos desde cero, sin miedo, sin código. El sitio donde los datos dejan de darte miedo.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Contenido</h4>
+        <ul>
+          <li><a href="recursos.html">Recursos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="videos.html">Vídeos</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Más</h4>
+        <ul>
+          <li><a href="sobre-mi.html">Sobre mí</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Ready4Data · Hecho con &#128154; para los curiosos de los datos</span>
+      <span style="color:rgba(255,255,255,.4)">Sin código. Sin miedo. Paso a paso.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="scroll.js"></script>
+</body>
+</html>
