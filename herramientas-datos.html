@@ -39,11 +39,15 @@
     .logo-r{color:#fff;transition:color .3s}
     #main-header.scrolled .logo-r{color:#1a3a2a}
     .logo-g{background:linear-gradient(135deg,#16a34a,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    #main-nav{display:flex;align-items:center;gap:28px}
-    #main-nav a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:color .2s;text-decoration:none}
-    #main-nav a:hover,#main-nav a.active{color:#fff}
-    #main-header.scrolled #main-nav a{color:#374151}
-    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#16a34a}
+    #main-nav{display:flex;align-items:center;gap:.3rem}
+    #main-nav a{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:#fff;padding:.5rem 1rem;border-radius:20px;transition:all .2s;letter-spacing:.02em;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.28);text-decoration:none}
+    #main-nav a:hover,#main-nav a.active{color:#fff;background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.6)}
+    #main-header.scrolled #main-nav a{color:#374151;background:transparent;border-color:transparent}
+    #main-header.scrolled #main-nav a:hover,#main-header.scrolled #main-nav a.active{color:#0a0a0a;background:#f0f0ec;border-color:transparent}
+    .nav-cta-btn{background:rgba(255,255,255,.18) !important;border:1.5px solid rgba(255,255,255,.5) !important;color:#fff !important;padding:.45rem 1.1rem !important;backdrop-filter:blur(4px)}
+    .nav-cta-btn:hover{background:rgba(255,255,255,.28) !important;border-color:#fff !important;transform:none !important;box-shadow:none !important}
+    #main-header.scrolled .nav-cta-btn{background:#1a3a2a !important;border-color:#1a3a2a !important;color:#fff !important}
+    #main-header.scrolled .nav-cta-btn:hover{background:#14532d !important;border-color:#14532d !important}
     .nav-cta-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white !important;padding:8px 20px;border-radius:50px;font-weight:600 !important;transition:all .3s cubic-bezier(.4,0,.2,1)}
     .nav-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.4)}
     .hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
