@@ -53,15 +53,35 @@
     #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;text-decoration:none}
     #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
 
-    /* PAGE HERO */
-    .page-hero{position:relative;height:420px;display:flex;align-items:center;overflow:hidden}
-    .page-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&auto=format&fit=crop&q=80');background-size:cover;background-position:center}
-    .page-hero-overlay{position:absolute;inset:0;background:rgba(10,28,18,.75)}
-    .page-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;padding-top:5rem;width:100%}
-    .page-hero-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
-    .page-hero-label::before{content:'';display:block;width:24px;height:2px;background:var(--hl2)}
-    .page-hero-title{font-family:var(--fe);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:.85rem}
-    .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.78);max-width:560px;line-height:1.7}
+    /* ── Hero Slider ── */
+    .page-hero{position:relative;height:72vh;min-height:520px;overflow:hidden}
+    .hs-bg{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity 1.2s ease}
+    .hs-bg.hs-active{opacity:1}
+    .hs-img{position:absolute;inset:-6%;background-size:cover;background-position:center;will-change:transform;transform:scale(1)}
+    .hs-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(5,18,10,.92) 0%,rgba(5,18,10,.78) 42%,rgba(5,18,10,.4) 68%,rgba(5,18,10,.1) 100%)}
+    .hs-content{position:absolute;inset:0;z-index:2;display:flex;align-items:center;padding:100px 48px 80px}
+    .hs-slides-wrap{max-width:1200px;margin:0 auto;width:100%;position:relative;min-height:280px}
+    .hs-slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;pointer-events:none;max-width:580px}
+    .hs-slide.hs-active{opacity:1;pointer-events:auto}
+    .hs-tag{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .hs-tag::before{content:'';display:block;width:22px;height:2px;background:#f59e0b;flex-shrink:0}
+    .hs-h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:18px}
+    .hs-h1 em{font-style:italic;color:#4ade80}
+    .hs-sub{font-size:1rem;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:32px;max-width:480px;font-weight:300}
+    .hs-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .hs-btn-p{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;padding:12px 28px;border-radius:50px;font-weight:700;font-size:.95rem;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(22,163,74,.4);transition:all .3s;text-decoration:none;font-family:'Inter',sans-serif}
+    .hs-btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(22,163,74,.5)}
+    .hs-btn-ghost{color:rgba(255,255,255,.88);padding:12px 26px;border-radius:50px;font-weight:600;border:1.5px solid rgba(255,255,255,.35);display:inline-flex;align-items:center;gap:8px;transition:all .3s;font-size:.93rem;text-decoration:none;font-family:'Inter',sans-serif}
+    .hs-btn-ghost:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.65)}
+    .hs-nav{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+    .hs-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;padding:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
+    .hs-dot.hs-active{background:#fff;width:28px;border-radius:4px}
+    .hs-arrows{position:absolute;bottom:20px;right:48px;display:flex;gap:10px;z-index:10}
+    .hs-arr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.82);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:sans-serif;line-height:1}
+    .hs-arr:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
+    .hs-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:10}
+    .hs-bar{height:100%;background:linear-gradient(90deg,#16a34a,#f59e0b);width:0%}
+    @media(max-width:768px){.hs-content{padding:80px 24px 70px}.hs-h1{font-size:clamp(1.9rem,7vw,2.8rem)}.hs-overlay{background:linear-gradient(180deg,rgba(5,18,10,.82) 0%,rgba(5,18,10,.68) 100%)}.hs-arrows{right:24px}}
 
     /* SECTIONS */
     .sec-white{padding:90px 0;background:var(--bg)}
@@ -260,13 +280,51 @@
 
 <!-- PAGE HERO -->
 <section class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-overlay"></div>
-  <div class="page-hero-content">
-    <div class="page-hero-label">Canal de YouTube</div>
-    <h1 class="page-hero-title">Datos en vídeo,<br>explicados sin rodeos</h1>
-    <p class="page-hero-sub">Tutoriales prácticos sobre SQL, Excel, Power BI y análisis de datos. Cortos, claros y aplicables desde el primer minuto.</p>
+  <div class="hs-bg hs-active"><div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1536240478700-b869ad10e128?w=1400&auto=format&fit=crop&q=85')"></div></div>
+  <div class="hs-bg"><div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1400&auto=format&fit=crop&q=85')"></div></div>
+  <div class="hs-bg"><div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1574717024453-354056afd6fc?w=1400&auto=format&fit=crop&q=85')"></div></div>
+  <div class="hs-overlay"></div>
+  <div class="hs-content">
+    <div class="hs-slides-wrap">
+      <div class="hs-slide hs-active">
+        <span class="hs-tag hs-el">Ready4Data · Vídeos</span>
+        <h1 class="hs-h1 hs-el">Datos en vídeo,<br><em>sin rodeos.</em></h1>
+        <p class="hs-sub hs-el">Tutoriales prácticos sobre SQL, Excel, Power BI y análisis de datos. Cortos, claros y aplicables desde el primer minuto.</p>
+        <div class="hs-btns hs-el">
+          <a href="#video-grid" class="hs-btn-p">Ver todos los vídeos →</a>
+          <a href="recursos.html" class="hs-btn-ghost">Recursos gratuitos</a>
+        </div>
+      </div>
+      <div class="hs-slide">
+        <span class="hs-tag hs-el" style="color:#60a5fa">SQL · Excel · Power BI · Python</span>
+        <h2 class="hs-h1 hs-el">Aprende viendo,<br><em style="color:#60a5fa">practicando.</em></h2>
+        <p class="hs-sub hs-el">Cada vídeo va directo al grano. Sin relleno, sin intro de 3 minutos. Solo lo que necesitas saber para avanzar.</p>
+        <div class="hs-btns hs-el">
+          <a href="#video-grid" class="hs-btn-p" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);box-shadow:0 4px 20px rgba(59,130,246,.4)">Ver catálogo completo →</a>
+          <a href="blog.html" class="hs-btn-ghost">Leer artículos</a>
+        </div>
+      </div>
+      <div class="hs-slide">
+        <span class="hs-tag hs-el">Gratuito · Sin registro</span>
+        <h2 class="hs-h1 hs-el">El lado humano<br>de los <em>datos.</em></h2>
+        <p class="hs-sub hs-el">Empieza con nuestro vídeo más visto: cómo pasar del caos a la claridad con los datos. Sin tecnicismos, con ejemplos reales.</p>
+        <div class="hs-btns hs-el">
+          <a href="#video-grid" class="hs-btn-p">Ver ahora →</a>
+          <a href="index.html" class="hs-btn-ghost">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="hs-nav">
+    <button class="hs-dot hs-active" data-idx="0"></button>
+    <button class="hs-dot" data-idx="1"></button>
+    <button class="hs-dot" data-idx="2"></button>
+  </div>
+  <div class="hs-arrows">
+    <button class="hs-arr" id="ph-prev">&#8249;</button>
+    <button class="hs-arr" id="ph-next">&#8250;</button>
+  </div>
+  <div class="hs-progress"><div class="hs-bar" id="ph-bar"></div></div>
 </section>
 
 <!-- FEATURED VIDEO -->
@@ -277,26 +335,22 @@
       <h2 class="sec-title rv d1">Último vídeo publicado</h2>
     </div>
     <div class="featured-video rv d2">
-      <div class="fv-embed thumb-anim ta-sql" onclick="openVid('v001')" style="cursor:pointer">
-        <div class="ta-bg">
-          <div class="ta-grid"></div>
-          <div class="ta-sql-code">
-            <span class="kw">SELECT</span> <span class="hl">nombre</span>, edad<br>
-            &nbsp;&nbsp;<span class="fn">COUNT</span>(*) <span class="kw">AS</span> total<br>
-            <span class="kw">FROM</span> usuarios<br>
-            <span class="kw">WHERE</span> activo = <span class="hl">1</span><br>
-            <span class="kw">GROUP BY</span> ciudad
+      <div class="fv-embed" onclick="openVid('v007')" style="cursor:pointer;position:relative;overflow:hidden;border-radius:12px;background:#071228;aspect-ratio:16/9">
+        <video src="videos/Datos__De_Confusión_a_Claridad.mp4" muted playsinline preload="metadata" onloadedmetadata="this.currentTime=3" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);display:block"></video>
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 55%)"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+          <div style="width:68px;height:68px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .3s">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#1d4ed8"><polygon points="5,3 19,12 5,21"/></svg>
           </div>
         </div>
-        <span class="ta-cat-badge">SQL</span>
-        <span class="ta-duration">~8 min</span>
-        <div class="ta-play-btn"><div class="ta-play-circle"><div class="ta-play-tri"></div></div></div>
+        <span style="position:absolute;top:14px;left:14px;background:rgba(59,130,246,.9);color:#fff;font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 13px;border-radius:50px">🎬 Nuevo</span>
+        <span style="position:absolute;top:14px;right:14px;background:rgba(0,0,0,.6);color:#fff;font-family:'Syne',sans-serif;font-size:.7rem;padding:4px 10px;border-radius:20px">~12 min</span>
       </div>
       <div class="fv-body">
-        <div class="fv-label">SQL · Fundamentos</div>
-        <h3 class="fv-title">¿Qué es SQL y para qué sirve?</h3>
-        <p class="fv-desc">Aprende qué es SQL, por qué todo el mundo habla de ello y si tú necesitas aprenderlo. Te lo explico desde cero con ejemplos reales, sin tecnicismos y sin instalar nada.</p>
-        <button onclick="openVid('v001')" class="btn-primary">▶ Ver vídeo</button>
+        <div class="fv-label">Presentación · Introducción</div>
+        <h3 class="fv-title">Datos: De Confusión a Claridad</h3>
+        <p class="fv-desc">¿Por qué los datos generan tanto miedo? Descubre el lado humano de los datos y cómo pasar del caos a la comprensión — con ejemplos reales, sin tecnicismos y sin instalar nada.</p>
+        <button onclick="openVid('v007')" class="btn-primary">▶ Ver vídeo</button>
       </div>
     </div>
   </div>
@@ -382,6 +436,45 @@
 </footer>
 
 <script src="scroll.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var TOTAL=document.querySelectorAll('.page-hero .hs-bg').length;
+  var DURATION=5;
+  var cur=0,timer=null,paused=false;
+  var bgs=document.querySelectorAll('.page-hero .hs-bg');
+  var slides=document.querySelectorAll('.page-hero .hs-slide');
+  var dots=document.querySelectorAll('.page-hero .hs-dot');
+  var bar=document.getElementById('ph-bar');
+  var prev=document.getElementById('ph-prev');
+  var next=document.getElementById('ph-next');
+  function goTo(idx){
+    bgs[cur].classList.remove('hs-active');
+    slides[cur].classList.remove('hs-active');
+    dots[cur].classList.remove('hs-active');
+    cur=(idx+TOTAL)%TOTAL;
+    bgs[cur].classList.add('hs-active');
+    slides[cur].classList.add('hs-active');
+    dots[cur].classList.add('hs-active');
+    gsap.killTweensOf(bgs[cur].querySelector('.hs-img'));
+    gsap.fromTo(bgs[cur].querySelector('.hs-img'),{scale:1},{scale:1.08,duration:DURATION,ease:'none'});
+    var els=slides[cur].querySelectorAll('.hs-el');
+    gsap.fromTo(els,{y:28,opacity:0},{y:0,opacity:1,duration:.65,stagger:.1,ease:'power2.out',clearProps:'transform'});
+    if(bar){gsap.killTweensOf(bar);gsap.fromTo(bar,{width:'0%'},{width:'100%',duration:DURATION,ease:'none',onComplete:function(){if(!paused)goTo(cur+1);}});}
+    clearTimeout(timer);
+    if(!paused)timer=setTimeout(function(){goTo(cur+1);},DURATION*1000);
+  }
+  goTo(0);
+  dots.forEach(function(d){d.addEventListener('click',function(){goTo(+d.dataset.idx);});});
+  if(prev)prev.addEventListener('click',function(){goTo(cur-1);});
+  if(next)next.addEventListener('click',function(){goTo(cur+1);});
+  var hero=document.querySelector('.page-hero');
+  if(hero){
+    hero.addEventListener('mouseenter',function(){paused=true;clearTimeout(timer);gsap.killTweensOf(bar);});
+    hero.addEventListener('mouseleave',function(){paused=false;goTo(cur);});
+  }
+})();
+</script>
 
 <!-- VIDEO DETAIL MODAL -->
 <div class="vid-overlay" id="vidOverlay">
@@ -406,6 +499,11 @@
 <script>
 // ── VIDEO DATA
 const VIDEOS = [
+  { id:'v007', cat:'carrera', catLabel:'Presentación', nivel:'Introducción',
+    titulo:'Datos: De Confusión a Claridad',
+    desc:'¿Por qué los datos generan tanto miedo? Descubre el lado humano de los datos y cómo pasar del caos a la comprensión. Con ejemplos reales, sin tecnicismos y sin instalar nada.',
+    duracion:'~12 min', tags:['Datos','Introducción','Mentalidad','Claridad'],
+    localVideo:'videos/Datos__De_Confusión_a_Claridad.mp4', thumbType:'carrera' },
   { id:'v001', cat:'sql', catLabel:'SQL', nivel:'Nivel 0',
     titulo:'¿Qué es SQL y para qué sirve?',
     desc:'Aprende qué es SQL, por qué todo el mundo habla de ello y si tú necesitas aprenderlo. Te lo explico desde cero con ejemplos reales, sin tecnicismos y sin instalar nada.',
@@ -479,7 +577,7 @@ function renderCards() {
   const grid = document.getElementById('videoGrid');
   const filtered = currentCat === 'all' ? VIDEOS : VIDEOS.filter(v => v.cat === currentCat);
   grid.innerHTML = filtered.map((v, i) => {
-    const hasVideo = !!v.youtubeId;
+    const hasVideo = !!(v.youtubeId || v.localVideo);
     const delay = i > 0 ? ` d${Math.min(i, 4)}` : '';
     return `
     <div class="video-card rv${delay}" data-cat="${v.cat}">
@@ -520,7 +618,10 @@ function openVid(id) {
   document.getElementById('vidTagsRow').innerHTML = v.tags.map(t => `<span class="vid-tag">${t}</span>`).join('');
   const player = document.getElementById('vidPlayer');
   const ytBtn  = document.getElementById('vidYtBtn');
-  if (v.youtubeId) {
+  if (v.localVideo) {
+    player.innerHTML = `<video src="${v.localVideo}" controls autoplay playsinline style="width:100%;display:block;background:#000;max-height:480px"></video>`;
+    ytBtn.style.display = 'none';
+  } else if (v.youtubeId) {
     player.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.youtubeId}?autoplay=1&rel=0" title="${v.titulo}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     ytBtn.href = `https://www.youtube.com/watch?v=${v.youtubeId}`;
     ytBtn.style.display = 'inline-flex';
@@ -533,7 +634,10 @@ function openVid(id) {
 }
 
 function closeVid() {
-  document.getElementById('vidPlayer').innerHTML = '';
+  const player = document.getElementById('vidPlayer');
+  const localVid = player.querySelector('video');
+  if (localVid) { localVid.pause(); }
+  player.innerHTML = '';
   document.getElementById('vidOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }

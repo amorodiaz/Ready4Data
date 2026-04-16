@@ -53,15 +53,35 @@
     #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;text-decoration:none}
     #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
 
-    /* PAGE HERO */
-    .page-hero{position:relative;height:380px;display:flex;align-items:center;overflow:hidden;margin-top:0}
-    .page-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1400&auto=format&fit=crop&q=80');background-size:cover;background-position:center}
-    .page-hero-overlay{position:absolute;inset:0;background:rgba(10,28,18,.80)}
-    .page-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;padding-top:5rem;width:100%}
-    .page-hero-label{font-family:var(--fd);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hl2);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
-    .page-hero-label::before{content:'';display:block;width:24px;height:2px;background:var(--hl2)}
-    .page-hero-title{font-family:var(--fe);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:.85rem}
-    .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.78);max-width:520px;line-height:1.7}
+    /* ── Hero Slider ── */
+    .page-hero{position:relative;height:72vh;min-height:520px;overflow:hidden}
+    .hs-bg{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity 1.2s ease}
+    .hs-bg.hs-active{opacity:1}
+    .hs-img{position:absolute;inset:-6%;background-size:cover;background-position:center;will-change:transform;transform:scale(1)}
+    .hs-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(5,18,10,.92) 0%,rgba(5,18,10,.78) 42%,rgba(5,18,10,.4) 68%,rgba(5,18,10,.1) 100%)}
+    .hs-content{position:absolute;inset:0;z-index:2;display:flex;align-items:center;padding:100px 48px 80px}
+    .hs-slides-wrap{max-width:1200px;margin:0 auto;width:100%;position:relative;min-height:280px}
+    .hs-slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;pointer-events:none;max-width:580px}
+    .hs-slide.hs-active{opacity:1;pointer-events:auto}
+    .hs-tag{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .hs-tag::before{content:'';display:block;width:22px;height:2px;background:#f59e0b;flex-shrink:0}
+    .hs-h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:18px}
+    .hs-h1 em{font-style:italic;color:#4ade80}
+    .hs-sub{font-size:1rem;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:32px;max-width:480px;font-weight:300}
+    .hs-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .hs-btn-p{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;padding:12px 28px;border-radius:50px;font-weight:700;font-size:.95rem;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(22,163,74,.4);transition:all .3s;text-decoration:none;font-family:'Inter',sans-serif}
+    .hs-btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(22,163,74,.5)}
+    .hs-btn-ghost{color:rgba(255,255,255,.88);padding:12px 26px;border-radius:50px;font-weight:600;border:1.5px solid rgba(255,255,255,.35);display:inline-flex;align-items:center;gap:8px;transition:all .3s;font-size:.93rem;text-decoration:none;font-family:'Inter',sans-serif}
+    .hs-btn-ghost:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.65)}
+    .hs-nav{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+    .hs-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;padding:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
+    .hs-dot.hs-active{background:#fff;width:28px;border-radius:4px}
+    .hs-arrows{position:absolute;bottom:20px;right:48px;display:flex;gap:10px;z-index:10}
+    .hs-arr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.82);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:sans-serif;line-height:1}
+    .hs-arr:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
+    .hs-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:10}
+    .hs-bar{height:100%;background:linear-gradient(90deg,#16a34a,#f59e0b);width:0%}
+    @media(max-width:768px){.hs-content{padding:80px 24px 70px}.hs-h1{font-size:clamp(1.9rem,7vw,2.8rem)}.hs-overlay{background:linear-gradient(180deg,rgba(5,18,10,.82) 0%,rgba(5,18,10,.68) 100%)}.hs-arrows{right:24px}}
 
     /* SECTIONS */
     .sec-white{padding:90px 0;background:var(--bg)}
@@ -184,13 +204,51 @@
 
 <!-- PAGE HERO -->
 <section class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-overlay"></div>
-  <div class="page-hero-content">
-    <div class="page-hero-label">Biblioteca</div>
-    <h1 class="page-hero-title">Recursos gratuitos</h1>
-    <p class="page-hero-sub">Todo lo que necesitas para empezar, sin pagar nada.</p>
+  <div class="hs-bg hs-active"><div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1400&auto=format&fit=crop&q=85')"></div></div>
+  <div class="hs-bg"><div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1434030216411-0b793f4b6f8d?w=1400&auto=format&fit=crop&q=85')"></div></div>
+  <div class="hs-bg"><div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&auto=format&fit=crop&q=85')"></div></div>
+  <div class="hs-overlay"></div>
+  <div class="hs-content">
+    <div class="hs-slides-wrap">
+      <div class="hs-slide hs-active">
+        <span class="hs-tag hs-el">Ready4Data · Biblioteca gratuita</span>
+        <h1 class="hs-h1 hs-el">Recursos gratuitos<br>para <em>aprender datos.</em></h1>
+        <p class="hs-sub hs-el">Guías, plantillas, cheatsheets y checklists. Todo lo que necesitas para empezar, sin pagar nada y sin registrarte.</p>
+        <div class="hs-btns hs-el">
+          <a href="#rec-grid" class="hs-btn-p">Ver todos los recursos →</a>
+          <a href="index.html#level-selector" class="hs-btn-ghost">¿Cuál es mi nivel?</a>
+        </div>
+      </div>
+      <div class="hs-slide">
+        <span class="hs-tag hs-el" style="color:#60a5fa">SQL · Excel · Power BI</span>
+        <h2 class="hs-h1 hs-el">Aprende con<br><em style="color:#60a5fa">materiales reales.</em></h2>
+        <p class="hs-sub hs-el">Cheatsheets de SQL para imprimir, plantillas de Excel listas para usar, guías de Power BI paso a paso. Sin teoría vacía.</p>
+        <div class="hs-btns hs-el">
+          <a href="#rec-grid" class="hs-btn-p" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);box-shadow:0 4px 20px rgba(59,130,246,.4)">Explorar materiales →</a>
+          <a href="blog.html" class="hs-btn-ghost">Leer el blog</a>
+        </div>
+      </div>
+      <div class="hs-slide">
+        <span class="hs-tag hs-el">Gratuito · Sin registro</span>
+        <h2 class="hs-h1 hs-el">Tu carrera en datos<br>empieza <em>hoy.</em></h2>
+        <p class="hs-sub hs-el">Más de 20 recursos gratuitos para llevarte desde cero hasta tu primer trabajo en datos. Descárgalos, úsalos, compártelos.</p>
+        <div class="hs-btns hs-el">
+          <a href="#rec-grid" class="hs-btn-p">Descargar recursos →</a>
+          <a href="videos.html" class="hs-btn-ghost">Ver vídeos gratuitos</a>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="hs-nav">
+    <button class="hs-dot hs-active" data-idx="0"></button>
+    <button class="hs-dot" data-idx="1"></button>
+    <button class="hs-dot" data-idx="2"></button>
+  </div>
+  <div class="hs-arrows">
+    <button class="hs-arr" id="ph-prev">&#8249;</button>
+    <button class="hs-arr" id="ph-next">&#8250;</button>
+  </div>
+  <div class="hs-progress"><div class="hs-bar" id="ph-bar"></div></div>
 </section>
 
 <!-- RESOURCES -->
@@ -417,5 +475,44 @@
 </footer>
 
 <script src="scroll.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var TOTAL=document.querySelectorAll('.page-hero .hs-bg').length;
+  var DURATION=5;
+  var cur=0,timer=null,paused=false;
+  var bgs=document.querySelectorAll('.page-hero .hs-bg');
+  var slides=document.querySelectorAll('.page-hero .hs-slide');
+  var dots=document.querySelectorAll('.page-hero .hs-dot');
+  var bar=document.getElementById('ph-bar');
+  var prev=document.getElementById('ph-prev');
+  var next=document.getElementById('ph-next');
+  function goTo(idx){
+    bgs[cur].classList.remove('hs-active');
+    slides[cur].classList.remove('hs-active');
+    dots[cur].classList.remove('hs-active');
+    cur=(idx+TOTAL)%TOTAL;
+    bgs[cur].classList.add('hs-active');
+    slides[cur].classList.add('hs-active');
+    dots[cur].classList.add('hs-active');
+    gsap.killTweensOf(bgs[cur].querySelector('.hs-img'));
+    gsap.fromTo(bgs[cur].querySelector('.hs-img'),{scale:1},{scale:1.08,duration:DURATION,ease:'none'});
+    var els=slides[cur].querySelectorAll('.hs-el');
+    gsap.fromTo(els,{y:28,opacity:0},{y:0,opacity:1,duration:.65,stagger:.1,ease:'power2.out',clearProps:'transform'});
+    if(bar){gsap.killTweensOf(bar);gsap.fromTo(bar,{width:'0%'},{width:'100%',duration:DURATION,ease:'none',onComplete:function(){if(!paused)goTo(cur+1);}});}
+    clearTimeout(timer);
+    if(!paused)timer=setTimeout(function(){goTo(cur+1);},DURATION*1000);
+  }
+  goTo(0);
+  dots.forEach(function(d){d.addEventListener('click',function(){goTo(+d.dataset.idx);});});
+  if(prev)prev.addEventListener('click',function(){goTo(cur-1);});
+  if(next)next.addEventListener('click',function(){goTo(cur+1);});
+  var hero=document.querySelector('.page-hero');
+  if(hero){
+    hero.addEventListener('mouseenter',function(){paused=true;clearTimeout(timer);gsap.killTweensOf(bar);});
+    hero.addEventListener('mouseleave',function(){paused=false;goTo(cur);});
+  }
+})();
+</script>
 </body>
 </html>

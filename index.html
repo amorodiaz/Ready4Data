@@ -251,27 +251,59 @@
     #mob-nav.open{display:flex}
     #mob-nav a{color:rgba(255,255,255,.9);font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700}
     #mob-close{position:absolute;top:24px;right:32px;color:white;font-size:1.8rem;cursor:pointer;background:none;border:none}
-    #hero{min-height:100vh;background:linear-gradient(135deg,#1a3a2a 0%,#0d2518 60%,#162d1e 100%);display:flex;align-items:center;padding:120px 32px 80px;position:relative;overflow:hidden}
-    #hero::before{content:'';position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(22,163,74,.15) 0%,transparent 70%);pointer-events:none}
-    #hero::after{content:'';position:absolute;bottom:-20%;left:-5%;width:400px;height:400px;background:radial-gradient(circle,rgba(245,158,11,.08) 0%,transparent 70%);pointer-events:none}
-    .hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%}
-    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.4);color:#4ade80;padding:6px 16px;border-radius:50px;font-size:.85rem;font-weight:600;font-family:'Syne',sans-serif;margin-bottom:24px}
-    .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px}
-    .hero-h1 em{font-style:italic;color:#4ade80}
-    .hero-tw{font-size:1.4rem;color:rgba(255,255,255,.8);font-weight:300;margin-bottom:40px;min-height:2em}
-    #tw-el{color:#fbbf24;font-weight:600;border-right:2px solid #fbbf24;animation:blink .8s infinite}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-    .hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px}
-    .btn-p{background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:14px 32px;border-radius:50px;font-weight:700;font-size:1rem;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 24px rgba(22,163,74,.4);transition:var(--tr)}
+    #hero{position:relative;height:100vh;min-height:600px;overflow:hidden}
+
+    /* ── Background image layers ── */
+    .hs-bg{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity 1.2s ease}
+    .hs-bg.hs-active{opacity:1}
+    .hs-img{position:absolute;inset:-6%;background-size:cover;background-position:center;will-change:transform;transform:scale(1)}
+
+    /* ── Gradient overlay (dark left → photo visible right) ── */
+    .hs-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(5,18,10,.90) 0%,rgba(5,18,10,.75) 42%,rgba(5,18,10,.38) 68%,rgba(5,18,10,.08) 100%)}
+
+    /* ── Content ── */
+    .hs-content{position:absolute;inset:0;z-index:2;display:flex;align-items:center;padding:120px 48px 100px}
+    .hs-slides-wrap{max-width:1200px;margin:0 auto;width:100%;position:relative;min-height:320px}
+    .hs-slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;pointer-events:none;max-width:600px}
+    .hs-slide.hs-active{opacity:1;pointer-events:auto}
+    .hs-tag{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+    .hs-tag::before{content:'';display:block;width:22px;height:2px;background:#f59e0b;flex-shrink:0}
+    .hs-h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5vw,4.4rem);font-weight:900;color:#fff;line-height:1.08;margin-bottom:20px}
+    .hs-h1 em{font-style:italic;color:#4ade80}
+    .hs-sub{font-size:1.05rem;color:rgba(255,255,255,.8);line-height:1.78;margin-bottom:38px;max-width:490px;font-weight:300}
+    .hs-btns{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .hs-btn-ghost{color:rgba(255,255,255,.88);padding:13px 28px;border-radius:50px;font-weight:600;border:1.5px solid rgba(255,255,255,.35);display:inline-flex;align-items:center;gap:8px;transition:all .3s;font-size:.95rem;text-decoration:none;font-family:'Inter',sans-serif}
+    .hs-btn-ghost:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.65)}
+
+    /* ── Slide counter ── */
+    .hs-counter{position:absolute;top:50%;right:0;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'Syne',sans-serif;color:rgba(255,255,255,.25);font-size:.7rem;font-weight:700;letter-spacing:.1em}
+    .hs-counter-cur{font-size:1.6rem;color:rgba(255,255,255,.5);line-height:1}
+    .hs-counter-sep{width:1px;height:28px;background:rgba(255,255,255,.18)}
+
+    /* ── Navigation dots ── */
+    .hs-nav{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+    .hs-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;padding:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
+    .hs-dot.hs-active{background:#fff;width:28px;border-radius:4px}
+
+    /* ── Arrows ── */
+    .hs-arrows{position:absolute;bottom:26px;right:48px;display:flex;gap:10px;z-index:10}
+    .hs-arr{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.82);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:sans-serif;line-height:1}
+    .hs-arr:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
+
+    /* ── Progress bar ── */
+    .hs-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:10}
+    .hs-bar{height:100%;background:linear-gradient(90deg,#16a34a,#f59e0b);width:0%;transform-origin:left}
+
+    /* ── Scroll hint ── */
+    .hs-scroll-hint{position:absolute;bottom:42px;left:48px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:10;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+    .hs-scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,.28),transparent)}
+
+    @media(max-width:1024px){.hs-counter{display:none}}
+    @media(max-width:768px){.hs-content{padding:100px 24px 90px}.hs-h1{font-size:clamp(2.1rem,7vw,3rem)}.hs-overlay{background:linear-gradient(180deg,rgba(5,18,10,.78) 0%,rgba(5,18,10,.65) 100%)}.hs-arrows{right:24px}.hs-scroll-hint{display:none}}
+    .btn-p{background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:14px 32px;border-radius:50px;font-weight:700;font-size:1rem;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 24px rgba(22,163,74,.4);transition:var(--tr);text-decoration:none}
     .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(22,163,74,.5)}
     .btn-s{color:rgba(255,255,255,.9);padding:14px 32px;border-radius:50px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);display:inline-flex;align-items:center;gap:8px;transition:var(--tr)}
     .btn-s:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
-    .hero-stats{display:flex;gap:40px;flex-wrap:wrap}
-    .stat-item .stat-number{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#4ade80;display:block}
-    .stat-item .stat-label{font-size:.8rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em}
-    .bar-b{transform-origin:bottom;animation:growB 1.2s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)}
-    .bar-b:nth-child(1){animation-delay:.2s}.bar-b:nth-child(2){animation-delay:.35s}.bar-b:nth-child(3){animation-delay:.5s}.bar-b:nth-child(4){animation-delay:.65s}.bar-b:nth-child(5){animation-delay:.8s}
-    @keyframes growB{from{transform:scaleY(0)}to{transform:scaleY(1)}}
     .fl{animation:fl 4s ease-in-out infinite}.fl2{animation:fl 5s ease-in-out .8s infinite}.fl3{animation:fl 3.5s ease-in-out .4s infinite}
     @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
     #ticker{background:linear-gradient(135deg,#16a34a,#15803d);overflow:hidden;padding:14px 0}
@@ -372,6 +404,45 @@
     @media(max-width:1024px){.hero-inner{gap:48px}.level-grid{grid-template-columns:repeat(2,1fr)}.feat-grid{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr 1fr}.ft-brand{grid-column:span 2}.about-grid{grid-template-columns:1fr;gap:40px}.path-grid{grid-template-columns:1fr}}
     @media(max-width:768px){section{padding:64px 20px}#main-header{padding:16px 20px}#main-nav{display:none}.hmbg{display:flex}.hero-inner{grid-template-columns:1fr}.hero-illus{display:none}.level-grid{grid-template-columns:1fr 1fr}.feat-grid{grid-template-columns:1fr}.nl-form{flex-direction:column}.ft-top{grid-template-columns:1fr}.ft-brand{grid-column:span 1}.ft-bot{flex-direction:column;gap:12px;text-align:center}}
     @media(max-width:480px){.level-grid{grid-template-columns:1fr}.hero-btns,.cta-btns{flex-direction:column;align-items:flex-start}}
+
+
+    /* ─── Feature photo cards ─── */
+    .feat-card{padding:0!important;overflow:hidden!important}
+    .feat-photo{height:180px;background-size:cover;background-position:center;transition:transform .6s ease}
+    .feat-card:hover .feat-photo{transform:scale(1.06)}
+    .feat-body{padding:26px 26px 30px}
+    .feat-icon{display:none!important}
+
+    /* ─── About photo ─── */
+    .about-photo-wrap{position:relative;border-radius:20px;overflow:hidden;height:520px}
+    .about-photo-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+    .about-photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,28,18,.88) 0%,rgba(10,28,18,.25) 55%,transparent 100%)}
+    .about-photo-bio{position:absolute;bottom:28px;left:28px;right:28px}
+    .about-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.75rem;padding:5px 14px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:.04em}
+
+    /* ─── Quote photo background ─── */
+    #quote-div{background:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&auto=format&fit=crop&q=75') center/cover no-repeat!important;position:relative!important}
+    #quote-div::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,28,18,.94),rgba(15,40,25,.9));z-index:0}
+    #quote-div::before{z-index:0!important}
+    .qt,.qt-by{position:relative;z-index:2}
+
+    /* ─── CTA photo background ─── */
+    #cta-s{background:url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&auto=format&fit=crop&q=75') center top/cover no-repeat!important}
+    #cta-s::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,28,18,.93),rgba(15,40,25,.89));z-index:0!important}
+    .cta-c{z-index:1}
+
+    /* ─── Level selector subtle background ─── */
+    #level-selector{position:relative;background:#f9fafb!important}
+
+    /* ─── Learning paths polish ─── */
+    .path-c{overflow:hidden;position:relative}
+    .path-photo{height:120px;margin:-32px -32px 24px;background-size:cover;background-position:center}
+
+    /* ─── Newsletter photo tint ─── */
+    #newsletter{position:relative;background:url('https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=1400&auto=format&fit=crop&q=20') center/cover no-repeat!important}
+    #newsletter::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.97);z-index:0}
+    #newsletter .sec-in{position:relative;z-index:1}
+
   </style>
 </head>
 <body>
@@ -409,89 +480,107 @@
   </button>
 </header>
 
-<!-- Hero -->
+<!-- Hero Slider (Santander-style) -->
 <section id="hero">
-  <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-badge">🌱 Aprende datos desde cero</div>
-      <h1 class="hero-h1">Los datos son<br><em>para ti.</em></h1>
-      <div class="hero-tw"><span id="tw-el"></span></div>
-      <div class="hero-btns">
-        <a href="recursos.html" class="btn-p">Empieza gratis →</a>
-        <a href="#level-selector" class="btn-s">¿Por dónde empiezo?</a>
+
+  <!-- Background image layers with Ken Burns -->
+  <div class="hs-bg hs-active" data-idx="0">
+    <div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&auto=format&fit=crop&q=85')"></div>
+  </div>
+  <div class="hs-bg" data-idx="1">
+    <div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&auto=format&fit=crop&q=85')"></div>
+  </div>
+  <div class="hs-bg" data-idx="2">
+    <div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&auto=format&fit=crop&q=85')"></div>
+  </div>
+  <div class="hs-bg" data-idx="3">
+    <div class="hs-img" style="background-image:url('https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1600&auto=format&fit=crop&q=85')"></div>
+  </div>
+
+  <!-- Gradient overlay -->
+  <div class="hs-overlay"></div>
+
+  <!-- Content slides -->
+  <div class="hs-content">
+    <div class="hs-slides-wrap">
+
+      <!-- Slide 0 -->
+      <div class="hs-slide hs-active" data-idx="0">
+        <span class="hs-tag hs-el">Ready4Data · Aprende datos</span>
+        <h1 class="hs-h1 hs-el">Los datos son<br><em>para ti.</em></h1>
+        <p class="hs-sub hs-el">Sin código complicado. Sin carreras de 4 años. Aprende a trabajar con datos desde cero, con ejemplos reales y sin miedo.</p>
+        <div class="hs-btns hs-el">
+          <a href="recursos.html" class="btn-p">Empieza gratis →</a>
+          <a href="#level-selector" class="hs-btn-ghost">¿Por dónde empiezo?</a>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <span class="stat-number" id="st1" data-target="20" data-suffix="+ años">0</span>
-          <span class="stat-label">Experiencia</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" id="st2" data-target="5" data-suffix="+ rutas">0</span>
-          <span class="stat-label">De aprendizaje</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" id="st3" data-target="50" data-suffix="+ guías">0</span>
-          <span class="stat-label">Y recursos</span>
+
+      <!-- Slide 1 -->
+      <div class="hs-slide" data-idx="1">
+        <span class="hs-tag hs-el" style="color:#60a5fa">SQL · Desde cero</span>
+        <h2 class="hs-h1 hs-el">Consulta datos<br>como un <em style="color:#60a5fa">profesional.</em></h2>
+        <p class="hs-sub hs-el">SQL es el lenguaje más usado en análisis de datos. Te lo enseño desde la primera consulta hasta los JOINs más complejos, sin tecnicismos.</p>
+        <div class="hs-btns hs-el">
+          <a href="recursos.html" class="btn-p" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);box-shadow:0 4px 24px rgba(59,130,246,.4)">Ver temario SQL →</a>
+          <a href="videos.html" class="hs-btn-ghost">Ver vídeos</a>
         </div>
       </div>
-    </div>
-    <div class="hero-illus">
-      <svg width="420" height="340" viewBox="0 0 420 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="20" y="20" width="380" height="300" rx="20" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-        <rect x="40" y="40" width="160" height="16" rx="8" fill="rgba(255,255,255,.2)"/>
-        <rect x="210" y="44" width="60" height="8" rx="4" fill="rgba(74,222,128,.6)"/>
-        <rect x="280" y="44" width="40" height="8" rx="4" fill="rgba(251,191,36,.5)"/>
-        <g transform="translate(40,80)">
-          <line x1="0" y1="120" x2="170" y2="120" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-          <rect class="bar-b" x="10" y="40" width="22" height="80" rx="4" fill="#16a34a" opacity=".9"/>
-          <rect class="bar-b" x="44" y="20" width="22" height="100" rx="4" fill="#22c55e" opacity=".9"/>
-          <rect class="bar-b" x="78" y="55" width="22" height="65" rx="4" fill="#f59e0b" opacity=".9"/>
-          <rect class="bar-b" x="112" y="10" width="22" height="110" rx="4" fill="#3b82f6" opacity=".9"/>
-          <rect class="bar-b" x="146" y="35" width="22" height="85" rx="4" fill="#a855f7" opacity=".9"/>
-          <text x="21" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Ene</text>
-          <text x="55" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Feb</text>
-          <text x="89" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Mar</text>
-          <text x="123" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">Abr</text>
-          <text x="157" y="132" fill="rgba(255,255,255,.4)" font-size="8" text-anchor="middle" font-family="Inter">May</text>
-        </g>
-        <g transform="translate(250,75)" class="fl">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="20"/>
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#16a34a" stroke-width="20" stroke-dasharray="126 188" stroke-dashoffset="47" transform="rotate(-90 60 60)"/>
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#f59e0b" stroke-width="20" stroke-dasharray="63 251" stroke-dashoffset="-79" transform="rotate(-90 60 60)"/>
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#3b82f6" stroke-width="20" stroke-dasharray="47 267" stroke-dashoffset="-142" transform="rotate(-90 60 60)"/>
-          <circle cx="60" cy="60" r="30" fill="rgba(13,37,24,.8)"/>
-          <text x="60" y="57" fill="white" font-size="10" text-anchor="middle" font-family="Inter">datos</text>
-          <text x="60" y="69" fill="rgba(255,255,255,.6)" font-size="8" text-anchor="middle">42%</text>
-        </g>
-        <g transform="translate(40,240)" class="fl2">
-          <rect width="160" height="56" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-          <line x1="0" y1="18" x2="160" y2="18" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <line x1="0" y1="36" x2="160" y2="36" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <rect x="8" y="6" width="40" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
-          <rect x="56" y="6" width="30" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
-          <rect x="94" y="6" width="50" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
-          <rect x="8" y="24" width="32" height="5" rx="2.5" fill="rgba(74,222,128,.5)"/>
-          <rect x="56" y="24" width="24" height="5" rx="2.5" fill="rgba(255,255,255,.2)"/>
-          <rect x="94" y="24" width="38" height="5" rx="2.5" fill="rgba(251,191,36,.5)"/>
-          <rect x="8" y="42" width="28" height="5" rx="2.5" fill="rgba(74,222,128,.3)"/>
-          <rect x="56" y="42" width="36" height="5" rx="2.5" fill="rgba(255,255,255,.15)"/>
-          <rect x="94" y="42" width="42" height="5" rx="2.5" fill="rgba(59,130,246,.5)"/>
-        </g>
-        <circle cx="350" cy="240" r="8" fill="#f59e0b" opacity=".8" class="fl"/>
-        <circle cx="370" cy="265" r="5" fill="#16a34a" opacity=".7" class="fl2"/>
-        <circle cx="345" cy="278" r="6" fill="#3b82f6" opacity=".7" class="fl3"/>
-        <g transform="translate(240,228)" class="fl3">
-          <path d="M10 40 L25 20 L45 30 L70 5" stroke="#4ade80" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <polygon points="65,0 75,10 60,8" fill="#4ade80"/>
-        </g>
-        <g transform="translate(318,46)" class="fl2">
-          <rect width="76" height="36" rx="10" fill="rgba(245,158,11,.2)" stroke="rgba(245,158,11,.4)" stroke-width="1"/>
-          <text x="38" y="14" fill="#fbbf24" font-size="10" text-anchor="middle">&#127919; KPI</text>
-          <text x="38" y="28" fill="rgba(255,255,255,.8)" font-size="9" text-anchor="middle" font-weight="bold">+24%</text>
-        </g>
-      </svg>
+
+      <!-- Slide 2 -->
+      <div class="hs-slide" data-idx="2">
+        <span class="hs-tag hs-el">Power BI · Excel · Python</span>
+        <h2 class="hs-h1 hs-el">Herramientas reales,<br>resultados <em>visibles.</em></h2>
+        <p class="hs-sub hs-el">Desde dashboards en Power BI hasta automatización con Python. Todo lo que necesitas para destacar en cualquier entorno de trabajo.</p>
+        <div class="hs-btns hs-el">
+          <a href="herramientas-datos.html" class="btn-p">Explorar herramientas →</a>
+          <a href="blog.html" class="hs-btn-ghost">Leer el blog</a>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="hs-slide" data-idx="3">
+        <span class="hs-tag hs-el" style="color:#a78bfa">Carrera · Orientación</span>
+        <h2 class="hs-h1 hs-el">Tu camino en datos<br>empieza <em style="color:#a78bfa">hoy.</em></h2>
+        <p class="hs-sub hs-el">No importa tu nivel ni tu background. Con la hoja de ruta correcta cualquiera puede trabajar con datos. Te lo mostramos paso a paso.</p>
+        <div class="hs-btns hs-el">
+          <a href="#level-selector" class="btn-p" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 4px 24px rgba(124,58,237,.4)">¿Cuál es mi nivel? →</a>
+          <a href="sobre-mi.html" class="hs-btn-ghost">Conocer a Antonio</a>
+        </div>
+      </div>
+
+      <!-- Slide counter -->
+      <div class="hs-counter">
+        <span class="hs-counter-cur" id="hs-cur">01</span>
+        <div class="hs-counter-sep"></div>
+        <span>04</span>
+      </div>
+
     </div>
   </div>
+
+  <!-- Navigation dots -->
+  <div class="hs-nav">
+    <button class="hs-dot hs-active" data-idx="0"></button>
+    <button class="hs-dot" data-idx="1"></button>
+    <button class="hs-dot" data-idx="2"></button>
+    <button class="hs-dot" data-idx="3"></button>
+  </div>
+
+  <!-- Arrows -->
+  <div class="hs-arrows">
+    <button class="hs-arr" id="hs-prev">&#8249;</button>
+    <button class="hs-arr" id="hs-next">&#8250;</button>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="hs-progress"><div class="hs-bar" id="hs-bar"></div></div>
+
+  <!-- Scroll hint -->
+  <div class="hs-scroll-hint">
+    <div class="hs-scroll-line"></div>
+    Scroll
+  </div>
+
 </section>
 
 <!-- Ticker -->
@@ -619,40 +708,52 @@
     <p class="sec-sub">Todo lo que necesitas para dominar los datos, explicado de forma humana.</p>
     <div class="feat-grid">
       <div class="feat-card">
-        <span class="feat-icon">&#128451;</span>
-        <div class="feat-title">SQL sin miedo</div>
-        <div class="feat-desc">Aprende a consultar bases de datos reales desde cero. Sin jerga técnica, con ejemplos del mundo real.</div>
-        <a href="recursos.html" class="feat-link">Ver guías SQL →</a>
+        <div class="feat-photo" style="background-image:url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&fit=crop&q=80')"></div>
+        <div class="feat-body">
+          <div class="feat-title">SQL sin miedo</div>
+          <div class="feat-desc">Aprende a consultar bases de datos reales desde cero. Sin jerga técnica, con ejemplos del mundo real.</div>
+          <a href="recursos.html" class="feat-link">Ver guías SQL →</a>
+        </div>
       </div>
       <div class="feat-card">
-        <span class="feat-icon">&#128202;</span>
-        <div class="feat-title">Excel que de verdad usas</div>
-        <div class="feat-desc">Desde tablas dinámicas hasta Power Query. El Excel que se pide en las ofertas de trabajo.</div>
-        <a href="recursos.html" class="feat-link">Ver guías Excel →</a>
+        <div class="feat-photo" style="background-image:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&auto=format&fit=crop&q=80')"></div>
+        <div class="feat-body">
+          <div class="feat-title">Excel que de verdad usas</div>
+          <div class="feat-desc">Desde tablas dinámicas hasta Power Query. El Excel que se pide en las ofertas de trabajo.</div>
+          <a href="recursos.html" class="feat-link">Ver guías Excel →</a>
+        </div>
       </div>
       <div class="feat-card">
-        <span class="feat-icon">&#128200;</span>
-        <div class="feat-title">Power BI paso a paso</div>
-        <div class="feat-desc">Dashboards profesionales desde cero. DAX, modelado de datos y visualizaciones que impresionan.</div>
-        <a href="recursos.html" class="feat-link">Ver guías Power BI →</a>
+        <div class="feat-photo" style="background-image:url('https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&auto=format&fit=crop&q=80')"></div>
+        <div class="feat-body">
+          <div class="feat-title">Power BI paso a paso</div>
+          <div class="feat-desc">Dashboards profesionales desde cero. DAX, modelado de datos y visualizaciones que impresionan.</div>
+          <a href="recursos.html" class="feat-link">Ver guías Power BI →</a>
+        </div>
       </div>
       <div class="feat-card">
-        <span class="feat-icon">&#128188;</span>
-        <div class="feat-title">Carrera en datos</div>
-        <div class="feat-desc">CV, entrevistas, portafolio. Todo lo que necesitas para conseguir tu primer trabajo en datos.</div>
-        <a href="recursos.html" class="feat-link">Preparar mi carrera →</a>
+        <div class="feat-photo" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&auto=format&fit=crop&q=80')"></div>
+        <div class="feat-body">
+          <div class="feat-title">Carrera en datos</div>
+          <div class="feat-desc">CV, entrevistas, portafolio. Todo lo que necesitas para conseguir tu primer trabajo en datos.</div>
+          <a href="recursos.html" class="feat-link">Preparar mi carrera →</a>
+        </div>
       </div>
       <div class="feat-card">
-        <span class="feat-icon">&#128295;</span>
-        <div class="feat-title">Herramientas del oficio</div>
-        <div class="feat-desc">dbt, BigQuery, Python, Tableau. Las herramientas que usan los profesionales, explicadas para humanos.</div>
-        <a href="recursos.html" class="feat-link">Ver herramientas →</a>
+        <div class="feat-photo" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80')"></div>
+        <div class="feat-body">
+          <div class="feat-title">Herramientas del oficio</div>
+          <div class="feat-desc">dbt, BigQuery, Python, Tableau. Las herramientas que usan los profesionales, explicadas para humanos.</div>
+          <a href="recursos.html" class="feat-link">Ver herramientas →</a>
+        </div>
       </div>
       <div class="feat-card">
-        <span class="feat-icon">&#127959;</span>
-        <div class="feat-title">Proyectos reales</div>
-        <div class="feat-desc">Practica con proyectos que puedes añadir a tu portafolio. Datos reales, problemas reales.</div>
-        <a href="recursos.html" class="feat-link">Ver proyectos →</a>
+        <div class="feat-photo" style="background-image:url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop&q=80')"></div>
+        <div class="feat-body">
+          <div class="feat-title">Proyectos reales</div>
+          <div class="feat-desc">Practica con proyectos que puedes añadir a tu portafolio. Datos reales, problemas reales.</div>
+          <a href="recursos.html" class="feat-link">Ver proyectos →</a>
+        </div>
       </div>
     </div>
   </div>
@@ -666,6 +767,7 @@
     <p class="sec-sub">Caminos estructurados para llevarte de donde estás a donde quieres llegar.</p>
     <div class="path-grid">
       <div class="path-c">
+        <div class="path-photo" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=75')"></div>
         <div class="path-hdr">
           <div class="path-ico">&#128202;</div>
           <div>
@@ -680,6 +782,7 @@
         </div>
       </div>
       <div class="path-c">
+        <div class="path-photo" style="background-image:url('https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&auto=format&fit=crop&q=75')"></div>
         <div class="path-hdr">
           <div class="path-ico">&#128295;</div>
           <div>
@@ -694,6 +797,7 @@
         </div>
       </div>
       <div class="path-c">
+        <div class="path-photo" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=75')"></div>
         <div class="path-hdr">
           <div class="path-ico">&#128201;</div>
           <div>
@@ -708,6 +812,7 @@
         </div>
       </div>
       <div class="path-c">
+        <div class="path-photo" style="background-image:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=75')"></div>
         <div class="path-hdr">
           <div class="path-ico">&#128640;</div>
           <div>
@@ -737,41 +842,18 @@
 <section id="about">
   <div class="sec-in">
     <div class="about-grid">
-      <div style="display:flex;justify-content:center;align-items:center">
-        <svg width="280" height="280" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="140" cy="140" r="130" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5"/>
-          <rect x="60" y="120" width="160" height="100" rx="8" fill="#1a3a2a" stroke="#16a34a" stroke-width="1.5"/>
-          <rect x="68" y="128" width="144" height="76" rx="4" fill="#0d2518"/>
-          <rect x="76" y="148" width="16" height="40" rx="3" fill="#16a34a" opacity=".8"/>
-          <rect x="98" y="136" width="16" height="52" rx="3" fill="#22c55e" opacity=".8"/>
-          <rect x="120" y="155" width="16" height="33" rx="3" fill="#f59e0b" opacity=".8"/>
-          <rect x="142" y="142" width="16" height="46" rx="3" fill="#3b82f6" opacity=".8"/>
-          <rect x="164" y="150" width="16" height="38" rx="3" fill="#a855f7" opacity=".8"/>
-          <line x1="74" y1="196" x2="194" y2="196" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-          <rect x="126" y="220" width="28" height="12" rx="2" fill="#2d5a3d"/>
-          <rect x="112" y="232" width="56" height="6" rx="3" fill="#2d5a3d"/>
-          <circle cx="140" cy="90" r="22" fill="#f0e6d3" stroke="#e2c9a8" stroke-width="1.5"/>
-          <path d="M118 86 C118 73 128 64 140 64 C152 64 162 73 162 86" fill="#3d2b1f"/>
-          <circle cx="133" cy="88" r="2.5" fill="#3d2b1f"/>
-          <circle cx="147" cy="88" r="2.5" fill="#3d2b1f"/>
-          <path d="M134 96 Q140 101 146 96" stroke="#c17a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <g class="fl">
-            <circle cx="80" cy="72" r="13" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
-            <text x="80" y="76" font-size="10" text-anchor="middle" fill="#f59e0b" font-family="Syne,sans-serif">SQL</text>
-          </g>
-          <g class="fl2">
-            <circle cx="200" cy="68" r="14" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
-            <text x="200" y="72" font-size="9" text-anchor="middle" fill="#16a34a" font-family="Syne,sans-serif">Data</text>
-          </g>
-          <g class="fl3">
-            <circle cx="218" cy="112" r="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
-            <text x="218" y="116" font-size="9" text-anchor="middle" fill="#3b82f6" font-family="Syne,sans-serif">BI</text>
-          </g>
-          <g class="fl">
-            <circle cx="63" cy="110" r="12" fill="#fce7f3" stroke="#a855f7" stroke-width="1.5"/>
-            <text x="63" y="114" font-size="11" text-anchor="middle">&#128013;</text>
-          </g>
-        </svg>
+      <div class="about-photo-wrap">
+        <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=600&auto=format&fit=crop&q=85" alt="Workspace — Ready4Data">
+        <div class="about-photo-overlay"></div>
+        <div class="about-photo-bio">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:4px">Antonio</div>
+          <div style="font-size:.88rem;color:rgba(255,255,255,.75);margin-bottom:14px">Data Engineer · 20+ años de experiencia</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="about-badge">Accenture</span>
+            <span class="about-badge">IBM</span>
+            <span class="about-badge">Orange</span>
+          </div>
+        </div>
       </div>
       <div>
         <div class="sec-lbl">El creador</div>
@@ -883,26 +965,95 @@
 </footer>
 
 <script src="scroll.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-  // ── Typewriter effect
-  const tw=document.getElementById('tw-el');
-  if(tw){
-    const phrases=['Sin código complicado.','Sin carreras de 4 años.','Con ejemplos reales.','Paso a paso, sin miedo.','Desde cero absoluto.'];
-    let pi=0,ci=0,del=false;
-    function type(){
-      const phrase=phrases[pi];
-      if(!del){tw.textContent=phrase.substring(0,++ci);if(ci===phrase.length){del=true;setTimeout(type,1800);return}}
-      else{tw.textContent=phrase.substring(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length}}
-      setTimeout(type,del?55:90);
+// ── Hero Slider
+(function(){
+  const TOTAL = 4;
+  const DURATION = 5; // seconds per slide
+  let cur = 0, timer = null, paused = false;
+
+  const bgs    = document.querySelectorAll('.hs-bg');
+  const slides = document.querySelectorAll('.hs-slide');
+  const dots   = document.querySelectorAll('.hs-dot');
+  const bar    = document.getElementById('hs-bar');
+  const curEl  = document.getElementById('hs-cur');
+  const prev   = document.getElementById('hs-prev');
+  const next   = document.getElementById('hs-next');
+
+  function pad(n){ return String(n+1).padStart(2,'0'); }
+
+  function goTo(idx){
+    // deactivate old
+    bgs[cur].classList.remove('hs-active');
+    slides[cur].classList.remove('hs-active');
+    dots[cur].classList.remove('hs-active');
+    cur = (idx + TOTAL) % TOTAL;
+    // activate new
+    bgs[cur].classList.add('hs-active');
+    slides[cur].classList.add('hs-active');
+    dots[cur].classList.add('hs-active');
+    if(curEl) curEl.textContent = pad(cur);
+
+    // Ken Burns on new bg image
+    gsap.killTweensOf('.hs-bg.hs-active .hs-img');
+    gsap.fromTo(bgs[cur].querySelector('.hs-img'),
+      { scale: 1 },
+      { scale: 1.08, duration: DURATION, ease: 'none' }
+    );
+
+    // Text stagger entrance
+    const els = slides[cur].querySelectorAll('.hs-el');
+    gsap.fromTo(els,
+      { y: 32, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: 'power2.out', clearProps: 'transform' }
+    );
+
+    // Progress bar
+    if(bar){
+      gsap.killTweensOf(bar);
+      gsap.fromTo(bar, { width: '0%' }, { width: '100%', duration: DURATION, ease: 'none',
+        onComplete: () => { if(!paused) goTo(cur + 1); }
+      });
     }
-    setTimeout(type,900);
+
+    resetTimer();
   }
 
-  // ── Level selector
-  function selectLevel(card){
-    document.querySelectorAll('.level-card').forEach(c=>c.classList.remove('active'));
-    card.classList.add('active');
+  function resetTimer(){
+    clearTimeout(timer);
+    if(!paused) timer = setTimeout(() => goTo(cur + 1), DURATION * 1000);
   }
+
+  // Init
+  goTo(0);
+
+  // Dot navigation
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+
+  // Arrows
+  if(prev) prev.addEventListener('click', () => goTo(cur - 1));
+  if(next) next.addEventListener('click', () => goTo(cur + 1));
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowLeft') goTo(cur - 1);
+    if(e.key === 'ArrowRight') goTo(cur + 1);
+  });
+
+  // Pause on hover
+  const hero = document.getElementById('hero');
+  if(hero){
+    hero.addEventListener('mouseenter', () => { paused = true; clearTimeout(timer); gsap.killTweensOf(bar); });
+    hero.addEventListener('mouseleave', () => { paused = false; goTo(cur); });
+  }
+})();
+
+// ── Level selector
+function selectLevel(card){
+  document.querySelectorAll('.level-card').forEach(c=>c.classList.remove('active'));
+  card.classList.add('active');
+}
 </script>
 </body>
 </html>
