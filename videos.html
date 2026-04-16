@@ -503,7 +503,7 @@ const VIDEOS = [
     titulo:'Datos: De Confusión a Claridad',
     desc:'¿Por qué los datos generan tanto miedo? Descubre el lado humano de los datos y cómo pasar del caos a la comprensión. Con ejemplos reales, sin tecnicismos y sin instalar nada.',
     duracion:'~12 min', tags:['Datos','Introducción','Mentalidad','Claridad'],
-    localVideo:'videos/Datos__De_Confusión_a_Claridad.mp4', thumbType:'carrera' },
+    youtubeId:'BIf34C9S7rg', localVideo:'videos/Datos__De_Confusión_a_Claridad.mp4', thumbType:'carrera' },
   { id:'v001', cat:'sql', catLabel:'SQL', nivel:'Nivel 0',
     titulo:'¿Qué es SQL y para qué sirve?',
     desc:'Aprende qué es SQL, por qué todo el mundo habla de ello y si tú necesitas aprenderlo. Te lo explico desde cero con ejemplos reales, sin tecnicismos y sin instalar nada.',
@@ -618,13 +618,13 @@ function openVid(id) {
   document.getElementById('vidTagsRow').innerHTML = v.tags.map(t => `<span class="vid-tag">${t}</span>`).join('');
   const player = document.getElementById('vidPlayer');
   const ytBtn  = document.getElementById('vidYtBtn');
-  if (v.localVideo) {
-    player.innerHTML = `<video src="${v.localVideo}" controls autoplay playsinline style="width:100%;display:block;background:#000;max-height:480px"></video>`;
-    ytBtn.style.display = 'none';
-  } else if (v.youtubeId) {
+  if (v.youtubeId) {
     player.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.youtubeId}?autoplay=1&rel=0" title="${v.titulo}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     ytBtn.href = `https://www.youtube.com/watch?v=${v.youtubeId}`;
     ytBtn.style.display = 'inline-flex';
+  } else if (v.localVideo) {
+    player.innerHTML = `<video src="${v.localVideo}" controls autoplay playsinline style="width:100%;display:block;background:#000;max-height:480px"></video>`;
+    ytBtn.style.display = 'none';
   } else {
     player.innerHTML = `<div class="vid-ph-msg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Vídeo próximamente</div>`;
     ytBtn.style.display = 'none';
